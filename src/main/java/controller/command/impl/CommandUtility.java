@@ -1,4 +1,4 @@
-package controller.command;
+package controller.command.impl;
 
 import model.entity.User;
 

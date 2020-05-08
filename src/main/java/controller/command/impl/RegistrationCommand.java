@@ -1,5 +1,6 @@
-package controller.command;
+package controller.command.impl;
 
+import controller.command.Command;
 import model.entity.User;
 import model.service.UserService;
 

@@ -1,6 +1,9 @@
 package controller;
 
 import controller.command.*;
+import controller.command.impl.*;
+import controller.command.impl.admin.AdminCommand;
+import controller.command.impl.user.UserCommand;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
