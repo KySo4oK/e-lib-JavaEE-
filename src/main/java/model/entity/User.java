@@ -1,9 +1,14 @@
 package model.entity;
 
+import model.dto.UserDTO;
+
 public class User {
     private Integer id;
     private String username;
     private String password;
+    private String email;
+    private String phone;
+
     public enum ROLE {
         USER, ADMIN, UNKNOWN
     }
@@ -14,6 +19,15 @@ public class User {
         this.username = username;
         this.password = password;
         this.role = ROLE.USER;
+    }
+
+    public User(UserDTO userDTO) {
+        this.username = userDTO.getUsername();
+        this.password = userDTO.getPassword();
+        this.phone = userDTO.getPhone();
+        this.email = userDTO.getEmail();
+        this.active = true;
+        this.roles = "ROLE_USER";
     }
 
     public User() {
