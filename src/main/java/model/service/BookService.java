@@ -1,26 +1,18 @@
 package model.service;
 
-import extclasses.final_project_spring.dto.BookDTO;
-import extclasses.final_project_spring.dto.FilterDTO;
-import extclasses.final_project_spring.entity.Author;
-import extclasses.final_project_spring.entity.Book;
-import extclasses.final_project_spring.entity.Shelf;
-import extclasses.final_project_spring.entity.Tag;
-import extclasses.final_project_spring.exception.BookNotFoundException;
-import extclasses.final_project_spring.repository.BookRepository;
-import extclasses.final_project_spring.repository.ShelfRepository;
-import lombok.extern.log4j.Log4j2;
-import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
+import model.dto.BookDTO;
+import model.dto.FilterDTO;
+import model.entity.Author;
+import model.entity.Book;
+import model.entity.Shelf;
+import model.entity.Tag;
+import model.exception.BookNotFoundException;
 
+import java.awt.print.Pageable;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
-@Log4j2
-@Component
 public class BookService {
     private final BookRepository bookRepository;
     private final ShelfRepository shelfRepository;
@@ -81,7 +73,7 @@ public class BookService {
                 author.getName() : author.getNameUa();
     }
 
-    @Transactional
+    //@Transactional
     public void saveNewBookFromClient(BookDTO bookDTO) {
         log.info("create book {}", bookDTO);
         Shelf shelf = shelfRepository.findByBookIsNull().orElse(new Shelf());

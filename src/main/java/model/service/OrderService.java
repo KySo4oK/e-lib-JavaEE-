@@ -1,33 +1,21 @@
 package model.service;
 
-import extclasses.final_project_spring.dto.BookDTO;
-import extclasses.final_project_spring.dto.OrderDTO;
-import extclasses.final_project_spring.entity.Book;
-import extclasses.final_project_spring.entity.Order;
-import extclasses.final_project_spring.entity.Shelf;
-import extclasses.final_project_spring.exception.BookNotAvailableException;
-import extclasses.final_project_spring.exception.BookNotFoundException;
-import extclasses.final_project_spring.exception.OrderNotFoundException;
-import extclasses.final_project_spring.repository.BookRepository;
-import extclasses.final_project_spring.repository.OrderRepository;
-import extclasses.final_project_spring.repository.ShelfRepository;
-import extclasses.final_project_spring.repository.UserRepository;
-import lombok.extern.log4j.Log4j2;
-import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
+import model.dto.BookDTO;
+import model.dto.OrderDTO;
+import model.entity.Book;
+import model.entity.Order;
+import model.entity.Shelf;
+import model.exception.BookNotAvailableException;
+import model.exception.BookNotFoundException;
+import model.exception.OrderNotFoundException;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.List;
 import java.util.Locale;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Log4j2
-@Component
 public class OrderService {
     private static final int PERIOD_OF_USE = 1;
     private final OrderRepository orderRepository;

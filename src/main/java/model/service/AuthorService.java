@@ -1,13 +1,14 @@
 package model.service;
 
+import model.entity.Author;
+import model.exception.AuthorNotFoundException;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Log4j2
-@Component
 public class AuthorService {
     private final AuthorRepository authorRepository;
 
