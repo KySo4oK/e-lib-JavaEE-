@@ -2,8 +2,13 @@ package model.dto;
 
 import java.util.Arrays;
 
-@Builder
 public class BookDTO {
+    private Long id;
+    private String name;
+    private String nameUa;
+    private String[] tags;
+    private String[] authors;
+
     public BookDTO() {
     }
 
@@ -65,10 +70,4 @@ public class BookDTO {
     public void setAuthors(String[] authors) {
         this.authors = authors;
     }
-
-    private Long id;
-    private String name;
-    private String nameUa;
-    private String[] tags;
-    private String[] authors;
 }

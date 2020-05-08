@@ -1,6 +1,5 @@
 package model.dto;
 
-@Builder
 public class OrderDTO {
     private Long id;
     private String bookName;

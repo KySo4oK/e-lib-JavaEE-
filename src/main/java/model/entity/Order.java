@@ -2,7 +2,6 @@ package model.entity;
 
 import java.time.LocalDate;
 
-@Builder
 public class Order {
     private Long orderId;
     private User user;
