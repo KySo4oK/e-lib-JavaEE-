@@ -11,37 +11,37 @@ public class BookBuilder {
     private boolean available;
     private Shelf shelf;
 
-    public BookBuilder setBookId(Long bookId) {
+    public BookBuilder bookId(Long bookId) {
         this.bookId = bookId;
         return this;
     }
 
-    public BookBuilder setName(String name) {
+    public BookBuilder name(String name) {
         this.name = name;
         return this;
     }
 
-    public BookBuilder setNameUa(String nameUa) {
+    public BookBuilder nameUa(String nameUa) {
         this.nameUa = nameUa;
         return this;
     }
 
-    public BookBuilder setAuthors(List<Author> authors) {
+    public BookBuilder authors(List<Author> authors) {
         this.authors = authors;
         return this;
     }
 
-    public BookBuilder setTags(List<Tag> tags) {
+    public BookBuilder tags(List<Tag> tags) {
         this.tags = tags;
         return this;
     }
 
-    public BookBuilder setAvailable(boolean available) {
+    public BookBuilder available(boolean available) {
         this.available = available;
         return this;
     }
 
-    public BookBuilder setShelf(Shelf shelf) {
+    public BookBuilder shelf(Shelf shelf) {
         this.shelf = shelf;
         return this;
     }

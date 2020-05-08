@@ -7,27 +7,27 @@ public class OrderDTOBuilder {
     private String startDate;
     private String endDate;
 
-    public OrderDTOBuilder setId(Long id) {
+    public OrderDTOBuilder id(Long id) {
         this.id = id;
         return this;
     }
 
-    public OrderDTOBuilder setBookName(String bookName) {
+    public OrderDTOBuilder bookName(String bookName) {
         this.bookName = bookName;
         return this;
     }
 
-    public OrderDTOBuilder setUserName(String userName) {
+    public OrderDTOBuilder userName(String userName) {
         this.userName = userName;
         return this;
     }
 
-    public OrderDTOBuilder setStartDate(String startDate) {
+    public OrderDTOBuilder startDate(String startDate) {
         this.startDate = startDate;
         return this;
     }
 
-    public OrderDTOBuilder setEndDate(String endDate) {
+    public OrderDTOBuilder endDate(String endDate) {
         this.endDate = endDate;
         return this;
     }

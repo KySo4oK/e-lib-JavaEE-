@@ -7,27 +7,27 @@ public class BookDTOBuilder {
     private String[] tags;
     private String[] authors;
 
-    public BookDTOBuilder setId(Long id) {
+    public BookDTOBuilder id(Long id) {
         this.id = id;
         return this;
     }
 
-    public BookDTOBuilder setName(String name) {
+    public BookDTOBuilder name(String name) {
         this.name = name;
         return this;
     }
 
-    public BookDTOBuilder setNameUa(String nameUa) {
+    public BookDTOBuilder nameUa(String nameUa) {
         this.nameUa = nameUa;
         return this;
     }
 
-    public BookDTOBuilder setTags(String[] tags) {
+    public BookDTOBuilder tags(String[] tags) {
         this.tags = tags;
         return this;
     }
 
-    public BookDTOBuilder setAuthors(String[] authors) {
+    public BookDTOBuilder authors(String[] authors) {
         this.authors = authors;
         return this;
     }

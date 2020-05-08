@@ -10,32 +10,32 @@ public class OrderBuilder {
     private LocalDate startDate;
     private LocalDate endDate;
 
-    public OrderBuilder setOrderId(Long orderId) {
+    public OrderBuilder orderId(Long orderId) {
         this.orderId = orderId;
         return this;
     }
 
-    public OrderBuilder setUser(User user) {
+    public OrderBuilder user(User user) {
         this.user = user;
         return this;
     }
 
-    public OrderBuilder setBook(Book book) {
+    public OrderBuilder book(Book book) {
         this.book = book;
         return this;
     }
 
-    public OrderBuilder setActive(boolean active) {
+    public OrderBuilder active(boolean active) {
         this.active = active;
         return this;
     }
 
-    public OrderBuilder setStartDate(LocalDate startDate) {
+    public OrderBuilder startDate(LocalDate startDate) {
         this.startDate = startDate;
         return this;
     }
 
-    public OrderBuilder setEndDate(LocalDate endDate) {
+    public OrderBuilder endDate(LocalDate endDate) {
         this.endDate = endDate;
         return this;
     }
