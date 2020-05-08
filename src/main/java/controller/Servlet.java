@@ -3,6 +3,8 @@ package controller;
 import controller.command.*;
 import controller.command.impl.*;
 import controller.command.impl.admin.AdminCommand;
+import controller.command.impl.admin.BookManageCommand;
+import controller.command.impl.user.ProspectusCommand;
 import controller.command.impl.user.UserCommand;
 
 import javax.servlet.ServletConfig;
@@ -35,6 +37,8 @@ public class Servlet extends javax.servlet.http.HttpServlet { //todo change coll
         commands.put("error", new ErrorCommand());
         commands.put("admin", new AdminCommand());
         commands.put("index", new IndexCommand());
+        commands.put("user/prospectus", new ProspectusCommand());
+        commands.put("admin/bookManage", new BookManageCommand());
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
