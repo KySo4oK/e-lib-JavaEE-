@@ -69,4 +69,54 @@ public class OrderDTO {
     public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
+
+    public static final class Builder {
+        private Long id;
+        private String bookName;
+        private String userName;
+        private String startDate;
+        private String endDate;
+
+        private Builder() {
+        }
+
+        public static Builder anOrderDTO() {
+            return new Builder();
+        }
+
+        public Builder id(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder bookName(String bookName) {
+            this.bookName = bookName;
+            return this;
+        }
+
+        public Builder userName(String userName) {
+            this.userName = userName;
+            return this;
+        }
+
+        public Builder startDate(String startDate) {
+            this.startDate = startDate;
+            return this;
+        }
+
+        public Builder endDate(String endDate) {
+            this.endDate = endDate;
+            return this;
+        }
+
+        public OrderDTO build() {
+            OrderDTO orderDTO = new OrderDTO();
+            orderDTO.setId(id);
+            orderDTO.setBookName(bookName);
+            orderDTO.setUserName(userName);
+            orderDTO.setStartDate(startDate);
+            orderDTO.setEndDate(endDate);
+            return orderDTO;
+        }
+    }
 }

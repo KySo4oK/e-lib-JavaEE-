@@ -70,4 +70,61 @@ public class Order {
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
+
+    public static final class Builder {
+        private Long orderId;
+        private User user;
+        private Book book;
+        private boolean active;
+        private LocalDate startDate = LocalDate.now();
+        private LocalDate endDate = LocalDate.now();
+
+        private Builder() {
+        }
+
+        public static Builder anOrder() {
+            return new Builder();
+        }
+
+        public Builder orderId(Long orderId) {
+            this.orderId = orderId;
+            return this;
+        }
+
+        public Builder user(User user) {
+            this.user = user;
+            return this;
+        }
+
+        public Builder book(Book book) {
+            this.book = book;
+            return this;
+        }
+
+        public Builder active(boolean active) {
+            this.active = active;
+            return this;
+        }
+
+        public Builder startDate(LocalDate startDate) {
+            this.startDate = startDate;
+            return this;
+        }
+
+        public Builder endDate(LocalDate endDate) {
+            this.endDate = endDate;
+            return this;
+        }
+
+        public Order build() {
+            Order order = new Order();
+            order.setOrderId(orderId);
+            order.setUser(user);
+            order.setBook(book);
+            order.setActive(active);
+            order.setStartDate(startDate);
+            order.setEndDate(endDate);
+            return order;
+        }
+    }
 }

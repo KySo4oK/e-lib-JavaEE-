@@ -37,7 +37,7 @@ public class BookService {
     }
 
     private BookDTO buildBookDTO(Book book) {
-        return BookDTO.builder()
+        return BookDTO.Builder.aBookDTO()
                 .id(book.getBookId())
                 .authors(getArrayOfAuthors(book))
                 .tags(getArrayOfTags(book))
@@ -84,7 +84,7 @@ public class BookService {
     }
 
     private Book BuildBookFromClient(BookDTO bookDTO, Shelf shelf) {
-        return Book.builder()
+        return Book.Builder.aBook()
                 .name(bookDTO.getName())
                 .nameUa(bookDTO.getNameUa())
                 .shelf(shelf)

@@ -99,4 +99,68 @@ public class Book {
     public void setShelf(Shelf shelf) {
         this.shelf = shelf;
     }
+
+    public static final class Builder {
+        private Long bookId;
+        private String name;
+        private String nameUa;
+        private List<Author> authors = new ArrayList<>();
+        private List<Tag> tags = new ArrayList<>();
+        private boolean available = true;
+        private Shelf shelf;
+
+        private Builder() {
+        }
+
+        public static Builder aBook() {
+            return new Builder();
+        }
+
+        public Builder bookId(Long bookId) {
+            this.bookId = bookId;
+            return this;
+        }
+
+        public Builder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder nameUa(String nameUa) {
+            this.nameUa = nameUa;
+            return this;
+        }
+
+        public Builder authors(List<Author> authors) {
+            this.authors = authors;
+            return this;
+        }
+
+        public Builder tags(List<Tag> tags) {
+            this.tags = tags;
+            return this;
+        }
+
+        public Builder available(boolean available) {
+            this.available = available;
+            return this;
+        }
+
+        public Builder shelf(Shelf shelf) {
+            this.shelf = shelf;
+            return this;
+        }
+
+        public Book build() {
+            Book book = new Book();
+            book.setBookId(bookId);
+            book.setName(name);
+            book.setNameUa(nameUa);
+            book.setAuthors(authors);
+            book.setTags(tags);
+            book.setAvailable(available);
+            book.setShelf(shelf);
+            return book;
+        }
+    }
 }

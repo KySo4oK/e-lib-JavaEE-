@@ -38,7 +38,7 @@ public class OrderService {
     }
 
     private Order buildNewOrder(BookDTO bookDTO, String username) {
-        return Order.builder()
+        return Order.Builder.anOrder()
                 .user(userRepository.findByUsername(username)
                         .orElseThrow(() -> new UsernameNotFoundException("User not exist")))
                 .book(bookRepository.findById(bookDTO.getId())
@@ -90,7 +90,7 @@ public class OrderService {
     }
 
     private OrderDTO buildOrderDTO(Order order) {
-        return OrderDTO.builder()
+        return OrderDTO.Builder.anOrderDTO()
                 .bookName(getBookNameByLocale(order))
                 .id(order.getOrderId())
                 .userName(order.getUser().getUsername())
