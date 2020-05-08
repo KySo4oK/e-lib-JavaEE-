@@ -1,29 +1,74 @@
 package model.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.*;
-
-import javax.persistence.*;
 import java.time.LocalDate;
 
-@Data
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@Entity(name = "orders")
 public class Order {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderId;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "user_id")
     private User user;
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "book_id")
     private Book book;
-    @ToString.Exclude
-    @JsonManagedReference
     private boolean active;
     private LocalDate startDate = LocalDate.now();
+
+    public Order() {
+    }
+
     private LocalDate endDate = LocalDate.now();
+
+    public Order(Long orderId, User user, Book book, boolean active, LocalDate startDate, LocalDate endDate) {
+        this.orderId = orderId;
+        this.user = user;
+        this.book = book;
+        this.active = active;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Book getBook() {
+        return book;
+    }
+
+    public void setBook(Book book) {
+        this.book = book;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
 }

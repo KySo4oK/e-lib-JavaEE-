@@ -1,28 +1,53 @@
 package model.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-@Data
-@ToString
-@NoArgsConstructor
-@AllArgsConstructor
-@Entity(name = "author")
 public class Author {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long authorId;
     private String name;
     private String nameUa;
 
     public Author(String name) {
         this.name = name;
+    }
+
+    public Author(Long authorId, String name, String nameUa) {
+        this.authorId = authorId;
+        this.name = name;
+        this.nameUa = nameUa;
+    }
+
+    public Author() {
+    }
+
+    @Override
+    public String toString() {
+        return "Author{" +
+                "authorId=" + authorId +
+                ", name='" + name + '\'' +
+                ", nameUa='" + nameUa + '\'' +
+                '}';
+    }
+
+    public Long getAuthorId() {
+        return authorId;
+    }
+
+    public void setAuthorId(Long authorId) {
+        this.authorId = authorId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getNameUa() {
+        return nameUa;
+    }
+
+    public void setNameUa(String nameUa) {
+        this.nameUa = nameUa;
     }
 }

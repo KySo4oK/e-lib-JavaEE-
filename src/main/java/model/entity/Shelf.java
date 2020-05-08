@@ -1,23 +1,47 @@
 package model.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import javax.persistence.Entity;
+import java.util.Objects;
 
-import javax.persistence.*;
-
-@Data
-@ToString
-@EqualsAndHashCode(exclude = "book")
 @Entity(name = "shelf")
 public class Shelf {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long shelfId;
-    @OneToOne(optional = false)
-    @JoinColumn(name = "book_id", unique = true)
-    @ToString.Exclude
-    @JsonBackReference
     private Book book;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Shelf shelf = (Shelf) o;
+        return shelfId.equals(shelf.shelfId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(shelfId);
+    }
+
+    @Override
+    public String toString() {
+        return "Shelf{" +
+                "shelfId=" + shelfId +
+                ", book=" + book +
+                '}';
+    }
+
+    public Long getShelfId() {
+        return shelfId;
+    }
+
+    public void setShelfId(Long shelfId) {
+        this.shelfId = shelfId;
+    }
+
+    public Book getBook() {
+        return book;
+    }
+
+    public void setBook(Book book) {
+        this.book = book;
+    }
 }

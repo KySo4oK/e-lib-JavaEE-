@@ -26,8 +26,7 @@ public class User {
         this.password = userDTO.getPassword();
         this.phone = userDTO.getPhone();
         this.email = userDTO.getEmail();
-        this.active = true;
-        this.roles = "ROLE_USER";
+        this.role = ROLE.USER;
     }
 
     public User() {
