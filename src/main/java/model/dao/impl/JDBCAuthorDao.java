@@ -20,9 +20,13 @@ public class JDBCAuthorDao implements AuthorDao {
 
     @Override
     public Author findByName(String name) {
+        return findAuthorByName(name, SQL_FIND_BY_NAME);
+    }
+
+    private Author findAuthorByName(String name, String sqlFindByName) {
         Author author = null;
         try {
-            PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_NAME);
+            PreparedStatement statement = connection.prepareStatement(sqlFindByName);
             statement.setString(1, name);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
@@ -36,18 +40,7 @@ public class JDBCAuthorDao implements AuthorDao {
 
     @Override
     public Author findByNameUa(String nameUa) {
-        Author author = null;
-        try {
-            PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_NAME_UA);
-            statement.setString(1, nameUa);
-            ResultSet rs = statement.executeQuery();
-            while (rs.next()) {
-                author = authorMapper.extractFromResultSet(rs);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return author;
+        return findAuthorByName(nameUa, SQL_FIND_BY_NAME_UA);
     }
 
     @Override
