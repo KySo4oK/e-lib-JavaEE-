@@ -49,7 +49,7 @@ public class JDBCUserDao implements UserDao {
     }
 
     public List<User> findAll() {
-        Map<Integer, User> users = new HashMap<>();
+        Map<Long, User> users = new HashMap<>();
         try (Statement st = connection.createStatement()) {
             ResultSet rs = st.executeQuery(SQL_FIND_ALL);
 
