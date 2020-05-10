@@ -1,5 +1,6 @@
-package model.dao.mapper;
+package model.dao.mapper.impl;
 
+import model.dao.mapper.ObjectMapper;
 import model.entity.User;
 
 import java.sql.ResultSet;

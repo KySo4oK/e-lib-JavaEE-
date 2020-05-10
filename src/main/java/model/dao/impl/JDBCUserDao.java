@@ -2,7 +2,7 @@ package model.dao.impl;
 
 
 import model.dao.UserDao;
-import model.dao.mapper.UserMapper;
+import model.dao.mapper.impl.UserMapper;
 import model.entity.User;
 
 import java.sql.*;
