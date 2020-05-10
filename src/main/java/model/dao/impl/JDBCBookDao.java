@@ -1,8 +1,12 @@
 package model.dao.impl;
 
 import model.dao.BookDao;
+import model.dao.mapper.impl.AuthorMapper;
 import model.dao.mapper.impl.BookMapper;
+import model.dao.mapper.impl.TagMapper;
+import model.entity.Author;
 import model.entity.Book;
+import model.entity.Tag;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,6 +17,8 @@ import java.util.Map;
 public class JDBCBookDao implements BookDao {
     private Connection connection;
     private BookMapper bookMapper = new BookMapper();
+    private TagMapper tagMapper = new TagMapper();
+    private AuthorMapper authorMapper = new AuthorMapper();
 
     public JDBCBookDao(Connection connection) {
         this.connection = connection;
@@ -75,20 +81,27 @@ public class JDBCBookDao implements BookDao {
 
     @Override
     public List<Book> findAll() {
+        List<Book> resultList = new ArrayList<>();
         Map<Long, Book> books = new HashMap<>();
+        Map<Long, Tag> tags = new HashMap<>();
+        Map<Long, Author> authors = new HashMap<>();
         try (Statement st = connection.createStatement()) {
             ResultSet rs = st.executeQuery(SQL_FIND_ALL);
             while (rs.next()) {
-                Book book = bookMapper
-                        .extractFromResultSet(rs);
-                book = bookMapper //useless now
-                        .makeUnique(books, book);
+                Book book = bookMapper.extractFromResultSet(rs);
+                Tag tag = tagMapper.extractFromResultSet(rs);
+                Author author = authorMapper.extractFromResultSet(rs);
+                tag = tagMapper.makeUnique(tags,tag);
+                author = authorMapper.makeUnique(authors, author);
+                book = bookMapper.makeUnique(books, book);
+                book.getAuthors().add(author);
+                book.getTags().add(tag);
+                resultList.add(book);
             }
-            return new ArrayList<>(books.values());
         } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
+            throw new RuntimeException(e);
         }
+        return resultList;
     }
 
     @Override
