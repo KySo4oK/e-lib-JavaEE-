@@ -26,6 +26,8 @@ public class JDBCUserDao implements UserDao {
             statement.setString(1, entity.getUsername());
             statement.setString(2, entity.getPassword());
             statement.setString(3, entity.getRole().toString());
+            statement.setString(4, entity.getEmail());
+            statement.setString(5, entity.getPhone());
             statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
