@@ -54,9 +54,6 @@ public class JDBCUserDao implements UserDao {
         Map<Long, User> users = new HashMap<>();
         try (Statement st = connection.createStatement()) {
             ResultSet rs = st.executeQuery(SQL_FIND_ALL);
-
-            UserMapper userMapper = new UserMapper();
-
             while (rs.next()) {
                 User user = userMapper
                         .extractFromResultSet(rs);

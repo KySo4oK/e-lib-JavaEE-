@@ -84,9 +84,6 @@ public class JDBCAuthorDao implements AuthorDao {
         Map<Long, Author> authors = new HashMap<>();
         try (Statement st = connection.createStatement()) {
             ResultSet rs = st.executeQuery(SQL_FIND_ALL);
-
-            AuthorMapper authorMapper = new AuthorMapper();
-
             while (rs.next()) {
                 Author author = authorMapper
                         .extractFromResultSet(rs);
