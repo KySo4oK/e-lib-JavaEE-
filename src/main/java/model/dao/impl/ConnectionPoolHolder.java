@@ -13,7 +13,7 @@ public class ConnectionPoolHolder {
             synchronized (ConnectionPoolHolder.class) {
                 if (dataSource == null) {
                     BasicDataSource ds = new BasicDataSource();
-                    ds.setUrl("jdbc:postgresql://localhost:5432/basic_user");
+                    ds.setUrl("jdbc:postgresql://localhost:5432/servlet_project");
                     ds.setUsername("postgres");
                     ds.setPassword("123454321");
                     ds.setMinIdle(5);
