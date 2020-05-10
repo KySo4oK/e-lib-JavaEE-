@@ -9,11 +9,14 @@ import java.util.Map;
 public class ShelfMapper implements ObjectMapper<Shelf> {
     @Override
     public Shelf extractFromResultSet(ResultSet rs) throws SQLException {
-        return null;
+        Shelf shelf = new Shelf();
+        shelf.setShelfId(rs.getLong("shelf_id"));
+        return shelf;
     }
 
     @Override
-    public Shelf makeUnique(Map<Integer, Shelf> cache, Shelf teacher) {
-        return null;
+    public Shelf makeUnique(Map<Long, Shelf> cache, Shelf shelf) {
+        cache.putIfAbsent(shelf.getShelfId(), shelf);
+        return cache.get(shelf.getShelfId());
     }
 }

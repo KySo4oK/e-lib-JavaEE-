@@ -3,7 +3,7 @@ package model.entity;
 import model.dto.UserDTO;
 
 public class User {
-    private Integer id;
+    private Long id;
     private String username;
     private String password;
     private String email;
@@ -40,12 +40,28 @@ public class User {
         this.role = role;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getUsername() {
