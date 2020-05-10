@@ -1,8 +1,7 @@
 package model.dao.impl;
 
 
-import model.dao.DaoFactory;
-import model.dao.UserDao;
+import model.dao.*;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -14,10 +13,30 @@ public class JDBCDaoFactory extends DaoFactory {
 
     @Override
     public UserDao createUserDao() {
-        return (UserDao) new JDBCUserDao(getConnection());
+        return new JDBCUserDao(getConnection());
     }
 
-    private Connection getConnection(){
+    @Override
+    public AuthorDao createAuthorDao() {
+        return new JDBCAuthorDao(getConnection());
+    }
+
+    @Override
+    public BookDao createBookDao() {
+        return new JDBCBookDao(getConnection());
+    }
+
+    @Override
+    public ShelfDao createShelfDao() {
+        return new JDBCShelfDao(getConnection());
+    }
+
+    @Override
+    public TagDao createTagDao() {
+        return new JDBCTagDao(getConnection());
+    }
+
+    private Connection getConnection() {
         try {
             return dataSource.getConnection();
         } catch (SQLException e) {

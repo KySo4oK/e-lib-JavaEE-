@@ -7,10 +7,18 @@ public abstract class DaoFactory {
 
     public abstract UserDao createUserDao();
 
-    public static DaoFactory getInstance(){
-        if( daoFactory == null ){
-            synchronized (DaoFactory.class){
-                if(daoFactory==null){
+    public abstract AuthorDao createAuthorDao();
+
+    public abstract BookDao createBookDao();
+
+    public abstract ShelfDao createShelfDao();
+
+    public abstract TagDao createTagDao();
+
+    public static DaoFactory getInstance() {
+        if (daoFactory == null) {
+            synchronized (DaoFactory.class) {
+                if (daoFactory == null) {
                     DaoFactory temp = new JDBCDaoFactory();
                     daoFactory = temp;
                 }
