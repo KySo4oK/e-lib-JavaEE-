@@ -11,7 +11,7 @@ public class ShelfMapper implements ObjectMapper<Shelf> {
     @Override
     public Shelf extractFromResultSet(ResultSet rs) throws SQLException {
         Shelf shelf = new Shelf();
-        shelf.setShelfId(rs.getLong("shelf_id"));
+        shelf.setShelfId(rs.getLong("shelf_id"));//todo add book_id
         return shelf;
     }
 
