@@ -50,4 +50,40 @@ public class Author {
     public void setNameUa(String nameUa) {
         this.nameUa = nameUa;
     }
+
+    public static final class Builder {
+        private Long authorId;
+        private String name;
+        private String nameUa;
+
+        private Builder() {
+        }
+
+        public static Builder anAuthor() {
+            return new Builder();
+        }
+
+        public Builder authorId(Long authorId) {
+            this.authorId = authorId;
+            return this;
+        }
+
+        public Builder name(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder nameUa(String nameUa) {
+            this.nameUa = nameUa;
+            return this;
+        }
+
+        public Author build() {
+            Author author = new Author();
+            author.setAuthorId(authorId);
+            author.setName(name);
+            author.setNameUa(nameUa);
+            return author;
+        }
+    }
 }
