@@ -11,9 +11,9 @@ public class AuthorMapper implements ObjectMapper<Author> {
     @Override
     public Author extractFromResultSet(ResultSet rs) throws SQLException {
         Author author = new Author();
-        author.setAuthorId(rs.getLong("author_id"));
-        author.setName(rs.getString("name"));
-        author.setNameUa(rs.getString("name_ua"));
+        author.setAuthorId(rs.getLong("authorId"));
+        author.setName(rs.getString("authorName"));
+        author.setNameUa(rs.getString("authorNameUa"));
         return author;
     }
 
