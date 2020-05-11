@@ -11,10 +11,10 @@ public class BookMapper implements ObjectMapper<Book> {
     @Override
     public Book extractFromResultSet(ResultSet rs) throws SQLException {
         Book book = new Book();
-        book.setBookId(rs.getLong("book_id"));
+        book.setBookId(rs.getLong("bookId"));
         book.setAvailable(rs.getBoolean("available"));
-        book.setName(rs.getString("name"));
-        book.setNameUa(rs.getString("name_ua"));
+        book.setName(rs.getString("bookName"));
+        book.setNameUa(rs.getString("bookNameUa"));
         return book;
     }
 
