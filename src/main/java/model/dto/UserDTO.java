@@ -1,6 +1,11 @@
 package model.dto;
 
 public class UserDTO {
+    private String username;
+    private String email;
+    private String phone;
+    private String password;
+
     @Override
     public String toString() {
         return "UserDTO{" +
@@ -43,8 +48,46 @@ public class UserDTO {
         this.password = password;
     }
 
-    private String username;
-    private String email;
-    private String phone;
-    private String password;
+    public static final class Builder {
+        private String username;
+        private String email;
+        private String phone;
+        private String password;
+
+        private Builder() {
+        }
+
+        public static Builder anUserDTO() {
+            return new Builder();
+        }
+
+        public Builder username(String username) {
+            this.username = username;
+            return this;
+        }
+
+        public Builder email(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public Builder phone(String phone) {
+            this.phone = phone;
+            return this;
+        }
+
+        public Builder password(String password) {
+            this.password = password;
+            return this;
+        }
+
+        public UserDTO build() {
+            UserDTO userDTO = new UserDTO();
+            userDTO.setUsername(username);
+            userDTO.setEmail(email);
+            userDTO.setPhone(phone);
+            userDTO.setPassword(password);
+            return userDTO;
+        }
+    }
 }

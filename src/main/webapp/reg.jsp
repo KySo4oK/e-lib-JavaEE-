@@ -24,6 +24,14 @@
             <td><input type="text" name="username"/></td>
         </tr>
         <tr>
+            <td><fmt:message key="email"/></td>
+            <td><input type="email" name="email"/></td>
+        </tr>
+        <tr>
+            <td><fmt:message key="phone"/></td>
+            <td><input type="text" name="phone"/></td>
+        </tr>
+        <tr>
             <td><fmt:message key="password"/></td>
             <td><input type="password" name="password"/></td>
         </tr>
