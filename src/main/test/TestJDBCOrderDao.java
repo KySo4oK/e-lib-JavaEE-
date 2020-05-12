@@ -1,7 +1,10 @@
 import model.dao.OrderDao;
 import model.dao.impl.JDBCDaoFactory;
+import model.entity.Order;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.List;
 
 public class TestJDBCOrderDao {
     OrderDao orderDao = new JDBCDaoFactory().createOrderDao();
@@ -13,13 +16,17 @@ public class TestJDBCOrderDao {
         }
     }
 
-//    @Test
-//    public void testFindByActive() {
-//        List<Order> orders = orderDao.findAll();
-//        for (Order order : orders) {
-//            Assert.assertEquals(orderDao.findByActive(order.getName()).getName(), order.getName());
-//        }
-//    }
+    @Test
+    public void testFindAllByActive() {
+        List<Order> orders = orderDao.findAllByActive(true);
+        for (Order order : orders) {
+            Assert.assertTrue(order.isActive());
+        }
+        orders = orderDao.findAllByActive(false);
+        for (Order order : orders) {
+            Assert.assertFalse(order.isActive());
+        }
+    }
 //
 //    @Test
 //    public void testFindByNameUa() {

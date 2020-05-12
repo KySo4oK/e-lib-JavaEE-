@@ -2,6 +2,8 @@ package model.dao;
 
 import model.entity.Order;
 
+import java.util.List;
+
 public interface OrderDao extends GenericDao<Order> {
     String SQL_FIND_ALL = "select order_id,\n" +
             "       active,\n" +
@@ -26,5 +28,5 @@ public interface OrderDao extends GenericDao<Order> {
     String SQL_UPDATE = "update orders set active = ? where order_id = ?";
     String SQL_DELETE = "delete from orders where order_id = ?";
 
-    Order findByActive(Boolean active);
+    List<Order> findAllByActive(Boolean active);
 }

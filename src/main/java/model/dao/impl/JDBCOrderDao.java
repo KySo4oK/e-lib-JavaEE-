@@ -25,19 +25,30 @@ public class JDBCOrderDao implements OrderDao {
     }
 
     @Override
-    public Order findByActive(Boolean active) {
-        Order order = null;
+    public List<Order> findAllByActive(Boolean active) {
+        List<Order> resultList = new ArrayList<>();
+        Map<Long, Order> orders = new HashMap<>();
+        Map<Long, Book> books = new HashMap<>();
+        Map<Long, User> users = new HashMap<>();
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ACTIVE);
             statement.setBoolean(1, active);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                order = orderMapper.extractFromResultSet(rs);
+                Order order = orderMapper.extractFromResultSet(rs);
+                order = orderMapper.makeUnique(orders, order);
+                Book book = bookMapper.extractFromResultSet(rs);
+                book = bookMapper.makeUnique(books, book);
+                User user = userMapper.extractFromResultSet(rs);
+                user = userMapper.makeUnique(users, user);
+                order.setUser(user);
+                order.setBook(book);
+                resultList.add(order);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return order;
+        return resultList;
     }
 
     @Override
