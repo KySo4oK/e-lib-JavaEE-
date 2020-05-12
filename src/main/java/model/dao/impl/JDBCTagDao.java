@@ -48,7 +48,7 @@ public class JDBCTagDao implements TagDao {
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_INSERT);
             statement.setString(1, entity.getName());
-            statement.setString(1, entity.getNameUa());
+            statement.setString(2, entity.getNameUa());
             statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
