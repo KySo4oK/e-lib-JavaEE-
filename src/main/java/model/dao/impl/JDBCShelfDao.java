@@ -1,18 +1,18 @@
 package model.dao.impl;
 
 import model.dao.ShelfDao;
+import model.dao.mapper.impl.BookMapper;
 import model.dao.mapper.impl.ShelfMapper;
 import model.entity.Shelf;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class JDBCShelfDao implements ShelfDao {
     private Connection connection;
     private ShelfMapper shelfMapper = new ShelfMapper();
+    private BookMapper bookMapper = new BookMapper();
 
     public JDBCShelfDao(Connection connection) {
         this.connection = connection;
@@ -27,6 +27,7 @@ public class JDBCShelfDao implements ShelfDao {
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 shelf = shelfMapper.extractFromResultSet(rs);
+                shelf.setBook(bookMapper.extractFromResultSet(rs));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -53,8 +54,8 @@ public class JDBCShelfDao implements ShelfDao {
             statement.setLong(1, id);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                shelf = shelfMapper
-                        .extractFromResultSet(rs);
+                shelf = shelfMapper.extractFromResultSet(rs);
+                shelf.setBook(bookMapper.extractFromResultSet(rs));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -64,16 +65,15 @@ public class JDBCShelfDao implements ShelfDao {
 
     @Override
     public List<Shelf> findAll() {
-        Map<Long, Shelf> tags = new HashMap<>();
+        List<Shelf> shelves = new ArrayList<>();
         try (Statement st = connection.createStatement()) {
             ResultSet rs = st.executeQuery(SQL_FIND_ALL);
             while (rs.next()) {
-                Shelf shelf = shelfMapper
-                        .extractFromResultSet(rs);
-                shelf = shelfMapper //useless now
-                        .makeUnique(tags, shelf);
+                Shelf shelf = shelfMapper.extractFromResultSet(rs);
+                shelf.setBook(bookMapper.extractFromResultSet(rs));
+                shelves.add(shelf);
             }
-            return new ArrayList<>(tags.values());
+            return shelves;
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
