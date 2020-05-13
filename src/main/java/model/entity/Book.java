@@ -146,6 +146,19 @@ public class Book {
             return this;
         }
 
+        @Override
+        public String toString() {
+            return "Builder{" +
+                    "bookId=" + bookId +
+                    ", name='" + name + '\'' +
+                    ", nameUa='" + nameUa + '\'' +
+                    ", authors=" + authors +
+                    ", tags=" + tags +
+                    ", available=" + available +
+                    ", shelf=" + shelf +
+                    '}';
+        }
+
         public Builder shelf(Shelf shelf) {
             this.shelf = shelf;
             return this;
