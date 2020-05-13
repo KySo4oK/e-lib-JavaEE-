@@ -4,6 +4,8 @@ import model.entity.Shelf;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.List;
+
 public class TestJDBCShelfDao {
     ShelfDao shelfDao = new JDBCDaoFactory().createShelfDao();
 
@@ -14,6 +16,15 @@ public class TestJDBCShelfDao {
         }
     }//todo add test for findByBookId
 
+    @Test
+    public void testFindByBookId() {
+        List<Shelf> shelves = shelfDao.findAll();
+        for (Shelf shelf : shelves) {
+            if (shelf.getBook() != null) {
+                Assert.assertEquals(shelf, shelfDao.findByBookId(shelf.getBook().getBookId()));
+            }
+        }
+    }
 //    @Test
 //    public void testCreate() {
 //        Shelf shelf = new Shelf();

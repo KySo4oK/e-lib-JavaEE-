@@ -3,6 +3,7 @@ package model.dao.impl;
 import model.dao.ShelfDao;
 import model.dao.mapper.impl.BookMapper;
 import model.dao.mapper.impl.ShelfMapper;
+import model.entity.Book;
 import model.entity.Shelf;
 
 import java.sql.*;
@@ -27,7 +28,11 @@ public class JDBCShelfDao implements ShelfDao {
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 shelf = shelfMapper.extractFromResultSet(rs);
-                shelf.setBook(bookMapper.extractFromResultSet(rs));
+                if (rs.getLong("booKId") != 0) {
+                    Book book = bookMapper.extractFromResultSet(rs);
+                    shelf.setBook(book);
+                    book.setShelf(shelf);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -55,7 +60,11 @@ public class JDBCShelfDao implements ShelfDao {
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 shelf = shelfMapper.extractFromResultSet(rs);
-                shelf.setBook(bookMapper.extractFromResultSet(rs));
+                if (rs.getLong("booKId") != 0) {
+                    Book book = bookMapper.extractFromResultSet(rs);
+                    shelf.setBook(book);
+                    book.setShelf(shelf);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -70,7 +79,11 @@ public class JDBCShelfDao implements ShelfDao {
             ResultSet rs = st.executeQuery(SQL_FIND_ALL);
             while (rs.next()) {
                 Shelf shelf = shelfMapper.extractFromResultSet(rs);
-                shelf.setBook(bookMapper.extractFromResultSet(rs));
+                if (rs.getLong("booKId") != 0) {
+                    Book book = bookMapper.extractFromResultSet(rs);
+                    shelf.setBook(book);
+                    book.setShelf(shelf);
+                }
                 shelves.add(shelf);
             }
             return shelves;
