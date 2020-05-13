@@ -84,6 +84,19 @@ public class Book {
         this.tags = tags;
     }
 
+    @Override
+    public String toString() {
+        return "Book{" +
+                "bookId=" + bookId +
+                ", name='" + name + '\'' +
+                ", nameUa='" + nameUa + '\'' +
+                ", authors=" + authors +
+                ", tags=" + tags +
+                ", available=" + available +
+                ", shelf=" + shelf +
+                '}';
+    }
+
     public boolean isAvailable() {
         return available;
     }
@@ -144,19 +157,6 @@ public class Book {
         public Builder available(boolean available) {
             this.available = available;
             return this;
-        }
-
-        @Override
-        public String toString() {
-            return "Builder{" +
-                    "bookId=" + bookId +
-                    ", name='" + name + '\'' +
-                    ", nameUa='" + nameUa + '\'' +
-                    ", authors=" + authors +
-                    ", tags=" + tags +
-                    ", available=" + available +
-                    ", shelf=" + shelf +
-                    '}';
         }
 
         public Builder shelf(Shelf shelf) {

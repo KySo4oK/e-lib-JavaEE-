@@ -3,22 +3,23 @@ package model.dao.impl;
 import model.dao.BookDao;
 import model.dao.mapper.impl.AuthorMapper;
 import model.dao.mapper.impl.BookMapper;
+import model.dao.mapper.impl.ShelfMapper;
 import model.dao.mapper.impl.TagMapper;
 import model.entity.Author;
 import model.entity.Book;
+import model.entity.Shelf;
 import model.entity.Tag;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class JDBCBookDao implements BookDao {
-    private Connection connection;
-    private BookMapper bookMapper = new BookMapper();
-    private TagMapper tagMapper = new TagMapper();
-    private AuthorMapper authorMapper = new AuthorMapper();
+    private final Connection connection;
+    private final BookMapper bookMapper = new BookMapper();
+    private final TagMapper tagMapper = new TagMapper();
+    private final AuthorMapper authorMapper = new AuthorMapper();
+    private final ShelfMapper shelfMapper = new ShelfMapper();
 
     public JDBCBookDao(Connection connection) {
         this.connection = connection;
@@ -31,12 +32,27 @@ public class JDBCBookDao implements BookDao {
 
     private Book findBookByName(String name, String sqlFindByName) {
         Book book = null;
+        Map<Long, Book> books = new HashMap<>();
+        Map<Long, Tag> tags = new HashMap<>();
+        Map<Long, Author> authors = new HashMap<>();
         try {
             PreparedStatement statement = connection.prepareStatement(sqlFindByName);
             statement.setString(1, name);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 book = bookMapper.extractFromResultSet(rs);
+                book = bookMapper.makeUnique(books, book);
+                if (rs.getLong("shelf_id") != 0L) {
+                    Shelf shelf = shelfMapper.extractFromResultSet(rs);
+                    book.setShelf(shelf);
+                    shelf.setBook(book);
+                }
+                Tag tag = tagMapper.extractFromResultSet(rs);
+                Author author = authorMapper.extractFromResultSet(rs);
+                tag = tagMapper.makeUnique(tags, tag);
+                author = authorMapper.makeUnique(authors, author);
+                book.getAuthors().add(author);
+                book.getTags().add(tag);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -65,13 +81,16 @@ public class JDBCBookDao implements BookDao {
     @Override
     public Book findById(int id) {
         Book book = null;
+        Map<Long, Book> books = new HashMap<>();
+        Map<Long, Tag> tags = new HashMap<>();
+        Map<Long, Author> authors = new HashMap<>();
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ID);
             statement.setLong(1, id);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                book = bookMapper
-                        .extractFromResultSet(rs);
+                book = bookMapper.extractFromResultSet(rs);
+                book = getFullBookFromResultSet(books, tags, authors, rs, book);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -89,19 +108,31 @@ public class JDBCBookDao implements BookDao {
             ResultSet rs = st.executeQuery(SQL_FIND_ALL);
             while (rs.next()) {
                 Book book = bookMapper.extractFromResultSet(rs);
-                Tag tag = tagMapper.extractFromResultSet(rs);
-                Author author = authorMapper.extractFromResultSet(rs);
-                tag = tagMapper.makeUnique(tags,tag);
-                author = authorMapper.makeUnique(authors, author);
-                book = bookMapper.makeUnique(books, book);
-                book.getAuthors().add(author);
-                book.getTags().add(tag);
+                book = getFullBookFromResultSet(books, tags, authors, rs, book);
                 resultList.add(book);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return resultList;
+        return resultList.stream().distinct().collect(Collectors.toList());
+    }
+
+    protected Book getFullBookFromResultSet(Map<Long, Book> books, Map<Long, Tag> tags, Map<Long, Author> authors, ResultSet rs, Book book) throws SQLException {
+        book = bookMapper.makeUnique(books, book);
+        if (rs.getLong("shelf_id") != 0L) {
+            Shelf shelf = shelfMapper.extractFromResultSet(rs);
+            book.setShelf(shelf);
+            shelf.setBook(book);
+        }
+        Tag tag = tagMapper.extractFromResultSet(rs);
+        Author author = authorMapper.extractFromResultSet(rs);
+        tag = tagMapper.makeUnique(tags, tag);
+        author = authorMapper.makeUnique(authors, author);
+        book.getAuthors().add(author);
+        book.getTags().add(tag);
+        book.setTags(book.getTags().stream().distinct().collect(Collectors.toList()));
+        book.setAuthors(book.getAuthors().stream().distinct().collect(Collectors.toList()));
+        return book;
     }
 
     @Override

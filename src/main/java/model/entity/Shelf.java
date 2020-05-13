@@ -25,7 +25,6 @@ public class Shelf {
     public String toString() {
         return "Shelf{" +
                 "shelfId=" + shelfId +
-                ", book=" + book +
                 '}';
     }
 

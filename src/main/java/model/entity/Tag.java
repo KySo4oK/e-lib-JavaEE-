@@ -1,5 +1,7 @@
 package model.entity;
 
+import java.util.Objects;
+
 public class Tag {
     private Long tagId;
     private String name;
@@ -15,6 +17,21 @@ public class Tag {
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Tag tag = (Tag) o;
+        return Objects.equals(tagId, tag.tagId) &&
+                name.equals(tag.name) &&
+                nameUa.equals(tag.nameUa);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(tagId, name, nameUa);
     }
 
     public void setName(String name) {

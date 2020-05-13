@@ -1,5 +1,7 @@
 package model.entity;
 
+import java.util.Objects;
+
 public class Author {
     private Long authorId;
     private String name;
@@ -16,6 +18,21 @@ public class Author {
     }
 
     public Author() {
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Author author = (Author) o;
+        return Objects.equals(authorId, author.authorId) &&
+                name.equals(author.name) &&
+                nameUa.equals(author.nameUa);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(authorId, name, nameUa);
     }
 
     @Override

@@ -14,7 +14,7 @@ public class TestJDBCShelfDao {
         if (shelfDao.findAll().size() == 0) {
             Assert.fail();
         }
-    }//todo add test for findByBookId
+    }
 
     @Test
     public void testFindByBookId() {
