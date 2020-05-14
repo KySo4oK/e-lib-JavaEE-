@@ -4,9 +4,7 @@ import model.dao.OrderDao;
 import model.dao.mapper.impl.BookMapper;
 import model.dao.mapper.impl.OrderMapper;
 import model.dao.mapper.impl.UserMapper;
-import model.entity.Book;
-import model.entity.Order;
-import model.entity.User;
+import model.entity.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -15,10 +13,8 @@ import java.util.List;
 import java.util.Map;
 
 public class JDBCOrderDao implements OrderDao {
-    private Connection connection;
-    private OrderMapper orderMapper = new OrderMapper();
-    private BookMapper bookMapper = new BookMapper();
-    private UserMapper userMapper = new UserMapper();
+    private final Connection connection;
+    private final OrderMapper orderMapper = new OrderMapper();
 
     public JDBCOrderDao(Connection connection) {
         this.connection = connection;
@@ -30,19 +26,15 @@ public class JDBCOrderDao implements OrderDao {
         Map<Long, Order> orders = new HashMap<>();
         Map<Long, Book> books = new HashMap<>();
         Map<Long, User> users = new HashMap<>();
+        Map<Long, Author> authors = new HashMap<>();
+        Map<Long, Tag> tags = new HashMap<>();
+
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ACTIVE);
             statement.setBoolean(1, active);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                Order order = orderMapper.extractFromResultSet(rs);
-                order = orderMapper.makeUnique(orders, order);
-                Book book = bookMapper.extractFromResultSet(rs);
-                book = bookMapper.makeUnique(books, book);
-                User user = userMapper.extractFromResultSet(rs);
-                user = userMapper.makeUnique(users, user);
-                order.setUser(user);
-                order.setBook(book);
+                Order order = orderMapper.fullExtractFromResultSet(rs, orders, books, tags, authors, users);
                 resultList.add(order);
             }
         } catch (SQLException e) {
@@ -69,14 +61,17 @@ public class JDBCOrderDao implements OrderDao {
     @Override
     public Order findById(int id) {
         Order order = null;
+        Map<Long, Order> orders = new HashMap<>();
+        Map<Long, Book> books = new HashMap<>();
+        Map<Long, User> users = new HashMap<>();
+        Map<Long, Author> authors = new HashMap<>();
+        Map<Long, Tag> tags = new HashMap<>();
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ID);
             statement.setLong(1, id);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                order = orderMapper.extractFromResultSet(rs);
-                order.setBook(bookMapper.extractFromResultSet(rs));
-                order.setUser(userMapper.extractFromResultSet(rs));
+                order = orderMapper.fullExtractFromResultSet(rs, orders, books, tags, authors, users);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -90,18 +85,13 @@ public class JDBCOrderDao implements OrderDao {
         Map<Long, Order> orders = new HashMap<>();
         Map<Long, Book> books = new HashMap<>();
         Map<Long, User> users = new HashMap<>();
+        Map<Long, Author> authors = new HashMap<>();
+        Map<Long, Tag> tags = new HashMap<>();
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                Order order = orderMapper.extractFromResultSet(rs);
-                order = orderMapper.makeUnique(orders, order);
-                Book book = bookMapper.extractFromResultSet(rs);
-                book = bookMapper.makeUnique(books, book);
-                User user = userMapper.extractFromResultSet(rs);
-                user = userMapper.makeUnique(users, user);
-                order.setUser(user);
-                order.setBook(book);
+                Order order = orderMapper.fullExtractFromResultSet(rs, orders, books, tags, authors, users);
                 resultList.add(order);
             }
         } catch (SQLException e) {
