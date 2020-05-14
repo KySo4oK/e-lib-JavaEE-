@@ -17,12 +17,16 @@ public class BookMapper implements ObjectMapper<Book> {
         book.setAvailable(rs.getBoolean("available"));
         book.setName(rs.getString("bookName"));
         book.setNameUa(rs.getString("bookNameUa"));
+        setShelfIfNeeded(rs, book);
+        return book;
+    }
+
+    private void setShelfIfNeeded(ResultSet rs, Book book) throws SQLException {
         if (rs.getLong("shelf_id") != 0L) {
             Shelf shelf = shelfMapper.extractFromResultSet(rs);
             book.setShelf(shelf);
             shelf.setBook(book);
         }
-        return book;
     }
 
     @Override

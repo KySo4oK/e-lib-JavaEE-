@@ -15,12 +15,16 @@ public class ShelfMapper implements ObjectMapper<Shelf> {
     public Shelf extractFromResultSet(ResultSet rs) throws SQLException {
         Shelf shelf = new Shelf();
         shelf.setShelfId(rs.getLong("shelf_id"));
+        setBookIfNeeded(rs, shelf);
+        return shelf;
+    }
+
+    private void setBookIfNeeded(ResultSet rs, Shelf shelf) throws SQLException {
         if (rs.getLong("booKId") != 0) {
             Book book = bookMapper.extractFromResultSet(rs);
             shelf.setBook(book);
             book.setShelf(shelf);
         }
-        return shelf;
     }
 
     @Override
