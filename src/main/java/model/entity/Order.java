@@ -6,6 +6,19 @@ public class Order {
     private Long orderId;
     private User user;
     private Book book;
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "orderId=" + orderId +
+                ", user=" + user +
+                ", book=" + book +
+                ", active=" + active +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                '}';
+    }
+
     private boolean active;
     private LocalDate startDate = LocalDate.now();
 
