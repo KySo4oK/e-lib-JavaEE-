@@ -26,7 +26,7 @@ public class JDBCShelfDao implements ShelfDao {
             statement.setLong(1, bookId);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                shelf = shelfMapper.extractFromResultSet(rs);
+                shelf = shelfMapper.fullExtractFromResultSet(rs);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -53,7 +53,7 @@ public class JDBCShelfDao implements ShelfDao {
             statement.setLong(1, id);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                shelf = shelfMapper.extractFromResultSet(rs);
+                shelf = shelfMapper.fullExtractFromResultSet(rs);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -67,7 +67,7 @@ public class JDBCShelfDao implements ShelfDao {
         try (Statement st = connection.createStatement()) {
             ResultSet rs = st.executeQuery(SQL_FIND_ALL);
             while (rs.next()) {
-                Shelf shelf = shelfMapper.extractFromResultSet(rs);
+                Shelf shelf = shelfMapper.fullExtractFromResultSet(rs);
                 shelves.add(shelf);
             }
             return shelves;
