@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Map;
 
 public class JDBCTagDao implements TagDao {
-    private Connection connection;
-    private TagMapper tagMapper = new TagMapper();
+    private final Connection connection;
+    private final TagMapper tagMapper = new TagMapper();
 
     public JDBCTagDao(Connection connection) {
         this.connection = connection;

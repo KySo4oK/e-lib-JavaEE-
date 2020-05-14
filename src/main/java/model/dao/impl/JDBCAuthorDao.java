@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Map;
 
 public class JDBCAuthorDao implements AuthorDao {
-    private Connection connection;
-    private AuthorMapper authorMapper = new AuthorMapper();
+    private final Connection connection;
+    private final AuthorMapper authorMapper = new AuthorMapper();
 
     public JDBCAuthorDao(Connection connection) {
         this.connection = connection;

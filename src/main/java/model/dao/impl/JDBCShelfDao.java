@@ -11,9 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JDBCShelfDao implements ShelfDao {
-    private Connection connection;
-    private ShelfMapper shelfMapper = new ShelfMapper();
-    private BookMapper bookMapper = new BookMapper();
+    private final Connection connection;
+    private final ShelfMapper shelfMapper = new ShelfMapper();
 
     public JDBCShelfDao(Connection connection) {
         this.connection = connection;
@@ -28,11 +27,6 @@ public class JDBCShelfDao implements ShelfDao {
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 shelf = shelfMapper.extractFromResultSet(rs);
-                if (rs.getLong("booKId") != 0) {
-                    Book book = bookMapper.extractFromResultSet(rs);
-                    shelf.setBook(book);
-                    book.setShelf(shelf);
-                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -60,11 +54,6 @@ public class JDBCShelfDao implements ShelfDao {
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 shelf = shelfMapper.extractFromResultSet(rs);
-                if (rs.getLong("booKId") != 0) {
-                    Book book = bookMapper.extractFromResultSet(rs);
-                    shelf.setBook(book);
-                    book.setShelf(shelf);
-                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -79,11 +68,6 @@ public class JDBCShelfDao implements ShelfDao {
             ResultSet rs = st.executeQuery(SQL_FIND_ALL);
             while (rs.next()) {
                 Shelf shelf = shelfMapper.extractFromResultSet(rs);
-                if (rs.getLong("booKId") != 0) {
-                    Book book = bookMapper.extractFromResultSet(rs);
-                    shelf.setBook(book);
-                    book.setShelf(shelf);
-                }
                 shelves.add(shelf);
             }
             return shelves;

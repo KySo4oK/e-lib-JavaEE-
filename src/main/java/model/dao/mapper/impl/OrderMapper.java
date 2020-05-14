@@ -1,7 +1,9 @@
 package model.dao.mapper.impl;
 
 import model.dao.mapper.ObjectMapper;
+import model.entity.Book;
 import model.entity.Order;
+import model.entity.User;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
