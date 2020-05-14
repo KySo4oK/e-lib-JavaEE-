@@ -3,15 +3,16 @@ package model.dao.impl;
 import model.dao.BookDao;
 import model.dao.mapper.impl.AuthorMapper;
 import model.dao.mapper.impl.BookMapper;
-import model.dao.mapper.impl.ShelfMapper;
 import model.dao.mapper.impl.TagMapper;
 import model.entity.Author;
 import model.entity.Book;
-import model.entity.Shelf;
 import model.entity.Tag;
 
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class JDBCBookDao implements BookDao {
@@ -19,7 +20,6 @@ public class JDBCBookDao implements BookDao {
     private final BookMapper bookMapper = new BookMapper();
     private final TagMapper tagMapper = new TagMapper();
     private final AuthorMapper authorMapper = new AuthorMapper();
-    private final ShelfMapper shelfMapper = new ShelfMapper();
 
     public JDBCBookDao(Connection connection) {
         this.connection = connection;
@@ -42,11 +42,6 @@ public class JDBCBookDao implements BookDao {
             while (rs.next()) {
                 book = bookMapper.extractFromResultSet(rs);
                 book = bookMapper.makeUnique(books, book);
-                if (rs.getLong("shelf_id") != 0L) {
-                    Shelf shelf = shelfMapper.extractFromResultSet(rs);
-                    book.setShelf(shelf);
-                    shelf.setBook(book);
-                }
                 Tag tag = tagMapper.extractFromResultSet(rs);
                 Author author = authorMapper.extractFromResultSet(rs);
                 tag = tagMapper.makeUnique(tags, tag);
@@ -119,11 +114,6 @@ public class JDBCBookDao implements BookDao {
 
     protected Book getFullBookFromResultSet(Map<Long, Book> books, Map<Long, Tag> tags, Map<Long, Author> authors, ResultSet rs, Book book) throws SQLException {
         book = bookMapper.makeUnique(books, book);
-        if (rs.getLong("shelf_id") != 0L) {
-            Shelf shelf = shelfMapper.extractFromResultSet(rs);
-            book.setShelf(shelf);
-            shelf.setBook(book);
-        }
         Tag tag = tagMapper.extractFromResultSet(rs);
         Author author = authorMapper.extractFromResultSet(rs);
         tag = tagMapper.makeUnique(tags, tag);
