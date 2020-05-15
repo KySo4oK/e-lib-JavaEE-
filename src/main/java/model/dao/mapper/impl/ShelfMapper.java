@@ -29,9 +29,12 @@ public class ShelfMapper implements ObjectMapper<Shelf> {
         return shelf;
     }
 
-    public Shelf fullExtractFromResultSet(ResultSet rs) throws SQLException {
+    public Shelf fullExtractFromResultSet(ResultSet rs,
+                                          Map<Long, Book> books,
+                                          Map<Long, Tag> tags,
+                                          Map<Long, Author> authors) throws SQLException {
         Shelf shelf = extractFromResultSet(rs);
-        setBookIfNeeded(rs, shelf, new HashMap<>(), new HashMap<>(), new HashMap<>());
+        setBookIfNeeded(rs, shelf, books, tags, authors);
         return shelf;
     }
 
