@@ -21,7 +21,7 @@ public class JDBCShelfDao implements ShelfDao {
     }
 
     @Override
-    public Optional<Shelf> findByBookId(long bookId) {
+    public Optional<Shelf> findByBookId(Long bookId) {
         Shelf shelf = null;
         Map<Long, Book> books = new HashMap<>();
         Map<Long, Tag> tags = new HashMap<>();
