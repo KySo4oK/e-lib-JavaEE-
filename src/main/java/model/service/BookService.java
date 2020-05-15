@@ -34,7 +34,7 @@ public class BookService {
     }
 
     public List<BookDTO> getAvailableBooks(Pageable pageable) {
-        //return bookDao.findAllByAvailableIsTrue(pageable)
+        //return bookDao.findAllByAvailableIsTrue(pageable) //todo
         return bookDao.findAll()
                 .stream()
                 .map(this::buildBookDTO)
@@ -79,25 +79,25 @@ public class BookService {
     }
 
     //@Transactional
-//    public void saveNewBookFromClient(BookDTO bookDTO) {
-//        log.info("create book {}", bookDTO);
-//        Shelf shelf = shelfDao.findByBookId(null)/*.orElse(new Shelf())*/;
-//        Book book = BuildBookFromClient(bookDTO, shelf);
-//        bookDao.create(book);
-//        shelf.setBook(book);
-//        shelfDao.create(shelf);
-//    }
+    public void saveNewBookFromClient(BookDTO bookDTO) {
+        log.info("create book {}", bookDTO);
+        Shelf shelf = shelfDao.findByBookId(null).orElse(new Shelf());
+        Book book = BuildBookFromClient(bookDTO, shelf);
+        bookDao.create(book);
+        shelf.setBook(book);
+        shelfDao.create(shelf);
+    }
 
-//    private Book BuildBookFromClient(BookDTO bookDTO, Shelf shelf) {
-//        return Book.Builder.aBook()
-//                .name(bookDTO.getName())
-//                .nameUa(bookDTO.getNameUa())
-//                .shelf(shelf)
-//                .authors(authorService.getAuthorsFromStringArray(bookDTO.getAuthors()))
-//                .tags(tagService.getTagsByStringArray(bookDTO.getTags()))
-//                .available(true)
-//                .build();
-//    }
+    private Book BuildBookFromClient(BookDTO bookDTO, Shelf shelf) {
+        return Book.Builder.aBook()
+                .name(bookDTO.getName())
+                .nameUa(bookDTO.getNameUa())
+                .shelf(shelf)
+                .authors(authorService.getAuthorsFromStringArray(bookDTO.getAuthors()))
+                .tags(tagService.getTagsByStringArray(bookDTO.getTags()))
+                .available(true)
+                .build();
+    }
 //
 //    public List<BookDTO> getAvailableBooksByFilter(FilterDTO filterDTO, Pageable pageable) {
 //        return getBooksByFilter(filterDTO, pageable)
@@ -119,22 +119,22 @@ public class BookService {
 //                        filterDTO.getTags(), pageable);
 //    }
 
-//    public void editBookAndSave(BookDTO bookDTO) throws BookNotFoundException {
-//        log.info("save book {}", bookDTO);
-//        bookDao.save(getEditedBook(bookDTO));
-//    }
-//
-//    private Book getEditedBook(BookDTO bookDTO) {
-//        Book book = bookDao
-//                .findById(bookDTO.getId())
-//                .orElseThrow(() -> new BookNotFoundException("book not exist"));
-//        book.setAuthors(authorService.getAuthorsFromStringArray(bookDTO.getAuthors()));
-//        book.setTags(tagService.getTagsByStringArray(bookDTO.getTags()));
-//        return book;
-//    }
-//
-//    public void deleteBook(long id) throws BookNotFoundException {
-//        log.info("delete book with id {}", id);
-//        bookDao.deleteById(id);
-//    }
+    public void editBookAndSave(BookDTO bookDTO) throws BookNotFoundException {
+        log.info("save book {}", bookDTO);
+        bookDao.update(getEditedBook(bookDTO));//todo normal updating
+    }
+
+    private Book getEditedBook(BookDTO bookDTO) {
+        Book book = bookDao
+                .findById(bookDTO.getId())
+                .orElseThrow(() -> new BookNotFoundException("book not exist"));
+        book.setAuthors(authorService.getAuthorsFromStringArray(bookDTO.getAuthors()));
+        book.setTags(tagService.getTagsByStringArray(bookDTO.getTags()));
+        return book;
+    }
+
+    public void deleteBook(long id) throws BookNotFoundException {
+        log.info("delete book with id {}", id);
+        bookDao.delete(id);
+    }
 }
