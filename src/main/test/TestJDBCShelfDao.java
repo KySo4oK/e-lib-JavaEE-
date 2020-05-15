@@ -5,6 +5,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.Optional;
 
 public class TestJDBCShelfDao {
     ShelfDao shelfDao = new JDBCDaoFactory().createShelfDao();
@@ -21,7 +22,7 @@ public class TestJDBCShelfDao {
         List<Shelf> shelves = shelfDao.findAll();
         for (Shelf shelf : shelves) {
             if (shelf.getBook() != null) {
-                Assert.assertEquals(shelf, shelfDao.findByBookId(shelf.getBook().getBookId()));
+                Assert.assertEquals(Optional.of(shelf), shelfDao.findByBookId(shelf.getBook().getBookId()));
             }
         }
     }
@@ -36,14 +37,14 @@ public class TestJDBCShelfDao {
 //    @Test
 //    public void testDelete() {
 //        Tag tag = Tag.Builder.aTag().name("test").nameUa("test_ua").build();
-//        shelfDao.delete(shelfDao.findByName(tag.getName()).getTagId().intValue());
+//        shelfDao.delete(shelfDao.findByName(tag.getName()).getTagId());
 //        Assert.assertNull(shelfDao.findByName(tag.getName()));
 //    }
 
     @Test
     public void testFindById() {
         Shelf shelf = shelfDao.findAll().get(0);
-        Assert.assertEquals(shelf.getShelfId(), shelfDao.findById(shelf.getShelfId().intValue())
+        Assert.assertEquals(shelf.getShelfId(), shelfDao.findById(shelf.getShelfId())
                 .orElseThrow(()-> new RuntimeException("oops")).getShelfId());
     }
 
@@ -55,6 +56,6 @@ public class TestJDBCShelfDao {
 //        shelf.setName("test_another");
 //        shelfDao.update(shelf);
 //        Assert.assertEquals(shelf.getName(), shelfDao.findByNameUa(shelf.getNameUa()).getName());
-//        shelfDao.delete(shelf.getTagId().intValue());
+//        shelfDao.delete(shelf.getTagId());
 //    }
 }

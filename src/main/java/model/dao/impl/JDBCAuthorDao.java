@@ -53,7 +53,7 @@ public class JDBCAuthorDao implements AuthorDao {
     }
 
     @Override
-    public Optional<Author> findById(int id) {
+    public Optional<Author> findById(long id) {
         Author author = null;
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ID);
@@ -100,7 +100,7 @@ public class JDBCAuthorDao implements AuthorDao {
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(long id) {
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_DELETE);
             statement.setLong(1, id);

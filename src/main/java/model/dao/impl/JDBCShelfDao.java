@@ -21,7 +21,7 @@ public class JDBCShelfDao implements ShelfDao {
     }
 
     @Override
-    public Optional<Shelf> findByBookId(Long bookId) {
+    public Optional<Shelf> findByBookId(long bookId) {
         Shelf shelf = null;
         Map<Long, Book> books = new HashMap<>();
         Map<Long, Tag> tags = new HashMap<>();
@@ -51,7 +51,7 @@ public class JDBCShelfDao implements ShelfDao {
     }
 
     @Override
-    public Optional<Shelf> findById(int id) {
+    public Optional<Shelf> findById(long id) {
         Shelf shelf = null;
         Map<Long, Book> books = new HashMap<>();
         Map<Long, Tag> tags = new HashMap<>();
@@ -101,7 +101,7 @@ public class JDBCShelfDao implements ShelfDao {
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(long id) {
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_DELETE);
             statement.setLong(1, id);

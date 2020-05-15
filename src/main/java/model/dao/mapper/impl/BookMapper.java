@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class BookMapper implements ObjectMapper<Book> {
-    private ShelfMapper shelfMapper;
+    private final ShelfMapper shelfMapper;
     private final TagMapper tagMapper = new TagMapper();
     private final AuthorMapper authorMapper = new AuthorMapper();
 

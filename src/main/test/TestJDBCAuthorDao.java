@@ -47,14 +47,14 @@ public class TestJDBCAuthorDao {
     public void testDelete() {
         Author author = Author.Builder.anAuthor().name("test").nameUa("test_ua").build();
         authorDao.delete(authorDao.findByName(author.getName())
-                .orElseThrow(()-> new RuntimeException("oops")).getAuthorId().intValue());
+                .orElseThrow(()-> new RuntimeException("oops")).getAuthorId());
         Assert.assertEquals(Optional.empty(), authorDao.findByName(author.getName()));
     }
 
     @Test
     public void testFindById() {
         Author author = authorDao.findAll().get(0);
-        Assert.assertEquals(author.getName(), authorDao.findById(author.getAuthorId().intValue())
+        Assert.assertEquals(author.getName(), authorDao.findById(author.getAuthorId())
                 .orElseThrow(()-> new RuntimeException("oops")).getName());
     }
     @Test
@@ -66,6 +66,6 @@ public class TestJDBCAuthorDao {
         authorDao.update(author);
         Assert.assertEquals(author.getName(), authorDao.findByNameUa(author.getNameUa())
                 .orElseThrow(()-> new RuntimeException("oops")).getName());
-        authorDao.delete(author.getAuthorId().intValue());
+        authorDao.delete(author.getAuthorId());
     }
 }

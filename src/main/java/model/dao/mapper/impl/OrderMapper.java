@@ -13,7 +13,7 @@ public class OrderMapper implements ObjectMapper<Order> {
     @Override
     public Order extractFromResultSet(ResultSet rs) throws SQLException {
         Order order = new Order();
-        order.setOrderId(rs.getLong("order_id"));// todo add book and user id
+        order.setOrderId(rs.getLong("order_id"));
         order.setActive(rs.getBoolean("active"));
         order.setEndDate(rs.getDate("end_date").toLocalDate());
         order.setStartDate(rs.getDate("start_date").toLocalDate());

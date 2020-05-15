@@ -8,7 +8,6 @@ import model.entity.Tag;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Map;
 
 public class ShelfMapper implements ObjectMapper<Shelf> {

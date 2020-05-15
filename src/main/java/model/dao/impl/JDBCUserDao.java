@@ -9,8 +9,8 @@ import java.sql.*;
 import java.util.*;
 
 public class JDBCUserDao implements UserDao {
-    private Connection connection;
-    private UserMapper userMapper = new UserMapper();
+    private final Connection connection;
+    private final UserMapper userMapper = new UserMapper();
 
 
     public JDBCUserDao(Connection connection) {
@@ -31,7 +31,7 @@ public class JDBCUserDao implements UserDao {
         }
     }
 
-    public Optional<User> findById(int id) {
+    public Optional<User> findById(long id) {
         User user = null;
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ID);
@@ -76,7 +76,7 @@ public class JDBCUserDao implements UserDao {
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(long id) {
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_DELETE);
             statement.setLong(1, id);

@@ -58,7 +58,7 @@ public class JDBCOrderDao implements OrderDao {
     }
 
     @Override
-    public Optional<Order> findById(int id) {
+    public Optional<Order> findById(long id) {
         Order order = null;
         Map<Long, Order> orders = new HashMap<>();
         Map<Long, Book> books = new HashMap<>();
@@ -112,7 +112,7 @@ public class JDBCOrderDao implements OrderDao {
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(long id) {
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_DELETE);
             statement.setLong(1, id);

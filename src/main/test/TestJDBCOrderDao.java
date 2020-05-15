@@ -46,14 +46,14 @@ public class TestJDBCOrderDao {
 //    @Test
 //    public void testDelete() {
 //        Author author = Author.Builder.anAuthor().name("test").nameUa("test_ua").build();
-//        orderDao.delete(orderDao.findByName(author.getName()).getAuthorId().intValue());
+//        orderDao.delete(orderDao.findByName(author.getName()).getAuthorId());
 //        Assert.assertNull(orderDao.findByName(author.getName()));
 //    }
 //
 //    @Test
 //    public void testFindById() {
 //        Author author = orderDao.findAll().get(0);
-//        Assert.assertEquals(author.getName(), orderDao.findById(author.getAuthorId().intValue()).getName());
+//        Assert.assertEquals(author.getName(), orderDao.findById(author.getAuthorId()).getName());
 //    }
 //    @Test
 //    public void testUpdate(){
@@ -63,6 +63,6 @@ public class TestJDBCOrderDao {
 //        author.setName("test_another");
 //        orderDao.update(author);
 //        Assert.assertEquals(author.getName(), orderDao.findByNameUa(author.getNameUa()).getName());
-//        orderDao.delete(author.getAuthorId().intValue());
+//        orderDao.delete(author.getAuthorId());
 //    }
 }

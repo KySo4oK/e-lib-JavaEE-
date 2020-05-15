@@ -28,5 +28,5 @@ public interface ShelfDao extends GenericDao<Shelf> {
     String SQL_UPDATE = "update shelf set name where shelf_id = ?";
     String SQL_DELETE = "delete from shelf where shelf_id = ?";
 
-    Optional<Shelf> findByBookId(Long bookId);
+    Optional<Shelf> findByBookId(long bookId);
 }

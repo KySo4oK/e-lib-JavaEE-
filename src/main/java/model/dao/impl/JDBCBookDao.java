@@ -60,7 +60,7 @@ public class JDBCBookDao implements BookDao {
     }
 
     @Override
-    public Optional<Book> findById(int id) {
+    public Optional<Book> findById(long id) {
         Book book = null;
         Map<Long, Book> books = new HashMap<>();
         Map<Long, Tag> tags = new HashMap<>();
@@ -109,7 +109,7 @@ public class JDBCBookDao implements BookDao {
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(long id) {
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_DELETE);
             statement.setLong(1, id);

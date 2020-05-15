@@ -53,7 +53,7 @@ public class JDBCTagDao implements TagDao {
     }
 
     @Override
-    public Optional<Tag> findById(int id) {
+    public Optional<Tag> findById(long id) {
         Tag tag = null;
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ID);
@@ -100,7 +100,7 @@ public class JDBCTagDao implements TagDao {
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(long id) {
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_DELETE);
             statement.setLong(1, id);

@@ -46,14 +46,14 @@ public class TestJDBCTagDao {
     public void testDelete() {
         Tag tag = Tag.Builder.aTag().name("test").nameUa("test_ua").build();
         tagDao.delete(tagDao.findByName(tag.getName())
-                .orElseThrow(()-> new RuntimeException("oops")).getTagId().intValue());
+                .orElseThrow(()-> new RuntimeException("oops")).getTagId());
         Assert.assertNull(tagDao.findByName(tag.getName()));
     }
 
     @Test
     public void testFindById() {
         Tag tag = tagDao.findAll().get(0);
-        Assert.assertEquals(tag.getName(), tagDao.findById(tag.getTagId().intValue())
+        Assert.assertEquals(tag.getName(), tagDao.findById(tag.getTagId())
                 .orElseThrow(()-> new RuntimeException("oops")).getName());
     }
 
@@ -66,6 +66,6 @@ public class TestJDBCTagDao {
         tagDao.update(tag);
         Assert.assertEquals(tag.getName(), tagDao.findByNameUa(tag.getNameUa())
                 .orElseThrow(()-> new RuntimeException("oops")).getName());
-        tagDao.delete(tag.getTagId().intValue());
+        tagDao.delete(tag.getTagId());
     }
 }

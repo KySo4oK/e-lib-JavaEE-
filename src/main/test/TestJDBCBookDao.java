@@ -20,7 +20,7 @@ public class TestJDBCBookDao {
         List<Book> books = bookDao.findAll();
         for (Book book: books) {
             Assert.assertEquals(book,
-                    bookDao.findById(book.getBookId().intValue()).orElseThrow(()-> new RuntimeException("oops")));
+                    bookDao.findById(book.getBookId()).orElseThrow(()-> new RuntimeException("oops")));
         }
     }
 }
