@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class JDBCOrderDao implements OrderDao {
     private final Connection connection;
@@ -40,7 +41,7 @@ public class JDBCOrderDao implements OrderDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return resultList;
+        return resultList.stream().distinct().collect(Collectors.toList());
     }
 
     @Override
@@ -97,7 +98,7 @@ public class JDBCOrderDao implements OrderDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return resultList;
+        return resultList.stream().distinct().collect(Collectors.toList());
     }
 
     @Override

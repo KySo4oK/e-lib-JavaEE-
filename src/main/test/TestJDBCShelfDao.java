@@ -20,7 +20,6 @@ public class TestJDBCShelfDao {
     public void testFindByBookId() {
         List<Shelf> shelves = shelfDao.findAll();
         for (Shelf shelf : shelves) {
-            System.out.println(shelf.getBook());
             if (shelf.getBook() != null) {
                 Assert.assertEquals(shelf, shelfDao.findByBookId(shelf.getBook().getBookId()));
             }

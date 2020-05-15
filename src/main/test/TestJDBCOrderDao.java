@@ -20,12 +20,10 @@ public class TestJDBCOrderDao {
     public void testFindAllByActive() {
         List<Order> orders = orderDao.findAllByActive(true);
         for (Order order : orders) {
-            System.out.println(order);
             Assert.assertTrue(order.isActive());
         }
         orders = orderDao.findAllByActive(false);
         for (Order order : orders) {
-            System.out.println(order);
             Assert.assertFalse(order.isActive());
         }
     }
