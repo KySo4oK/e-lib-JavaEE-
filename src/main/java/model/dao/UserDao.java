@@ -2,6 +2,8 @@ package model.dao;
 
 import model.entity.User;
 
+import java.util.Optional;
+
 public interface UserDao extends GenericDao<User> {
     String SQL_FIND_ALL = "select user_id as \"userId\", email, password, phone, role, username from users";
     String SQL_FIND_BY_ID = SQL_FIND_ALL + " where user_id = ?";
@@ -10,5 +12,5 @@ public interface UserDao extends GenericDao<User> {
     String SQL_UPDATE = "update users set password where user_id = ?";
     String SQL_DELETE = "delete from users where user_id = ?";
 
-    User findByUsername(String username);
+    Optional<User> findByUsername(String username);
 }

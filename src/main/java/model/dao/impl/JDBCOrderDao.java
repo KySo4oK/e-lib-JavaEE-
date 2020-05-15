@@ -7,10 +7,8 @@ import model.dao.mapper.impl.UserMapper;
 import model.entity.*;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.Date;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class JDBCOrderDao implements OrderDao {
@@ -60,7 +58,7 @@ public class JDBCOrderDao implements OrderDao {
     }
 
     @Override
-    public Order findById(int id) {
+    public Optional<Order> findById(int id) {
         Order order = null;
         Map<Long, Order> orders = new HashMap<>();
         Map<Long, Book> books = new HashMap<>();
@@ -77,7 +75,7 @@ public class JDBCOrderDao implements OrderDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return order;
+        return Optional.ofNullable(order);
     }
 
     @Override

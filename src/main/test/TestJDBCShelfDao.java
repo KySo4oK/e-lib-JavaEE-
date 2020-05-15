@@ -43,7 +43,8 @@ public class TestJDBCShelfDao {
     @Test
     public void testFindById() {
         Shelf shelf = shelfDao.findAll().get(0);
-        Assert.assertEquals(shelf.getShelfId(), shelfDao.findById(shelf.getShelfId().intValue()).getShelfId());
+        Assert.assertEquals(shelf.getShelfId(), shelfDao.findById(shelf.getShelfId().intValue())
+                .orElseThrow(()-> new RuntimeException("oops")).getShelfId());
     }
 
 //    @Test

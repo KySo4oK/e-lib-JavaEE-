@@ -2,6 +2,8 @@ package model.dao;
 
 import model.entity.Tag;
 
+import java.util.Optional;
+
 public interface TagDao extends GenericDao<Tag> {
     String SQL_FIND_ALL = "select tag_id as \"tagId\", name as \"tagName\", name_ua as \"tagNameUa\" from tag";
     String SQL_FIND_BY_ID = SQL_FIND_ALL + " where tag_id = ?";
@@ -11,7 +13,7 @@ public interface TagDao extends GenericDao<Tag> {
     String SQL_UPDATE = "update tag set name = ? where tag_id = ?";
     String SQL_DELETE = "delete from tag where tag_id = ?";
 
-    Tag findByName(String name);
+    Optional<Tag> findByName(String name);
 
-    Tag findByNameUa(String nameUa);
+    Optional<Tag> findByNameUa(String nameUa);
 }

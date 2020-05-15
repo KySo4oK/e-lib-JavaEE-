@@ -2,6 +2,8 @@ package model.dao;
 
 import model.entity.Shelf;
 
+import java.util.Optional;
+
 public interface ShelfDao extends GenericDao<Shelf> {
     String SQL_FIND_ALL = "select book.book_id     as \"bookId\",\n" +
             "       book.name        as \"bookName\",\n" +
@@ -26,5 +28,5 @@ public interface ShelfDao extends GenericDao<Shelf> {
     String SQL_UPDATE = "update shelf set name where shelf_id = ?";
     String SQL_DELETE = "delete from shelf where shelf_id = ?";
 
-    Shelf findByBookId(Long bookId);
+    Optional<Shelf> findByBookId(Long bookId);
 }

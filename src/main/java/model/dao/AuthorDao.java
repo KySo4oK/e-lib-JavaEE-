@@ -2,6 +2,8 @@ package model.dao;
 
 import model.entity.Author;
 
+import java.util.Optional;
+
 public interface AuthorDao extends GenericDao<Author> {
     String SQL_FIND_ALL = "select author_id as \"authorId\"," +
             " name as \"authorName\", name_ua as \"authorNameUa\" from author";
@@ -12,7 +14,7 @@ public interface AuthorDao extends GenericDao<Author> {
     String SQL_UPDATE = "update author set name = ? where author_id = ?";
     String SQL_DELETE = "delete from author where author_id = ?";
 
-    Author findByName(String name);
+    Optional<Author> findByName(String name);
 
-    Author findByNameUa(String nameUa);
+    Optional<Author> findByNameUa(String nameUa);
 }

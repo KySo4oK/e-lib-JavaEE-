@@ -9,10 +9,7 @@ import model.entity.Shelf;
 import model.entity.Tag;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class JDBCShelfDao implements ShelfDao {
@@ -24,7 +21,7 @@ public class JDBCShelfDao implements ShelfDao {
     }
 
     @Override
-    public Shelf findByBookId(Long bookId) {
+    public Optional<Shelf> findByBookId(Long bookId) {
         Shelf shelf = null;
         Map<Long, Book> books = new HashMap<>();
         Map<Long, Tag> tags = new HashMap<>();
@@ -39,7 +36,7 @@ public class JDBCShelfDao implements ShelfDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return shelf;
+        return Optional.ofNullable(shelf);
     }
 
     @Override
@@ -54,7 +51,7 @@ public class JDBCShelfDao implements ShelfDao {
     }
 
     @Override
-    public Shelf findById(int id) {
+    public Optional<Shelf> findById(int id) {
         Shelf shelf = null;
         Map<Long, Book> books = new HashMap<>();
         Map<Long, Tag> tags = new HashMap<>();
@@ -69,7 +66,7 @@ public class JDBCShelfDao implements ShelfDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return shelf;
+        return Optional.ofNullable(shelf);
     }
 
     @Override

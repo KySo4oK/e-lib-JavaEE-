@@ -6,10 +6,7 @@ import model.dao.mapper.impl.UserMapper;
 import model.entity.User;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class JDBCUserDao implements UserDao {
     private Connection connection;
@@ -34,7 +31,7 @@ public class JDBCUserDao implements UserDao {
         }
     }
 
-    public User findById(int id) {
+    public Optional<User> findById(int id) {
         User user = null;
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ID);
@@ -47,7 +44,7 @@ public class JDBCUserDao implements UserDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return user;
+        return Optional.ofNullable(user);
     }
 
     public List<User> findAll() {
@@ -99,7 +96,7 @@ public class JDBCUserDao implements UserDao {
     }
 
     @Override
-    public User findByUsername(String username) {
+    public Optional<User> findByUsername(String username) {
         User user = null;
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_USERNAME);
@@ -111,6 +108,6 @@ public class JDBCUserDao implements UserDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return user;
+        return Optional.ofNullable(user);
     }
 }

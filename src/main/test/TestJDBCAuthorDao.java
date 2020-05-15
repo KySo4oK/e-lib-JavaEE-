@@ -5,6 +5,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.Optional;
 
 public class TestJDBCAuthorDao {
     AuthorDao authorDao = new JDBCDaoFactory().createAuthorDao();
@@ -20,7 +21,8 @@ public class TestJDBCAuthorDao {
     public void testFindByName() {
         List<Author> authors = authorDao.findAll();
         for (Author author : authors) {
-            Assert.assertEquals(authorDao.findByName(author.getName()).getName(), author.getName());
+            Assert.assertEquals(authorDao.findByName(author.getName())
+                    .orElseThrow(()-> new RuntimeException("oops")).getName(), author.getName());
         }
     }
 
@@ -28,7 +30,8 @@ public class TestJDBCAuthorDao {
     public void testFindByNameUa() {
         List<Author> authors = authorDao.findAll();
         for (Author author : authors) {
-            Assert.assertEquals(authorDao.findByNameUa(author.getNameUa()).getNameUa(), author.getNameUa());
+            Assert.assertEquals(authorDao.findByNameUa(author.getNameUa())
+                    .orElseThrow(()-> new RuntimeException("oops")).getNameUa(), author.getNameUa());
         }
     }
 
@@ -36,29 +39,33 @@ public class TestJDBCAuthorDao {
     public void testCreate() {
         Author author = Author.Builder.anAuthor().name("test").nameUa("test_ua").build();
         authorDao.create(author);
-        Assert.assertEquals(author.getName(), authorDao.findByName(author.getName()).getName());
+        Assert.assertEquals(author.getName(), authorDao.findByName(author.getName())
+                .orElseThrow(()-> new RuntimeException("oops")).getName());
     }
 
     @Test
     public void testDelete() {
         Author author = Author.Builder.anAuthor().name("test").nameUa("test_ua").build();
-        authorDao.delete(authorDao.findByName(author.getName()).getAuthorId().intValue());
-        Assert.assertNull(authorDao.findByName(author.getName()));
+        authorDao.delete(authorDao.findByName(author.getName())
+                .orElseThrow(()-> new RuntimeException("oops")).getAuthorId().intValue());
+        Assert.assertEquals(Optional.empty(), authorDao.findByName(author.getName()));
     }
 
     @Test
     public void testFindById() {
         Author author = authorDao.findAll().get(0);
-        Assert.assertEquals(author.getName(), authorDao.findById(author.getAuthorId().intValue()).getName());
+        Assert.assertEquals(author.getName(), authorDao.findById(author.getAuthorId().intValue())
+                .orElseThrow(()-> new RuntimeException("oops")).getName());
     }
     @Test
     public void testUpdate(){
         Author author = Author.Builder.anAuthor().name("test").nameUa("test_ua").build();
         authorDao.create(author);
-        author = authorDao.findByNameUa(author.getNameUa());
+        author = authorDao.findByNameUa(author.getNameUa()).orElseThrow(()-> new RuntimeException("oops"));
         author.setName("test_another");
         authorDao.update(author);
-        Assert.assertEquals(author.getName(), authorDao.findByNameUa(author.getNameUa()).getName());
+        Assert.assertEquals(author.getName(), authorDao.findByNameUa(author.getNameUa())
+                .orElseThrow(()-> new RuntimeException("oops")).getName());
         authorDao.delete(author.getAuthorId().intValue());
     }
 }

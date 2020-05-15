@@ -31,16 +31,16 @@ public class AuthorService {
         return /*LocaleContextHolder.getLocale().equals(Locale.ENGLISH)*/true ? author.getName() : author.getNameUa();
     }
 
-    public List<Author> getAuthorsFromStringArray(String[] authors) {
-        log.info("get authors from array {}", Arrays.toString(authors));
-        return Arrays.stream(authors)
-                .map(x -> getByNameWithLocale(x)
-                        .orElseThrow(() -> new AuthorNotFoundException("can not found author")))
-                .collect(Collectors.toList());
-    }
+//    public List<Author> getAuthorsFromStringArray(String[] authors) {
+//        log.info("get authors from array {}", Arrays.toString(authors));
+//        return Arrays.stream(authors)
+//                .map(x -> getByNameWithLocale(x)
+//                        .orElseThrow(() -> new AuthorNotFoundException("can not found author")))
+//                .collect(Collectors.toList());
+//    }
 
-    private Optional<Author> getByNameWithLocale(String author) {
-        return Optional.of(/*LocaleContextHolder.getLocale().equals(Locale.ENGLISH)*/true ?
-                authorDao.findByName(author) : authorDao.findByNameUa(author));
-    }
+//    private Optional<Author> getByNameWithLocale(String author) {
+//        return Optional.of(/*LocaleContextHolder.getLocale().equals(Locale.ENGLISH)*/true ?
+//                authorDao.findByName(author) : authorDao.findByNameUa(author));
+//    }
 }

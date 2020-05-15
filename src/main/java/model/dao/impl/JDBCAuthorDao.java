@@ -5,10 +5,7 @@ import model.dao.mapper.impl.AuthorMapper;
 import model.entity.Author;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class JDBCAuthorDao implements AuthorDao {
     private final Connection connection;
@@ -19,11 +16,11 @@ public class JDBCAuthorDao implements AuthorDao {
     }
 
     @Override
-    public Author findByName(String name) {
+    public Optional<Author> findByName(String name) {
         return findAuthorByName(name, SQL_FIND_BY_NAME);
     }
 
-    private Author findAuthorByName(String name, String sqlFindByName) {
+    private Optional<Author> findAuthorByName(String name, String sqlFindByName) {
         Author author = null;
         try {
             PreparedStatement statement = connection.prepareStatement(sqlFindByName);
@@ -35,11 +32,11 @@ public class JDBCAuthorDao implements AuthorDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return author;
+        return Optional.ofNullable(author);
     }
 
     @Override
-    public Author findByNameUa(String nameUa) {
+    public Optional<Author> findByNameUa(String nameUa) {
         return findAuthorByName(nameUa, SQL_FIND_BY_NAME_UA);
     }
 
@@ -56,7 +53,7 @@ public class JDBCAuthorDao implements AuthorDao {
     }
 
     @Override
-    public Author findById(int id) {
+    public Optional<Author> findById(int id) {
         Author author = null;
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ID);
@@ -69,7 +66,7 @@ public class JDBCAuthorDao implements AuthorDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return author;
+        return Optional.ofNullable(author);
     }
 
     @Override

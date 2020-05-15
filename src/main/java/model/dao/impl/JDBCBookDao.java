@@ -7,10 +7,7 @@ import model.entity.Book;
 import model.entity.Tag;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class JDBCBookDao implements BookDao {
@@ -22,11 +19,11 @@ public class JDBCBookDao implements BookDao {
     }
 
     @Override
-    public Book findByName(String name) {
+    public Optional<Book> findByName(String name) {
         return findBookByName(name, SQL_FIND_BY_NAME);
     }
 
-    private Book findBookByName(String name, String sqlFindByName) {
+    private Optional<Book> findBookByName(String name, String sqlFindByName) {
         Book book = null;
         Map<Long, Book> books = new HashMap<>();
         Map<Long, Tag> tags = new HashMap<>();
@@ -41,11 +38,11 @@ public class JDBCBookDao implements BookDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return book;
+        return Optional.ofNullable(book);
     }
 
     @Override
-    public Book findByNameUa(String nameUa) {
+    public Optional<Book> findByNameUa(String nameUa) {
         return findBookByName(nameUa, SQL_FIND_BY_NAME_UA);
     }
 
@@ -63,7 +60,7 @@ public class JDBCBookDao implements BookDao {
     }
 
     @Override
-    public Book findById(int id) {
+    public Optional<Book> findById(int id) {
         Book book = null;
         Map<Long, Book> books = new HashMap<>();
         Map<Long, Tag> tags = new HashMap<>();
@@ -78,7 +75,7 @@ public class JDBCBookDao implements BookDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return book;
+        return Optional.ofNullable(book);
     }
 
     @Override

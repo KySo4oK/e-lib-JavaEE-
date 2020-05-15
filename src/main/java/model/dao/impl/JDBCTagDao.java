@@ -5,10 +5,7 @@ import model.dao.mapper.impl.TagMapper;
 import model.entity.Tag;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class JDBCTagDao implements TagDao {
     private final Connection connection;
@@ -19,11 +16,11 @@ public class JDBCTagDao implements TagDao {
     }
 
     @Override
-    public Tag findByName(String name) {
+    public Optional<Tag> findByName(String name) {
         return findTagByName(name, SQL_FIND_BY_NAME);
     }
 
-    private Tag findTagByName(String name, String sqlFindByName) {
+    private Optional<Tag> findTagByName(String name, String sqlFindByName) {
         Tag tag = null;
         try {
             PreparedStatement statement = connection.prepareStatement(sqlFindByName);
@@ -35,11 +32,11 @@ public class JDBCTagDao implements TagDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return tag;
+        return Optional.ofNullable(tag);
     }
 
     @Override
-    public Tag findByNameUa(String nameUa) {
+    public Optional<Tag> findByNameUa(String nameUa) {
         return findTagByName(nameUa, SQL_FIND_BY_NAME_UA);
     }
 
@@ -56,7 +53,7 @@ public class JDBCTagDao implements TagDao {
     }
 
     @Override
-    public Tag findById(int id) {
+    public Optional<Tag> findById(int id) {
         Tag tag = null;
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ID);
@@ -69,7 +66,7 @@ public class JDBCTagDao implements TagDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return tag;
+        return Optional.ofNullable(tag);
     }
 
     @Override

@@ -23,7 +23,7 @@ public class UserService {
 
     public User.ROLE getRoleByUser(String username, String password) {
         try (UserDao dao = daoFactory.createUserDao()) {
-            User user = dao.findByUsername(username);
+            User user = dao.findByUsername(username).orElseThrow(()-> new RuntimeException("oops"));
             if (user != null) {
                 return user.getRole();
             }
