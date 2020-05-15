@@ -2,10 +2,16 @@ package controller;
 
 import controller.command.*;
 import controller.command.impl.*;
-import controller.command.impl.admin.AdminCommand;
-import controller.command.impl.admin.BookManageCommand;
+import controller.command.impl.admin.*;
 import controller.command.impl.user.ProspectusCommand;
 import controller.command.impl.user.UserCommand;
+import model.dao.*;
+import model.entity.Order;
+import model.entity.Shelf;
+import model.entity.Tag;
+import model.service.AuthorService;
+import model.service.BookService;
+import model.service.TagService;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -27,6 +33,16 @@ public class Servlet extends javax.servlet.http.HttpServlet { //todo change coll
         servletConfig.getServletContext()
                 .setAttribute("loggedUsers", new HashSet<String>());
 
+        DaoFactory daoFactory = DaoFactory.getInstance();
+        UserDao userDao = daoFactory.createUserDao();
+        TagDao tagDao = daoFactory.createTagDao();
+        OrderDao orderDao = daoFactory.createOrderDao();
+        ShelfDao shelfDao = daoFactory.createShelfDao();
+        AuthorDao authorDao = daoFactory.createAuthorDao();
+        BookDao bookDao = daoFactory.createBookDao();//todo use smt better
+        BookService bookService =
+                new BookService(bookDao,shelfDao,new TagService(tagDao),new AuthorService(authorDao));
+
         commands.put("logout",
                 new LogOutCommand());
         commands.put("login",
@@ -39,6 +55,9 @@ public class Servlet extends javax.servlet.http.HttpServlet { //todo change coll
         commands.put("index", new IndexCommand());
         commands.put("user/prospectus", new ProspectusCommand());
         commands.put("admin/bookManage", new BookManageCommand());
+        commands.put("add", new AddBookCommand(bookService));
+        commands.put("edit", new EditBookCommand(bookService));
+        commands.put("delete/{id}", new DeleteBookCommand(bookService));//todo change key
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

@@ -10,7 +10,11 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class TagService {
-    private final TagDao tagDao = DaoFactory.getInstance().createTagDao();
+    private final TagDao tagDao;
+
+    public TagService(TagDao tagDao) {
+        this.tagDao = tagDao;
+    }
 
     public List<String> getAllTags() {
         return tagDao.findAll()
