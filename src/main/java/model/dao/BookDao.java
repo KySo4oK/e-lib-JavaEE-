@@ -2,6 +2,7 @@ package model.dao;
 
 import model.entity.Book;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface BookDao extends GenericDao<Book> {
@@ -28,8 +29,38 @@ public interface BookDao extends GenericDao<Book> {
     String SQL_INSERT = "insert into book (name, name_ua, available) values (?, ?, ?)";
     String SQL_UPDATE = "update book set available = ? where book_id = ?";
     String SQL_DELETE = "delete from book where book_id = ?";
+    String SQL_FIND_BY_FILTER = SQL_FIND_ALL + " where available = true\n" +
+            "  and book.book_id in\n" +
+            "      (select book_id\n" +
+            "       from book_author\n" +
+            "       where author_id in (select author_id\n" +
+            "                           from author\n" +
+            "                           where name in (?)))\n" +
+            "  and book.book_id in (select book_id\n" +
+            "                       from book_tag\n" +
+            "                       where tag_id in (select tag_id\n" +
+            "                                        from tag\n" +
+            "                                        where name in (?)))\n" +
+            "  and book.name like ?";
+    String SQL_FIND_BY_FILTER_UA = SQL_FIND_ALL + " where available = true\n" +
+            "  and book.book_id in\n" +
+            "      (select book_id\n" +
+            "       from book_author\n" +
+            "       where author_id in (select author_id\n" +
+            "                           from author\n" +
+            "                           where name_ua in (?)))\n" +
+            "  and book.book_id in (select book_id\n" +
+            "                       from book_tag\n" +
+            "                       where tag_id in (select tag_id\n" +
+            "                                        from tag\n" +
+            "                                        where name_ua in (?)))\n" +
+            "  and book.name_ua like ?";
 
     Optional<Book> findByName(String name);
 
     Optional<Book> findByNameUa(String nameUa);
+
+    List<Book> getBooksByFilter(String partOfName, String[] authors, String[] tags);
+
+    List<Book> getBooksByFilterUa(String partOfName, String[] authors, String[] tags);
 }

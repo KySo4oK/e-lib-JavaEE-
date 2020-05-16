@@ -47,6 +47,37 @@ public class JDBCBookDao implements BookDao {
     }
 
     @Override
+    public List<Book> getBooksByFilter(String partOfName, String[] authorsStrings, String[] tagsStrings) {
+        return getByFilter(partOfName, authorsStrings, tagsStrings, SQL_FIND_BY_FILTER);
+    }
+
+    @Override
+    public List<Book> getBooksByFilterUa(String partOfName, String[] authorsStrings, String[] tagsStrings) {
+        return getByFilter(partOfName, authorsStrings, tagsStrings, SQL_FIND_BY_FILTER_UA);
+    }
+
+    private List<Book> getByFilter(String partOfName, String[] authorsStrings, String[] tagsStrings, String sqlFindByFilterUa) {
+        List<Book> resultList = new ArrayList<>();
+        Map<Long, Book> books = new HashMap<>();
+        Map<Long, Tag> tags = new HashMap<>();
+        Map<Long, Author> authors = new HashMap<>();
+        try {
+            PreparedStatement statement = connection.prepareStatement(sqlFindByFilterUa);
+            statement.setArray(1, connection.createArrayOf("varchar", authorsStrings));
+            statement.setArray(2, connection.createArrayOf("varchar", tagsStrings));
+            statement.setString(3, partOfName);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Book book = bookMapper.fullExtractFromResultSet(rs, books, tags, authors);
+                resultList.add(book);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return resultList.stream().distinct().collect(Collectors.toList());
+    }
+
+    @Override
     public void create(Book entity) {
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_INSERT);

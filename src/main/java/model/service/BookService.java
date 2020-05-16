@@ -12,7 +12,6 @@ import model.exception.BookNotFoundException;
 
 import java.awt.print.Pageable;
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class BookService {
@@ -98,26 +97,26 @@ public class BookService {
                 .available(true)
                 .build();
     }
-//
-//    public List<BookDTO> getAvailableBooksByFilter(FilterDTO filterDTO, Pageable pageable) {
-//        return getBooksByFilter(filterDTO, pageable)
-//                .stream()
-//                .map(this::buildBookDTO)
-//                .collect(Collectors.toList());
-//
-//    }
 
-//    private List<Book> getBooksByFilter(FilterDTO filterDTO, Pageable pageable) {
-//        return /*LocaleContextHolder.getLocale().equals(Locale.ENGLISH)*/true ?
-//                bookDao.getBooksByFilter(
-//                        filterDTO.getName(),
-//                        filterDTO.getAuthors(),
-//                        filterDTO.getTags(), pageable) :
-//                bookDao.getBooksByFilterUa(
-//                        filterDTO.getName(),
-//                        filterDTO.getAuthors(),
-//                        filterDTO.getTags(), pageable);
-//    }
+    public List<BookDTO> getAvailableBooksByFilter(FilterDTO filterDTO, Pageable pageable) {
+        return getBooksByFilter(filterDTO, pageable)
+                .stream()
+                .map(this::buildBookDTO)
+                .collect(Collectors.toList());
+
+    }
+
+    private List<Book> getBooksByFilter(FilterDTO filterDTO, Pageable pageable) {
+        return /*LocaleContextHolder.getLocale().equals(Locale.ENGLISH)*/true ?
+                bookDao.getBooksByFilter(
+                        filterDTO.getName(),
+                        filterDTO.getAuthors(),
+                        filterDTO.getTags()/*, pageable*/) :
+                bookDao.getBooksByFilterUa(
+                        filterDTO.getName(),
+                        filterDTO.getAuthors(),
+                        filterDTO.getTags()/*, pageable*/);
+    }
 
     public void editBookAndSave(BookDTO bookDTO) throws BookNotFoundException {
         log.info("save book {}", bookDTO);
