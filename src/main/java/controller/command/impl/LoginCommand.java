@@ -7,9 +7,13 @@ import model.service.UserService;
 import javax.servlet.http.HttpServletRequest;
 
 public class LoginCommand implements Command {
-    private UserService userService = new UserService();
+    private final UserService userService;
     private static final org.apache.logging.log4j.Logger log
             = org.apache.logging.log4j.LogManager.getLogger(LoginCommand.class);
+
+    public LoginCommand(UserService userService) {
+        this.userService = userService;
+    }
 
     @Override
     public String execute(HttpServletRequest request) {

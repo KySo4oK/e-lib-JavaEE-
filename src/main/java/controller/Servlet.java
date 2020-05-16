@@ -1,17 +1,15 @@
 package controller;
 
-import controller.command.*;
+import controller.command.Command;
 import controller.command.impl.*;
 import controller.command.impl.admin.*;
 import controller.command.impl.user.ProspectusCommand;
 import controller.command.impl.user.UserCommand;
 import model.dao.*;
-import model.entity.Order;
-import model.entity.Shelf;
-import model.entity.Tag;
 import model.service.AuthorService;
 import model.service.BookService;
 import model.service.TagService;
+import model.service.UserService;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -41,14 +39,13 @@ public class Servlet extends javax.servlet.http.HttpServlet { //todo change coll
         AuthorDao authorDao = daoFactory.createAuthorDao();
         BookDao bookDao = daoFactory.createBookDao();//todo use smt better
         BookService bookService =
-                new BookService(bookDao,shelfDao,new TagService(tagDao),new AuthorService(authorDao));
+                new BookService(bookDao, shelfDao, new TagService(tagDao), new AuthorService(authorDao));
+        UserService userService = new UserService();
 
-        commands.put("logout",
-                new LogOutCommand());
-        commands.put("login",
-                new LoginCommand());
+        commands.put("logout", new LogOutCommand());
+        commands.put("login", new LoginCommand(userService));
         commands.put("exception", new ExceptionCommand());
-        commands.put("registration", new RegistrationCommand());
+        commands.put("registration", new RegistrationCommand(userService));
         commands.put("user", new UserCommand());
         commands.put("error", new ErrorCommand());
         commands.put("admin", new AdminCommand());
@@ -82,6 +79,8 @@ public class Servlet extends javax.servlet.http.HttpServlet { //todo change coll
         String page = command.execute(request);
         if (page.contains(REDIRECT)) {
             response.sendRedirect(/*request.getContextPath() + */page.replace(REDIRECT, ""));
+        } else if (page.contains("{")) {
+            response.getWriter().print(page);
         } else {
             request.getRequestDispatcher(page).forward(request, response);
         }
