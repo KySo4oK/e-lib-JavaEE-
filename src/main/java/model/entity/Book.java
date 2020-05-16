@@ -34,9 +34,7 @@ public class Book {
         return available == book.available &&
                 bookId.equals(book.bookId) &&
                 name.equals(book.name) &&
-                nameUa.equals(book.nameUa) &&
-                authors.equals(book.authors) &&
-                tags.equals(book.tags);
+                nameUa.equals(book.nameUa);
     }
 
     @Override

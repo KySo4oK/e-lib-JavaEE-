@@ -36,9 +36,12 @@ public interface OrderDao extends GenericDao<Order> {
             "         left join users on orders.user_id = users.user_id";
     String SQL_FIND_BY_ID = SQL_FIND_ALL + " where order_id = ?";
     String SQL_FIND_BY_ACTIVE = SQL_FIND_ALL + " where active = ?";
+    String SQL_FIND_BY_ACTIVE_AND_USERNAME = SQL_FIND_ALL + " where active = ? and users.username = ?";
     String SQL_INSERT = "insert into orders (book_id, user_id, active, end_date, start_date) values (?, ?, ?, ?, ?)";
     String SQL_UPDATE = "update orders set active = ? where order_id = ?";
     String SQL_DELETE = "delete from orders where order_id = ?";
 
     List<Order> findAllByActive(Boolean active);
+
+    List<Order> findAllByActiveAndUser_Username(boolean active, String username);
 }

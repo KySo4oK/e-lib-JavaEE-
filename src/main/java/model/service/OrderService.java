@@ -85,13 +85,13 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
-//    public List<OrderDTO> getActiveOrdersByUserName(String name) {
-//        log.info("active orders by username {}", name);
-//        return orderDao.findAllByActiveIsTrueAndUser_Username(name)
-//                .stream()
-//                .map(this::buildOrderDTO)
-//                .collect(Collectors.toList());
-//    } todo
+    public List<OrderDTO> getActiveOrdersByUserName(String name) {
+        log.info("active orders by username {}", name);
+        return orderDao.findAllByActiveAndUser_Username(true, name)
+                .stream()
+                .map(this::buildOrderDTO)
+                .collect(Collectors.toList());
+    }
 
     private OrderDTO buildOrderDTO(Order order) {
         return OrderDTO.Builder.anOrderDTO()
@@ -116,24 +116,24 @@ public class OrderService {
                 Locale.ENGLISH);
     }
 
-//    public List<OrderDTO> getPassiveOrdersByUserName(String name) {
-//        log.info("passive orders by username {}", name);
-//        return orderDao.findAllByActiveIsFalseAndUser_Username(name)
-//                .stream()
-//                .map(this::buildOrderDTO)
-//                .collect(Collectors.toList());
-//    }
+    public List<OrderDTO> getPassiveOrdersByUserName(String name) {
+        log.info("passive orders by username {}", name);
+        return orderDao.findAllByActiveAndUser_Username(false, name)
+                .stream()
+                .map(this::buildOrderDTO)
+                .collect(Collectors.toList());
+    }
 
-//    public void returnBook(OrderDTO orderDTO) {
-//        log.info("return book {}", orderDTO.getBookName());
-//        saveBookAndDeleteOrder(getOrderAndPrepareBookForReturning(orderDTO));
-//    }
+    public void returnBook(OrderDTO orderDTO) {
+        log.info("return book {}", orderDTO.getBookName());
+        saveBookAndDeleteOrder(getOrderAndPrepareBookForReturning(orderDTO));
+    }
 
 //    @Transactional
-//    void saveBookAndDeleteOrder(Order order) {
-//        bookDao.save(order.getBook());
-//        orderDao.delete(order);
-//    }
+    void saveBookAndDeleteOrder(Order order) {
+        bookDao.update(order.getBook());
+        orderDao.delete(order.getOrderId());
+    }
 
     private Order getOrderAndPrepareBookForReturning(OrderDTO orderDTO) {
         Order order = orderDao

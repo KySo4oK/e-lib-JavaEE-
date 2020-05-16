@@ -2,6 +2,8 @@ package model.entity;
 
 import model.dto.UserDTO;
 
+import java.util.Objects;
+
 public class User {
     private Long id;
     private String username;
@@ -23,6 +25,24 @@ public class User {
 
     public enum ROLE {
         USER, ADMIN, UNKNOWN
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) &&
+                username.equals(user.username) &&
+                password.equals(user.password) &&
+                email.equals(user.email) &&
+                phone.equals(user.phone) &&
+                role == user.role;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username, password, email, phone, role);
     }
 
     private ROLE role;

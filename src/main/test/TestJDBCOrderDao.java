@@ -27,42 +27,14 @@ public class TestJDBCOrderDao {
             Assert.assertFalse(order.isActive());
         }
     }
-//
-//    @Test
-//    public void testFindByNameUa() {
-//        List<Order> orders = orderDao.findAll();
-//        for (Order order : orders) {
-//            Assert.assertEquals(orderDao.findByNameUa(order.getNameUa()).getNameUa(), order.getNameUa());
-//        }
-//    }
-//
-//    @Test
-//    public void testCreate() {
-//        Order order = Order.Builder.anAuthor().name("test").nameUa("test_ua").build();
-//        orderDao.create(order);
-//        Assert.assertEquals(order.getName(), orderDao.findByName(order.getName()).getName());
-//    }
-//
-//    @Test
-//    public void testDelete() {
-//        Author author = Author.Builder.anAuthor().name("test").nameUa("test_ua").build();
-//        orderDao.delete(orderDao.findByName(author.getName()).getAuthorId());
-//        Assert.assertNull(orderDao.findByName(author.getName()));
-//    }
-//
-//    @Test
-//    public void testFindById() {
-//        Author author = orderDao.findAll().get(0);
-//        Assert.assertEquals(author.getName(), orderDao.findById(author.getAuthorId()).getName());
-//    }
-//    @Test
-//    public void testUpdate(){
-//        Author author = Author.Builder.anAuthor().name("test").nameUa("test_ua").build();
-//        orderDao.create(author);
-//        author = orderDao.findByNameUa(author.getNameUa());
-//        author.setName("test_another");
-//        orderDao.update(author);
-//        Assert.assertEquals(author.getName(), orderDao.findByNameUa(author.getNameUa()).getName());
-//        orderDao.delete(author.getAuthorId());
-//    }
+
+    @Test
+    public void testFindAllByActiveAndUser_Username() {
+        List<Order> orders = orderDao.findAll();
+        for (Order order : orders) {
+            List<Order> orderList = orderDao
+                    .findAllByActiveAndUser_Username(order.isActive(), order.getUser().getUsername());
+            Assert.assertTrue(orderList.contains(order));
+        }
+    }
 }

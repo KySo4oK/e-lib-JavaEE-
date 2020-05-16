@@ -1,13 +1,11 @@
 package model.dao.impl;
 
 import model.dao.OrderDao;
-import model.dao.mapper.impl.BookMapper;
 import model.dao.mapper.impl.OrderMapper;
-import model.dao.mapper.impl.UserMapper;
 import model.entity.*;
 
-import java.sql.*;
 import java.sql.Date;
+import java.sql.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -31,6 +29,30 @@ public class JDBCOrderDao implements OrderDao {
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ACTIVE);
             statement.setBoolean(1, active);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Order order = orderMapper.fullExtractFromResultSet(rs, orders, books, tags, authors, users);
+                resultList.add(order);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return resultList.stream().distinct().collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Order> findAllByActiveAndUser_Username(boolean active, String username) {
+        List<Order> resultList = new ArrayList<>();
+        Map<Long, Order> orders = new HashMap<>();
+        Map<Long, Book> books = new HashMap<>();
+        Map<Long, User> users = new HashMap<>();
+        Map<Long, Author> authors = new HashMap<>();
+        Map<Long, Tag> tags = new HashMap<>();
+
+        try {
+            PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ACTIVE_AND_USERNAME);
+            statement.setBoolean(1, active);
+            statement.setString(2, username);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 Order order = orderMapper.fullExtractFromResultSet(rs, orders, books, tags, authors, users);

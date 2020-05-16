@@ -1,6 +1,7 @@
 package model.entity;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Order {
     private Long orderId;
@@ -34,6 +35,24 @@ public class Order {
         this.active = active;
         this.startDate = startDate;
         this.endDate = endDate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return active == order.active &&
+                Objects.equals(orderId, order.orderId) &&
+                user.equals(order.user) &&
+                book.equals(order.book) &&
+                startDate.equals(order.startDate) &&
+                endDate.equals(order.endDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(orderId, user, book, active, startDate, endDate);
     }
 
     public Long getOrderId() {
