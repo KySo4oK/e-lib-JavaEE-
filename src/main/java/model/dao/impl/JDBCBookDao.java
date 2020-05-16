@@ -64,8 +64,10 @@ public class JDBCBookDao implements BookDao {
         Map<Long, Author> authors = new HashMap<>();
         try {
             PreparedStatement statement = connection.prepareStatement(sqlFindByFilterUa);
-            statement.setString(1, String.join(", ", authorsStrings));
-            statement.setString(2, String.join(", ", tagsStrings));
+            statement.setArray(1,
+                    statement.getConnection().createArrayOf("text", authorsStrings));
+            statement.setArray(2,
+                    statement.getConnection().createArrayOf("text", tagsStrings));
             statement.setString(3, partOfName);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {

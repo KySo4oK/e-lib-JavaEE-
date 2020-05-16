@@ -35,12 +35,12 @@ public interface BookDao extends GenericDao<Book> {
             "       from book_author\n" +
             "       where author_id in (select author_id\n" +
             "                           from author\n" +
-            "                           where name in (?)))\n" +
+            "                           where name in (SELECT * FROM unnest(?))))\n" +
             "  and book.book_id in (select book_id\n" +
             "                       from book_tag\n" +
             "                       where tag_id in (select tag_id\n" +
             "                                        from tag\n" +
-            "                                        where name in (?)))\n" +
+            "                                        where name in (SELECT * FROM unnest(?))))\n" +
             "  and book.name like ?";
     String SQL_FIND_BY_FILTER_UA = SQL_FIND_ALL + " where available = true\n" +
             "  and book.book_id in\n" +
@@ -48,12 +48,12 @@ public interface BookDao extends GenericDao<Book> {
             "       from book_author\n" +
             "       where author_id in (select author_id\n" +
             "                           from author\n" +
-            "                           where name_ua in (?)))\n" +
+            "                           where name_ua in (SELECT * FROM unnest(?))))\n" +
             "  and book.book_id in (select book_id\n" +
             "                       from book_tag\n" +
             "                       where tag_id in (select tag_id\n" +
             "                                        from tag\n" +
-            "                                        where name_ua in (?)))\n" +
+            "                                        where name_ua in (SELECT * FROM unnest(?))))\n" +
             "  and book.name_ua like ?";
 
     Optional<Book> findByName(String name);
