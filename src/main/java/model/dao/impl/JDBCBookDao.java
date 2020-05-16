@@ -9,6 +9,7 @@ import model.entity.Tag;
 import java.sql.*;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class JDBCBookDao implements BookDao {
     private final Connection connection;
@@ -63,8 +64,8 @@ public class JDBCBookDao implements BookDao {
         Map<Long, Author> authors = new HashMap<>();
         try {
             PreparedStatement statement = connection.prepareStatement(sqlFindByFilterUa);
-            statement.setArray(1, connection.createArrayOf("varchar", authorsStrings));
-            statement.setArray(2, connection.createArrayOf("varchar", tagsStrings));
+            statement.setString(1, String.join(", ", authorsStrings));
+            statement.setString(2, String.join(", ", tagsStrings));
             statement.setString(3, partOfName);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
