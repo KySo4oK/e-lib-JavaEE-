@@ -3,8 +3,8 @@ package controller;
 import controller.command.Command;
 import controller.command.impl.*;
 import controller.command.impl.admin.*;
-import controller.command.impl.user.GetActiveOrdersByUsername;
-import controller.command.impl.user.GetPassiveOrdersByUsername;
+import controller.command.impl.user.GetActiveOrdersByUsernameCommand;
+import controller.command.impl.user.GetPassiveOrdersByUsernameCommand;
 import controller.command.impl.user.ProspectusCommand;
 import controller.command.impl.user.UserCommand;
 import model.dao.*;
@@ -58,8 +58,8 @@ public class Servlet extends javax.servlet.http.HttpServlet { //todo change coll
         commands.put("active", new GetActiveOrdersCommand(orderService));
         commands.put("passive", new GetPassiveOrdersCommand(orderService));
         commands.put("permit", new PermitOrderCommand(orderService));
-        commands.put("user/active", new GetActiveOrdersByUsername(orderService));
-        commands.put("user/passive", new GetPassiveOrdersByUsername(orderService));
+        commands.put("user/active", new GetActiveOrdersByUsernameCommand(orderService));
+        commands.put("user/passive", new GetPassiveOrdersByUsernameCommand(orderService));
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

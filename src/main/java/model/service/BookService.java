@@ -32,7 +32,7 @@ public class BookService {
         this.authorService = authorService;
     }
 
-    public List<BookDTO> getAvailableBooks(Pageable pageable) {
+    public List<BookDTO> getAvailableBooks(/*Pageable pageable*/) {
         //return bookDao.findAllByAvailableIsTrue(pageable) //todo
         return bookDao.findAll()
                 .stream()
@@ -98,15 +98,15 @@ public class BookService {
                 .build();
     }
 
-    public List<BookDTO> getAvailableBooksByFilter(FilterDTO filterDTO, Pageable pageable) {
-        return getBooksByFilter(filterDTO, pageable)
+    public List<BookDTO> getAvailableBooksByFilter(FilterDTO filterDTO/*, Pageable pageable*/) {//todo
+        return getBooksByFilter(filterDTO/*, pageable*/)
                 .stream()
                 .map(this::buildBookDTO)
                 .collect(Collectors.toList());
 
     }
 
-    private List<Book> getBooksByFilter(FilterDTO filterDTO, Pageable pageable) {
+    private List<Book> getBooksByFilter(FilterDTO filterDTO/*, Pageable pageable*/) {
         return /*LocaleContextHolder.getLocale().equals(Locale.ENGLISH)*/true ?
                 bookDao.getBooksByFilter(
                         filterDTO.getName(),
