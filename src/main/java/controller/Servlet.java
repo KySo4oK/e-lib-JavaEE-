@@ -3,10 +3,7 @@ package controller;
 import controller.command.Command;
 import controller.command.impl.*;
 import controller.command.impl.admin.*;
-import controller.command.impl.user.GetActiveOrdersByUsernameCommand;
-import controller.command.impl.user.GetPassiveOrdersByUsernameCommand;
-import controller.command.impl.user.ProspectusCommand;
-import controller.command.impl.user.UserCommand;
+import controller.command.impl.user.*;
 import model.dao.*;
 import model.service.*;
 
@@ -41,6 +38,8 @@ public class Servlet extends javax.servlet.http.HttpServlet { //todo change coll
                 new BookService(bookDao, shelfDao, new TagService(tagDao), new AuthorService(authorDao));
         UserService userService = new UserService();
         OrderService orderService = new OrderService(orderDao, bookDao, shelfDao, userDao);
+        TagService tagService = new TagService(tagDao);
+        AuthorService authorService = new AuthorService(authorDao);
 
         commands.put("logout", new LogOutCommand());
         commands.put("login", new LoginCommand(userService));
@@ -60,6 +59,12 @@ public class Servlet extends javax.servlet.http.HttpServlet { //todo change coll
         commands.put("permit", new PermitOrderCommand(orderService));
         commands.put("user/active", new GetActiveOrdersByUsernameCommand(orderService));
         commands.put("user/passive", new GetPassiveOrdersByUsernameCommand(orderService));
+        commands.put("return", new ReturnBookCommand(orderService));
+        commands.put("order", new OrderBookCommand(orderService));
+        commands.put("filter/{page}/number", new GetAvailableBooksByFilterCommand(bookService));//todo
+        commands.put("books/{page}/number", new GetAvailableBooksCommand(bookService));//todo
+        commands.put("tags", new GetTagsCommand(tagService));
+        commands.put("authors", new GetAuthorsCommand(authorService));
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
