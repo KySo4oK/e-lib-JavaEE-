@@ -27,7 +27,6 @@ public class AddBookCommand implements Command {
     }
 
     private BookDTO getBookDTOFromRequest(HttpServletRequest request) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(request.getReader(), BookDTO.class);
+        return new ObjectMapper().readValue(request.getReader(), BookDTO.class);
     }
 }
