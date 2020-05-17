@@ -61,8 +61,8 @@ public class Servlet extends javax.servlet.http.HttpServlet { //todo change coll
         commands.put("user/passive", new GetPassiveOrdersByUsernameCommand(orderService));
         commands.put("return", new ReturnBookCommand(orderService));
         commands.put("order", new OrderBookCommand(orderService));
-        commands.put("filter/{page}/number", new GetAvailableBooksByFilterCommand(bookService));//todo
-        commands.put("books/{page}/number", new GetAvailableBooksCommand(bookService));//todo
+        commands.put("filter/{page}/{number}", new GetAvailableBooksByFilterCommand(bookService));//todo
+        commands.put("books/{page}/{number}", new GetAvailableBooksCommand(bookService));//todo
         commands.put("tags", new GetTagsCommand(tagService));
         commands.put("authors", new GetAuthorsCommand(authorService));
     }
