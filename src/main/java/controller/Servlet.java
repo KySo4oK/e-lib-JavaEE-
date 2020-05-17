@@ -3,13 +3,12 @@ package controller;
 import controller.command.Command;
 import controller.command.impl.*;
 import controller.command.impl.admin.*;
+import controller.command.impl.user.GetActiveOrdersByUsername;
+import controller.command.impl.user.GetPassiveOrdersByUsername;
 import controller.command.impl.user.ProspectusCommand;
 import controller.command.impl.user.UserCommand;
 import model.dao.*;
-import model.service.AuthorService;
-import model.service.BookService;
-import model.service.TagService;
-import model.service.UserService;
+import model.service.*;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -41,6 +40,7 @@ public class Servlet extends javax.servlet.http.HttpServlet { //todo change coll
         BookService bookService =
                 new BookService(bookDao, shelfDao, new TagService(tagDao), new AuthorService(authorDao));
         UserService userService = new UserService();
+        OrderService orderService = new OrderService(orderDao, bookDao, shelfDao, userDao);
 
         commands.put("logout", new LogOutCommand());
         commands.put("login", new LoginCommand(userService));
@@ -55,6 +55,11 @@ public class Servlet extends javax.servlet.http.HttpServlet { //todo change coll
         commands.put("add", new AddBookCommand(bookService));
         commands.put("edit", new EditBookCommand(bookService));
         commands.put("delete/{id}", new DeleteBookCommand(bookService));//todo change key
+        commands.put("active", new GetActiveOrdersCommand(orderService));
+        commands.put("passive", new GetPassiveOrdersCommand(orderService));
+        commands.put("permit", new PermitOrderCommand(orderService));
+        commands.put("user/active", new GetActiveOrdersByUsername(orderService));
+        commands.put("user/passive", new GetPassiveOrdersByUsername(orderService));
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
