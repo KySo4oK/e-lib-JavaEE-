@@ -8,10 +8,10 @@ import model.service.OrderService;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class getPassiveOrdersCommand implements Command {
+public class GetPassiveOrdersCommand implements Command {
     private final OrderService orderService;
 
-    public getPassiveOrdersCommand(OrderService orderService) {
+    public GetPassiveOrdersCommand(OrderService orderService) {
         this.orderService = orderService;
     }
 

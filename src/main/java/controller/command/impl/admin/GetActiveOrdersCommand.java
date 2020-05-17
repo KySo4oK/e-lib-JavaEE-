@@ -1,4 +1,4 @@
-package controller.command.admin;
+package controller.command.impl.admin;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,10 +8,10 @@ import model.service.OrderService;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class getActiveOrdersCommand implements Command {
+public class GetActiveOrdersCommand implements Command {
     private final OrderService orderService;
 
-    public getActiveOrdersCommand(OrderService orderService) {
+    public GetActiveOrdersCommand(OrderService orderService) {
         this.orderService = orderService;
     }
 
