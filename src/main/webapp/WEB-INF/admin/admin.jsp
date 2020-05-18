@@ -40,6 +40,7 @@
                 <a style="float: right; margin-right: 5px" href="/user?language=en">
                     <fmt:message key="label.lang.en"/>
                 </a>
+            </span>
             <span><a style="float: right; margin-right: 5px" href="/logout">
                 <fmt:message key="logout"/>
             </a></span>
@@ -129,17 +130,17 @@
         },
         methods: {
             async getActiveOrders() {
-                let res = await axios.get('/active');
+                let res = await axios.get('/admin/active');
                 if (!res) return;
                 this.activeOrders = res.data;
             },
             async getPassiveOrders() {
-                let res = await axios.get('/passive');
+                let res = await axios.get('/admin/passive');
                 if (!res) return;
                 this.passiveOrders = res.data;
             },
             async permitOrder(order) {
-                let res = await axios.put('/permit', order)
+                let res = await axios.put('/admin/permit', order)
                     .catch(function (error) {
                         if (error.response) {
                             if (error.response.status == '404')

@@ -51,20 +51,20 @@ public class Servlet extends javax.servlet.http.HttpServlet { //todo change coll
         commands.put("index", new IndexCommand());
         commands.put("user/prospectus", new ProspectusCommand());
         commands.put("admin/bookManage", new BookManageCommand());
-        commands.put("add", new AddBookCommand(bookService));
-        commands.put("edit", new EditBookCommand(bookService));
-        commands.put("delete/{id}", new DeleteBookCommand(bookService));//todo change key
-        commands.put("active", new GetActiveOrdersCommand(orderService));
-        commands.put("passive", new GetPassiveOrdersCommand(orderService));
-        commands.put("permit", new PermitOrderCommand(orderService));
+        commands.put("admin/add", new AddBookCommand(bookService));
+        commands.put("admin/edit", new EditBookCommand(bookService));
+        commands.put("admin/delete/{id}", new DeleteBookCommand(bookService));//todo change key
+        commands.put("admin/active", new GetActiveOrdersCommand(orderService));
+        commands.put("admin/passive", new GetPassiveOrdersCommand(orderService));
+        commands.put("admin/permit", new PermitOrderCommand(orderService));
         commands.put("user/active", new GetActiveOrdersByUsernameCommand(orderService));
         commands.put("user/passive", new GetPassiveOrdersByUsernameCommand(orderService));
-        commands.put("return", new ReturnBookCommand(orderService));
-        commands.put("order", new OrderBookCommand(orderService));
-        commands.put("filter/{page}/{number}", new GetAvailableBooksByFilterCommand(bookService));//todo
-        commands.put("books/{page}/{number}", new GetAvailableBooksCommand(bookService));//todo
-        commands.put("tags", new GetTagsCommand(tagService));
-        commands.put("authors", new GetAuthorsCommand(authorService));
+        commands.put("user/return", new ReturnBookCommand(orderService));
+        commands.put("user/order", new OrderBookCommand(orderService));
+        commands.put("user-admin/filter/{page}/{number}", new GetAvailableBooksByFilterCommand(bookService));//todo
+        commands.put("user-admin/books/{page}/{number}", new GetAvailableBooksCommand(bookService));//todo
+        commands.put("user-admin/tags", new GetTagsCommand(tagService));
+        commands.put("user-admin/authors", new GetAuthorsCommand(authorService));
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

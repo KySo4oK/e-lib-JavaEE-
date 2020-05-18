@@ -40,6 +40,7 @@
                 <a style="float: right; margin-right: 5px" href="/user?language=en">
                     <fmt:message key="label.lang.en"/>
                 </a>
+            </span>
             <span><a style="float: right; margin-right: 5px" href="/logout">
                 <fmt:message key="logout"/>
             </a></span>
@@ -244,7 +245,7 @@
         },
         methods: {
             async addBook() {
-                let res = await axios.post('/add', this.addedBook)
+                let res = await axios.post('/admin/add', this.addedBook)
                     .catch(function (error) {
                         if (error.response) {
                             if(error.response.status == '404')
@@ -263,7 +264,7 @@
                     authors: this.addedAuthors,
                     name: '%' + this.partOfName + '%',
                 };
-                let res = await axios.post('/filter/' + this.page + "/5", filter);
+                let res = await axios.post('/user-admin/filter/' + this.page + "/5", filter);
                 if (!res) return;
                 if (this.page === 0) {
                     this.books = res.data;
@@ -273,23 +274,23 @@
                 this.page++;
             },
             async getTags() {
-                let res = await axios.get('/tags');
+                let res = await axios.get('/user-admin/tags');
                 if (!res) return;
                 this.tags = res.data;
                 console.log(this.books);
             },
             async getBooks() {
-                let res = await axios.get('/books/' + this.page + "/5");
+                let res = await axios.get('/user-admin/books/' + this.page + "/5");
                 if (!res) return;
                 this.books = this.books.concat(res.data);
             },
             async getAuthors() {
-                let res = await axios.get('/authors');
+                let res = await axios.get('/user-admin/authors');
                 if (!res) return;
                 this.authors = res.data;
             },
             async editBook(book) {
-                let res = await axios.put('/edit', book)
+                let res = await axios.put('/admin/edit', book)
                     .catch(function (error) {
                     if (error.response) {
                         if(error.response.status == '404')
@@ -302,7 +303,7 @@
                 await this.getBooks();
             },
             async deleteBook(book) {
-                let res = await axios.delete('/delete/' + book.id)
+                let res = await axios.delete('/admin/delete/' + book.id)
                     .catch(function (error) {
                         if (error.response) {
                             if(error.response.status == '404')
