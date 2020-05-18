@@ -81,12 +81,27 @@ public class JDBCBookDao implements BookDao {
 
     @Override
     public void create(Book entity) {
-        try {
-            PreparedStatement statement = connection.prepareStatement(SQL_INSERT_BOOK_FIELDS);
+        try (PreparedStatement statement = connection.prepareStatement(SQL_INSERT_BOOK_FIELDS);
+             PreparedStatement statementForTags = connection.prepareStatement(SQL_INSERT_INTO_BOOK_TAG);
+             PreparedStatement statementForAuthors = connection.prepareStatement(SQL_INSERT_INTO_BOOK_AUTHOR)) {
             statement.setString(1, entity.getName());
             statement.setString(2, entity.getNameUa());
             statement.setBoolean(3, entity.isAvailable());
+
+            for (Tag tag : entity.getTags()) {
+                statementForTags.setString(1, entity.getName());
+                statementForTags.setLong(2, tag.getTagId());
+                statementForTags.addBatch();
+            }
+
+            for (Author author : entity.getAuthors()) {
+                statementForAuthors.setString(1, entity.getName());
+                statementForAuthors.setLong(2, author.getAuthorId());
+            }
+
             statement.execute();
+            statementForTags.executeBatch();
+            statementForAuthors.executeBatch();
         } catch (SQLException e) {
             e.printStackTrace();
         }

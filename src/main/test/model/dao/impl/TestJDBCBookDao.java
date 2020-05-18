@@ -49,4 +49,13 @@ public class TestJDBCBookDao {
             Assert.assertTrue(booksByFilter.contains(book));
         }
     }
+
+    @Test
+    public void testCreate(){
+
+    }
+    @Test
+    public void testDelete(){
+
+    }
 }
