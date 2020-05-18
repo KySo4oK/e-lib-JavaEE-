@@ -82,7 +82,7 @@ public class Servlet extends javax.servlet.http.HttpServlet { //todo change coll
         String path = request.getRequestURI();
         System.out.println(path);
         log.info("path " + path);
-        path = path.replaceAll("/", "");
+        path = path.replaceFirst("/", "");
         System.out.println(path);
         Command command = commands.getOrDefault(path,
                 (r) -> "index");
