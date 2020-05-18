@@ -47,7 +47,7 @@
             <span><a style="float: right; margin-right: 5px" href="/user">
                 <fmt:message key="my.books"/>
             </a></span>
-            <span><a style="float: right; margin-right: 5px" href="/prospectus">
+            <span><a style="float: right; margin-right: 5px" href="/user/prospectus">
                 <fmt:message key="prospectus"/>
             </a></span>
             <span><a style="float: right; margin-right: 5px" href="/">

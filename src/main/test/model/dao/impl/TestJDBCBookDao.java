@@ -1,5 +1,6 @@
+package model.dao.impl;
+
 import model.dao.BookDao;
-import model.dao.impl.JDBCDaoFactory;
 import model.entity.Author;
 import model.entity.Book;
 import model.entity.Tag;

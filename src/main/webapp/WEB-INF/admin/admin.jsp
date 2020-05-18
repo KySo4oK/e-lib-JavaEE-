@@ -32,12 +32,12 @@
         <div class="navbar navbar-default" style="background-color: aquamarine; margin: 0 !important">
             <h1 style="float: left">{{ siteName }}</h1>
             <span>
-                <a style="float: right; margin-right: 5px" href="/user?language=ua">
+                <a style="float: right; margin-right: 5px" href="/admin?language=ua">
                     <fmt:message key="label.lang.ua"/>
                 </a>
             </span>
             <span>
-                <a style="float: right; margin-right: 5px" href="/user?language=en">
+                <a style="float: right; margin-right: 5px" href="/admin?language=en">
                     <fmt:message key="label.lang.en"/>
                 </a>
             </span>
@@ -45,12 +45,12 @@
                 <fmt:message key="logout"/>
             </a></span>
             <span>
-                <a style="float: right; margin-right: 5px" href="/book">
+                <a style="float: right; margin-right: 5px" href="/admin/bookManage">
                     <fmt:message key="books"/>
                 </a>
             </span>
             <span>
-                <a style="float: right; margin-right: 5px" href="/orders">
+                <a style="float: right; margin-right: 5px" href="/admin/orders">
                     <fmt:message key="orders"/>
                 </a>
             </span>

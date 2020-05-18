@@ -1,5 +1,6 @@
+package model.dao.impl;
+
 import model.dao.ShelfDao;
-import model.dao.impl.JDBCDaoFactory;
 import model.entity.Shelf;
 import org.junit.Assert;
 import org.junit.Test;

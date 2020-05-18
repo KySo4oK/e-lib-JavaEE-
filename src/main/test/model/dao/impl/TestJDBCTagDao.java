@@ -1,5 +1,6 @@
+package model.dao.impl;
+
 import model.dao.TagDao;
-import model.dao.impl.JDBCDaoFactory;
 import model.entity.Tag;
 import org.junit.Assert;
 import org.junit.Test;

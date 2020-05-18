@@ -1,5 +1,6 @@
+package model.dao.impl;
+
 import model.dao.OrderDao;
-import model.dao.impl.JDBCDaoFactory;
 import model.entity.Order;
 import org.junit.Assert;
 import org.junit.Test;

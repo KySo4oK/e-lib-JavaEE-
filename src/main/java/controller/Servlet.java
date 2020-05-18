@@ -12,9 +12,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Servlet extends javax.servlet.http.HttpServlet { //todo change collections for safe
     private Map<String, Command> commands = new HashMap<>();
@@ -53,7 +55,7 @@ public class Servlet extends javax.servlet.http.HttpServlet { //todo change coll
         commands.put("admin/bookManage", new BookManageCommand());
         commands.put("admin/add", new AddBookCommand(bookService));
         commands.put("admin/edit", new EditBookCommand(bookService));
-        commands.put("admin/delete/{id}", new DeleteBookCommand(bookService));//todo change key
+        commands.put("admin/delete", new DeleteBookCommand(bookService));
         commands.put("admin/active", new GetActiveOrdersCommand(orderService));
         commands.put("admin/passive", new GetPassiveOrdersCommand(orderService));
         commands.put("admin/permit", new PermitOrderCommand(orderService));
@@ -61,8 +63,8 @@ public class Servlet extends javax.servlet.http.HttpServlet { //todo change coll
         commands.put("user/passive", new GetPassiveOrdersByUsernameCommand(orderService));
         commands.put("user/return", new ReturnBookCommand(orderService));
         commands.put("user/order", new OrderBookCommand(orderService));
-        commands.put("user-admin/filter/{page}/{number}", new GetAvailableBooksByFilterCommand(bookService));//todo
-        commands.put("user-admin/books/{page}/{number}", new GetAvailableBooksCommand(bookService));//todo
+        commands.put("user-admin/filter", new GetAvailableBooksByFilterCommand(bookService));
+        commands.put("user-admin/books", new GetAvailableBooksCommand(bookService));
         commands.put("user-admin/tags", new GetTagsCommand(tagService));
         commands.put("user-admin/authors", new GetAuthorsCommand(authorService));
     }
@@ -80,9 +82,8 @@ public class Servlet extends javax.servlet.http.HttpServlet { //todo change coll
     private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String path = request.getRequestURI();
-        System.out.println(path);
         log.info("path " + path);
-        path = path.replaceFirst("/", "");
+        path = getPathForChoosingCommand(path);
         System.out.println(path);
         Command command = commands.getOrDefault(path,
                 (r) -> "index");
@@ -94,5 +95,10 @@ public class Servlet extends javax.servlet.http.HttpServlet { //todo change coll
         } else {
             request.getRequestDispatcher(page).forward(request, response);
         }
+    }
+
+    private String getPathForChoosingCommand(String path) {
+        return Arrays.stream(path.replaceFirst("/", "").split("/"))
+                .limit(2).collect(Collectors.joining("/"));
     }
 }

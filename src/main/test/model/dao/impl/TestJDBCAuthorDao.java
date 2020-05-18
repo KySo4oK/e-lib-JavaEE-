@@ -1,5 +1,6 @@
+package model.dao.impl;
+
 import model.dao.AuthorDao;
-import model.dao.impl.JDBCDaoFactory;
 import model.entity.Author;
 import org.junit.Assert;
 import org.junit.Test;
