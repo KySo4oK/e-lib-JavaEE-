@@ -89,7 +89,7 @@ public class Servlet extends javax.servlet.http.HttpServlet { //todo change coll
         String page = command.execute(request);
         if (page.contains(REDIRECT)) {
             response.sendRedirect(/*request.getContextPath() + */page.replace(REDIRECT, ""));
-        } else if (page.contains("{")) {
+        } else if (page.contains("{") || page.contains("[")) {
             response.getWriter().print(page);
         } else {
             request.getRequestDispatcher(page).forward(request, response);
