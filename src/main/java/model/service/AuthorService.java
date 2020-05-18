@@ -1,30 +1,27 @@
 package model.service;
 
 import model.dao.AuthorDao;
+import model.dao.DaoFactory;
 import model.entity.Author;
 import model.exception.AuthorNotFoundException;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class AuthorService {
-    private final AuthorDao authorDao;
+    private final DaoFactory daoFactory = DaoFactory.getInstance();
     private static final org.apache.logging.log4j.Logger log
             = org.apache.logging.log4j.LogManager.getLogger(AuthorService.class);
 
-    public AuthorService(AuthorDao authorDao) {
-        this.authorDao = authorDao;
-    }
-
     public List<String> getAllAuthors() {
-        return
-                authorDao.findAll()
-                        .stream()
-                        .map(this::getNameByLocale)
-                        .collect(Collectors.toList());
+        try (AuthorDao authorDao = daoFactory.createAuthorDao()) {
+            return authorDao.findAll()
+                    .stream()
+                    .map(this::getNameByLocale)
+                    .collect(Collectors.toList());
+        }
     }
 
     private String getNameByLocale(Author author) {
@@ -40,7 +37,10 @@ public class AuthorService {
     }
 
     private Optional<Author> getByNameWithLocale(String author) {
-        return /*LocaleContextHolder.getLocale().equals(Locale.ENGLISH)*/true ?
-                authorDao.findByName(author) : authorDao.findByNameUa(author);
+        try (AuthorDao authorDao = daoFactory.createAuthorDao()) {
+            return /*LocaleContextHolder.getLocale().equals(Locale.ENGLISH)*/true ?
+                    authorDao.findByName(author) : authorDao.findByNameUa(author);
+        }
+
     }
 }

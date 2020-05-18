@@ -5,22 +5,22 @@ import model.dao.TagDao;
 import model.entity.Tag;
 import model.exception.TagNotFoundException;
 
-
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class TagService {
-    private final TagDao tagDao;
-
-    public TagService(TagDao tagDao) {
-        this.tagDao = tagDao;
-    }
+    private final DaoFactory daoFactory = DaoFactory.getInstance();
 
     public List<String> getAllTags() {
-        return tagDao.findAll()
-                .stream()
-                .map(this::getTagsByLocale)
-                .collect(Collectors.toList());
+        try (TagDao tagDao = daoFactory.createTagDao()) {
+            return tagDao.findAll()
+                    .stream()
+                    .map(this::getTagsByLocale)
+                    .collect(Collectors.toList());
+
+        }
     }
 
     private String getTagsByLocale(Tag tag) {
@@ -37,7 +37,9 @@ public class TagService {
     }
 
     private Optional<Tag> getByNameAndLocale(String tag) {
-        return /*LocaleContextHolder.getLocale().equals(Locale.ENGLISH)*/true ? //todo l10n
-                tagDao.findByName(tag) : tagDao.findByNameUa(tag);
+        try (TagDao tagDao = daoFactory.createTagDao()) {
+            return /*LocaleContextHolder.getLocale().equals(Locale.ENGLISH)*/true ? //todo l10n
+                    tagDao.findByName(tag) : tagDao.findByNameUa(tag);
+        }
     }
 }

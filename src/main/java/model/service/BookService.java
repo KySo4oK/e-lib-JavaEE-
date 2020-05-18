@@ -1,6 +1,7 @@
 package model.service;
 
 import model.dao.BookDao;
+import model.dao.DaoFactory;
 import model.dao.ShelfDao;
 import model.dto.BookDTO;
 import model.dto.FilterDTO;
@@ -10,34 +11,30 @@ import model.entity.Shelf;
 import model.entity.Tag;
 import model.exception.BookNotFoundException;
 
-import java.awt.print.Pageable;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class BookService {
-    private final BookDao bookDao;
-    private final ShelfDao shelfDao;
+    private final DaoFactory daoFactory = DaoFactory.getInstance();
     private final TagService tagService;
     private final AuthorService authorService;
     private static final org.apache.logging.log4j.Logger log
             = org.apache.logging.log4j.LogManager.getLogger(BookService.class);
 
-    public BookService(BookDao bookDao,
-                       ShelfDao shelfDao,
-                       TagService tagService,
+    public BookService(TagService tagService,
                        AuthorService authorService) {
-        this.bookDao = bookDao;
-        this.shelfDao = shelfDao;
         this.tagService = tagService;
         this.authorService = authorService;
     }
 
     public List<BookDTO> getAvailableBooks(/*Pageable pageable*/) {
         //return bookDao.findAllByAvailableIsTrue(pageable) //todo
-        return bookDao.findAll()
-                .stream()
-                .map(this::buildBookDTO)
-                .collect(Collectors.toList());
+        try (BookDao bookDao = daoFactory.createBookDao()) {
+            return bookDao.findAll()
+                    .stream()
+                    .map(this::buildBookDTO)
+                    .collect(Collectors.toList());
+        }
     }
 
     private BookDTO buildBookDTO(Book book) {
@@ -80,11 +77,14 @@ public class BookService {
     //@Transactional
     public void saveNewBookFromClient(BookDTO bookDTO) {
         log.info("create book {}", bookDTO);
-        Shelf shelf = shelfDao.findByBookId(null).orElse(new Shelf());
-        Book book = BuildBookFromClient(bookDTO, shelf);
-        bookDao.create(book);
-        shelf.setBook(book);
-        shelfDao.create(shelf);
+        try (BookDao bookDao = daoFactory.createBookDao();
+             ShelfDao shelfDao = daoFactory.createShelfDao()) {
+            Shelf shelf = shelfDao.findByBookId(null).orElse(new Shelf());
+            Book book = BuildBookFromClient(bookDTO, shelf);
+            bookDao.create(book);
+            shelf.setBook(book);
+            shelfDao.create(shelf);
+        }
     }
 
     private Book BuildBookFromClient(BookDTO bookDTO, Shelf shelf) {
@@ -107,33 +107,41 @@ public class BookService {
     }
 
     private List<Book> getBooksByFilter(FilterDTO filterDTO/*, Pageable pageable*/) {
-        return /*LocaleContextHolder.getLocale().equals(Locale.ENGLISH)*/true ?
-                bookDao.getBooksByFilter(
-                        filterDTO.getName(),
-                        filterDTO.getAuthors(),
-                        filterDTO.getTags()/*, pageable*/) :
-                bookDao.getBooksByFilterUa(
-                        filterDTO.getName(),
-                        filterDTO.getAuthors(),
-                        filterDTO.getTags()/*, pageable*/);
+        try (BookDao bookDao = daoFactory.createBookDao()) {
+            return /*LocaleContextHolder.getLocale().equals(Locale.ENGLISH)*/true ?
+                    bookDao.getBooksByFilter(
+                            filterDTO.getName(),
+                            filterDTO.getAuthors(),
+                            filterDTO.getTags()/*, pageable*/) :
+                    bookDao.getBooksByFilterUa(
+                            filterDTO.getName(),
+                            filterDTO.getAuthors(),
+                            filterDTO.getTags()/*, pageable*/);
+        }
     }
 
     public void editBookAndSave(BookDTO bookDTO) throws BookNotFoundException {
         log.info("save book {}", bookDTO);
-        bookDao.update(getEditedBook(bookDTO));//todo normal updating
+        try (BookDao bookDao = daoFactory.createBookDao()) {
+            bookDao.update(getEditedBook(bookDTO));//todo normal updating
+        }
     }
 
     private Book getEditedBook(BookDTO bookDTO) {
-        Book book = bookDao
-                .findById(bookDTO.getId())
-                .orElseThrow(() -> new BookNotFoundException("book not exist"));
-        book.setAuthors(authorService.getAuthorsFromStringArray(bookDTO.getAuthors()));
-        book.setTags(tagService.getTagsByStringArray(bookDTO.getTags()));
-        return book;
+        try (BookDao bookDao = daoFactory.createBookDao()) {
+            Book book = bookDao
+                    .findById(bookDTO.getId())
+                    .orElseThrow(() -> new BookNotFoundException("book not exist"));
+            book.setAuthors(authorService.getAuthorsFromStringArray(bookDTO.getAuthors()));
+            book.setTags(tagService.getTagsByStringArray(bookDTO.getTags()));
+            return book;
+        }
     }
 
     public void deleteBook(long id) throws BookNotFoundException {
         log.info("delete book with id {}", id);
-        bookDao.delete(id);
+        try (BookDao bookDao = daoFactory.createBookDao()) {
+            bookDao.delete(id);
+        }
     }
 }

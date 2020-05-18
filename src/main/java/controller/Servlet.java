@@ -28,20 +28,12 @@ public class Servlet extends javax.servlet.http.HttpServlet { //todo change coll
 
         servletConfig.getServletContext()
                 .setAttribute("loggedUsers", new HashSet<String>());
-
-        DaoFactory daoFactory = DaoFactory.getInstance();
-        UserDao userDao = daoFactory.createUserDao();
-        TagDao tagDao = daoFactory.createTagDao();
-        OrderDao orderDao = daoFactory.createOrderDao();
-        ShelfDao shelfDao = daoFactory.createShelfDao();
-        AuthorDao authorDao = daoFactory.createAuthorDao();
-        BookDao bookDao = daoFactory.createBookDao();//todo use smt better
         BookService bookService =
-                new BookService(bookDao, shelfDao, new TagService(tagDao), new AuthorService(authorDao));
+                new BookService(new TagService(), new AuthorService());
         UserService userService = new UserService();
-        OrderService orderService = new OrderService(orderDao, bookDao, shelfDao, userDao);
-        TagService tagService = new TagService(tagDao);
-        AuthorService authorService = new AuthorService(authorDao);
+        OrderService orderService = new OrderService();
+        TagService tagService = new TagService();
+        AuthorService authorService = new AuthorService();
 
         commands.put("logout", new LogOutCommand());
         commands.put("login", new LoginCommand(userService));
