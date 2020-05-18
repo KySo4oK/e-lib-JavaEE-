@@ -73,9 +73,9 @@
     </div>
     <!--    add-->
     <div v-if="picked==1" id="add" style="max-width: 500px; margin: auto;">
-        <input id="book_name" type="text" class="form-control" th:placeholder="#{book.name.en}"
+        <input id="book_name" type="text" class="form-control" placeholder="<fmt:message key="book.name.en"/>"
                v-model="addedBook.name">
-        <input id="book_name_ua" type="text" class="form-control" th:placeholder="#{book.name.ua}"
+        <input id="book_name_ua" type="text" class="form-control" placeholder="<fmt:message key="book.name.en"/>"
                v-model="addedBook.nameUa">
         <!--            tags-->
         <div id="tagsChecks" class="col-md-6 boxes">
