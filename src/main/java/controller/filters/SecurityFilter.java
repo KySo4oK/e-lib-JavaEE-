@@ -8,9 +8,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-public class ServletSecurityFilter implements Filter {
+public class SecurityFilter implements Filter {
     private static final org.apache.logging.log4j.Logger log
-            = org.apache.logging.log4j.LogManager.getLogger(ServletSecurityFilter.class);
+            = org.apache.logging.log4j.LogManager.getLogger(SecurityFilter.class);
 
     public void destroy() {
     }
