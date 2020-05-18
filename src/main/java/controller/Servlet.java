@@ -4,8 +4,7 @@ import controller.command.Command;
 import controller.command.impl.*;
 import controller.command.impl.admin.*;
 import controller.command.impl.user.*;
-import model.dao.*;
-import model.service.*;
+import model.service.ServiceFactory;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -19,46 +18,43 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Servlet extends javax.servlet.http.HttpServlet { //todo change collections for safe
-    private Map<String, Command> commands = new HashMap<>();
+    private final Map<String, Command> commands = new HashMap<>();
     private static final org.apache.logging.log4j.Logger log
             = org.apache.logging.log4j.LogManager.getLogger(Servlet.class);
     private static final String REDIRECT = "redirect:";
 
     public void init(ServletConfig servletConfig) {
-
         servletConfig.getServletContext()
                 .setAttribute("loggedUsers", new HashSet<String>());
-        BookService bookService =
-                new BookService(new TagService(), new AuthorService());
-        UserService userService = new UserService();
-        OrderService orderService = new OrderService();
-        TagService tagService = new TagService();
-        AuthorService authorService = new AuthorService();
+        putAllCommands();
+    }
 
+    private void putAllCommands() {
+        ServiceFactory serviceFactory = ServiceFactory.getInstance();
         commands.put("logout", new LogOutCommand());
-        commands.put("login", new LoginCommand(userService));
+        commands.put("login", new LoginCommand(serviceFactory.createUserService()));
         commands.put("exception", new ExceptionCommand());
-        commands.put("registration", new RegistrationCommand(userService));
+        commands.put("registration", new RegistrationCommand(serviceFactory.createUserService()));
         commands.put("user", new UserCommand());
         commands.put("error", new ErrorCommand());
         commands.put("admin", new AdminCommand());
         commands.put("index", new IndexCommand());
         commands.put("user/prospectus", new ProspectusCommand());
         commands.put("admin/bookManage", new BookManageCommand());
-        commands.put("admin/add", new AddBookCommand(bookService));
-        commands.put("admin/edit", new EditBookCommand(bookService));
-        commands.put("admin/delete", new DeleteBookCommand(bookService));
-        commands.put("admin/active", new GetActiveOrdersCommand(orderService));
-        commands.put("admin/passive", new GetPassiveOrdersCommand(orderService));
-        commands.put("admin/permit", new PermitOrderCommand(orderService));
-        commands.put("user/active", new GetActiveOrdersByUsernameCommand(orderService));
-        commands.put("user/passive", new GetPassiveOrdersByUsernameCommand(orderService));
-        commands.put("user/return", new ReturnBookCommand(orderService));
-        commands.put("user/order", new OrderBookCommand(orderService));
-        commands.put("user-admin/filter", new GetAvailableBooksByFilterCommand(bookService));
-        commands.put("user-admin/books", new GetAvailableBooksCommand(bookService));
-        commands.put("user-admin/tags", new GetTagsCommand(tagService));
-        commands.put("user-admin/authors", new GetAuthorsCommand(authorService));
+        commands.put("admin/add", new AddBookCommand(serviceFactory.createBookService()));
+        commands.put("admin/edit", new EditBookCommand(serviceFactory.createBookService()));
+        commands.put("admin/delete", new DeleteBookCommand(serviceFactory.createBookService()));
+        commands.put("admin/active", new GetActiveOrdersCommand(serviceFactory.createOrderService()));
+        commands.put("admin/passive", new GetPassiveOrdersCommand(serviceFactory.createOrderService()));
+        commands.put("admin/permit", new PermitOrderCommand(serviceFactory.createOrderService()));
+        commands.put("user/active", new GetActiveOrdersByUsernameCommand(serviceFactory.createOrderService()));
+        commands.put("user/passive", new GetPassiveOrdersByUsernameCommand(serviceFactory.createOrderService()));
+        commands.put("user/return", new ReturnBookCommand(serviceFactory.createOrderService()));
+        commands.put("user/order", new OrderBookCommand(serviceFactory.createOrderService()));
+        commands.put("user-admin/filter", new GetAvailableBooksByFilterCommand(serviceFactory.createBookService()));
+        commands.put("user-admin/books", new GetAvailableBooksCommand(serviceFactory.createBookService()));
+        commands.put("user-admin/tags", new GetTagsCommand(serviceFactory.createTagService()));
+        commands.put("user-admin/authors", new GetAuthorsCommand(serviceFactory.createAuthorService()));
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
