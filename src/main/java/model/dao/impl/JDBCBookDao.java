@@ -9,7 +9,6 @@ import model.entity.Tag;
 import java.sql.*;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class JDBCBookDao implements BookDao {
     private final Connection connection;
@@ -83,7 +82,7 @@ public class JDBCBookDao implements BookDao {
     @Override
     public void create(Book entity) {
         try {
-            PreparedStatement statement = connection.prepareStatement(SQL_INSERT);
+            PreparedStatement statement = connection.prepareStatement(SQL_INSERT_BOOK_FIELDS);
             statement.setString(1, entity.getName());
             statement.setString(2, entity.getNameUa());
             statement.setBoolean(3, entity.isAvailable());
