@@ -28,14 +28,13 @@ public class LoginCommand implements Command {
 //        }
 //        System.out.println(name + " " + pass);
 //        //System.out.println("Yes!");
-
+        if (request.getParameter("username") == null) {
+            return "/login.jsp";
+        }
         User.ROLE role = (userService.getRoleByUser(request.getParameter("username"),
                 request.getParameter("password")));
         System.out.println(role + "rolllleee");
 
-        if (role == null) {
-            return "/login.jsp";
-        }
 
         if (CommandUtility.checkUserIsLogged(request, name)) {
             return "redirect:/login";
