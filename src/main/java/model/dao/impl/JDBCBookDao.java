@@ -161,7 +161,11 @@ public class JDBCBookDao implements BookDao {
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_DELETE);
             statement.setLong(1, id);
+            PreparedStatement statement1 = connection.prepareStatement(SQL_DELETE_BOOK_AUTHOR);
+            statement1.setLong(1, id);
+
             statement.execute();
+            statement1.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
