@@ -67,6 +67,17 @@ public class Servlet extends javax.servlet.http.HttpServlet { //todo change coll
         processRequest(request, response);
     }
 
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        processRequest(req,resp);
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        processRequest(req,resp);
+    }
+
     private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String path = request.getRequestURI();

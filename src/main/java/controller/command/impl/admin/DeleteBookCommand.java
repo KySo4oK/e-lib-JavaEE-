@@ -14,7 +14,11 @@ public class DeleteBookCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-        bookService.deleteBook(Integer.parseInt(request.getPathInfo().split("/")[1]));//todo with better style
+        bookService.deleteBook(extractBookId(request));
         return "{}";
+    }
+
+    private int extractBookId(HttpServletRequest request) {
+        return Integer.parseInt(request.getRequestURI().split("/")[3]);
     }
 }
