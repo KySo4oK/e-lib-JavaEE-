@@ -23,12 +23,10 @@ public class OrderMapper implements ObjectMapper<Order> {
     public Order fullExtractFromResultSet(ResultSet rs,
                                           Map<Long, Order> orders,
                                           Map<Long, Book> books,
-                                          Map<Long, Tag> tags,
-                                          Map<Long, Author> authors,
                                           Map<Long, User> users) throws SQLException {
         Order order = extractFromResultSet(rs);
         order = makeUnique(orders, order);
-        Book book = bookMapper.fullExtractFromResultSet(rs, books, tags, authors);
+        Book book = bookMapper.extractFromResultSet(rs);
         book = bookMapper.makeUnique(books, book);
         User user = userMapper.extractFromResultSet(rs);
         user = userMapper.makeUnique(users, user);

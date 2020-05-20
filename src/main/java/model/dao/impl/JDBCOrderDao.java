@@ -23,15 +23,13 @@ public class JDBCOrderDao implements OrderDao {
         Map<Long, Order> orders = new HashMap<>();
         Map<Long, Book> books = new HashMap<>();
         Map<Long, User> users = new HashMap<>();
-        Map<Long, Author> authors = new HashMap<>();
-        Map<Long, Tag> tags = new HashMap<>();
 
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ACTIVE);
             statement.setBoolean(1, active);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                Order order = orderMapper.fullExtractFromResultSet(rs, orders, books, tags, authors, users);
+                Order order = orderMapper.fullExtractFromResultSet(rs, orders, books, users);
                 resultList.add(order);
             }
         } catch (SQLException e) {
@@ -46,8 +44,6 @@ public class JDBCOrderDao implements OrderDao {
         Map<Long, Order> orders = new HashMap<>();
         Map<Long, Book> books = new HashMap<>();
         Map<Long, User> users = new HashMap<>();
-        Map<Long, Author> authors = new HashMap<>();
-        Map<Long, Tag> tags = new HashMap<>();
 
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ACTIVE_AND_USERNAME);
@@ -55,7 +51,7 @@ public class JDBCOrderDao implements OrderDao {
             statement.setString(2, username);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                Order order = orderMapper.fullExtractFromResultSet(rs, orders, books, tags, authors, users);
+                Order order = orderMapper.fullExtractFromResultSet(rs, orders, books, users);
                 resultList.add(order);
             }
         } catch (SQLException e) {
@@ -85,14 +81,12 @@ public class JDBCOrderDao implements OrderDao {
         Map<Long, Order> orders = new HashMap<>();
         Map<Long, Book> books = new HashMap<>();
         Map<Long, User> users = new HashMap<>();
-        Map<Long, Author> authors = new HashMap<>();
-        Map<Long, Tag> tags = new HashMap<>();
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ID);
             statement.setLong(1, id);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                order = orderMapper.fullExtractFromResultSet(rs, orders, books, tags, authors, users);
+                order = orderMapper.fullExtractFromResultSet(rs, orders, books, users);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -106,13 +100,11 @@ public class JDBCOrderDao implements OrderDao {
         Map<Long, Order> orders = new HashMap<>();
         Map<Long, Book> books = new HashMap<>();
         Map<Long, User> users = new HashMap<>();
-        Map<Long, Author> authors = new HashMap<>();
-        Map<Long, Tag> tags = new HashMap<>();
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                Order order = orderMapper.fullExtractFromResultSet(rs, orders, books, tags, authors, users);
+                Order order = orderMapper.fullExtractFromResultSet(rs, orders, books, users);
                 resultList.add(order);
             }
         } catch (SQLException e) {
