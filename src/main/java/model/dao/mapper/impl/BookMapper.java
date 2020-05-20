@@ -45,8 +45,7 @@ public class BookMapper implements ObjectMapper<Book> {
         tag = tagMapper.makeUnique(tags, tag);
         author = authorMapper.makeUnique(authors, author);
         book.getAuthors().add(author);
-        book.getTags().add(tag);
-        book.setTags(book.getTags().stream().distinct().collect(Collectors.toList()));
+        book.setTag(tag);
         book.setAuthors(book.getAuthors().stream().distinct().collect(Collectors.toList()));
         return book;
     }

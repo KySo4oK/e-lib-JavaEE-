@@ -6,17 +6,17 @@ public class BookDTO {
     private Long id;
     private String name;
     private String nameUa;
-    private String[] tags;
+    private String tag;
     private String[] authors;
 
     public BookDTO() {
     }
 
-    public BookDTO(Long id, String name, String nameUa, String[] tags, String[] authors) {
+    public BookDTO(Long id, String name, String nameUa, String tag, String[] authors) {
         this.id = id;
         this.name = name;
         this.nameUa = nameUa;
-        this.tags = tags;
+        this.tag = tag;
         this.authors = authors;
     }
 
@@ -26,7 +26,7 @@ public class BookDTO {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", nameUa='" + nameUa + '\'' +
-                ", tags=" + Arrays.toString(tags) +
+                ", tags=" + tag +
                 ", authors=" + Arrays.toString(authors) +
                 '}';
     }
@@ -55,13 +55,6 @@ public class BookDTO {
         this.nameUa = nameUa;
     }
 
-    public String[] getTags() {
-        return tags;
-    }
-
-    public void setTags(String[] tags) {
-        this.tags = tags;
-    }
 
     public String[] getAuthors() {
         return authors;
@@ -71,11 +64,19 @@ public class BookDTO {
         this.authors = authors;
     }
 
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
     public static final class Builder {
         private Long id;
         private String name;
         private String nameUa;
-        private String[] tags;
+        private String tag;
         private String[] authors;
 
         private Builder() {
@@ -100,8 +101,8 @@ public class BookDTO {
             return this;
         }
 
-        public Builder tags(String[] tags) {
-            this.tags = tags;
+        public Builder tag(String tag) {
+            this.tag = tag;
             return this;
         }
 
@@ -115,7 +116,7 @@ public class BookDTO {
             bookDTO.setId(id);
             bookDTO.setName(name);
             bookDTO.setNameUa(nameUa);
-            bookDTO.setTags(tags);
+            bookDTO.setTag(tag);
             bookDTO.setAuthors(authors);
             return bookDTO;
         }

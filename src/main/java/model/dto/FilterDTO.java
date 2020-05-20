@@ -4,13 +4,14 @@ import java.util.Arrays;
 
 public class FilterDTO {
     private String name;
-    private String[] tags;
+    private String tag;
+    private String[] authors;
 
     @Override
     public String toString() {
         return "FilterDTO{" +
                 "name='" + name + '\'' +
-                ", tags=" + Arrays.toString(tags) +
+                ", tag='" + tag + '\'' +
                 ", authors=" + Arrays.toString(authors) +
                 '}';
     }
@@ -23,12 +24,12 @@ public class FilterDTO {
         this.name = name;
     }
 
-    public String[] getTags() {
-        return tags;
+    public String getTag() {
+        return tag;
     }
 
-    public void setTags(String[] tags) {
-        this.tags = tags;
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 
     public String[] getAuthors() {
@@ -38,6 +39,4 @@ public class FilterDTO {
     public void setAuthors(String[] authors) {
         this.authors = authors;
     }
-
-    private String[] authors;
 }

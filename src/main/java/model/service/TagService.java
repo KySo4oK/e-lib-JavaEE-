@@ -5,7 +5,6 @@ import model.dao.TagDao;
 import model.entity.Tag;
 import model.exception.TagNotFoundException;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,12 +27,10 @@ public class TagService {
                 tag.getName() : tag.getNameUa();
     }
 
-    public List<Tag> getTagsByStringArray(String[] tags) {
-        //log.info("get tags from array {}", Arrays.toString(tags)); todo logging
-        return Arrays.stream(tags)
-                .map(x -> getByNameAndLocale(x)
-                        .orElseThrow(() -> new TagNotFoundException("can not found tag")))
-                .collect(Collectors.toList());
+    public Tag getTagByString(String tagName) {
+        //log.info("get tagName from array {}", Arrays.toString(tagName)); todo logging
+        return getByNameAndLocale(tagName)
+                .orElseThrow(() -> new TagNotFoundException("can not found tagName"));
     }
 
     private Optional<Tag> getByNameAndLocale(String tag) {

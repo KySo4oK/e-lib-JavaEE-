@@ -41,7 +41,7 @@ public class BookService {
         return BookDTO.Builder.aBookDTO()
                 .id(book.getBookId())
                 .authors(getArrayOfAuthors(book))
-                .tags(getArrayOfTags(book))
+                .tag(getTagNameByLocale(book.getTag()))
                 .name(getBookNameByLocale(book))
                 .build();
     }
@@ -50,14 +50,8 @@ public class BookService {
         return /*LocaleContextHolder.getLocale().equals(Locale.ENGLISH)*/true ? book.getName() : book.getNameUa();
     }
 
-    private String[] getArrayOfTags(Book book) {
-        return book.getTags()
-                .stream()
-                .map(this::getTagsByLocale)
-                .toArray(String[]::new);
-    }
 
-    private String getTagsByLocale(Tag tag) {
+    private String getTagNameByLocale(Tag tag) {
         return /*LocaleContextHolder.getLocale().equals(Locale.ENGLISH)*/true ?
                 tag.getName() : tag.getNameUa();
     }
@@ -93,7 +87,7 @@ public class BookService {
                 .nameUa(bookDTO.getNameUa())
                 .shelf(shelf)
                 .authors(authorService.getAuthorsFromStringArray(bookDTO.getAuthors()))
-                .tags(tagService.getTagsByStringArray(bookDTO.getTags()))
+                .tag(tagService.getTagByString(bookDTO.getTag()))
                 .available(true)
                 .build();
     }
@@ -112,11 +106,11 @@ public class BookService {
                     bookDao.getBooksByFilter(
                             filterDTO.getName(),
                             filterDTO.getAuthors(),
-                            filterDTO.getTags()/*, pageable*/) :
+                            filterDTO.getTag()/*, pageable*/) :
                     bookDao.getBooksByFilterUa(
                             filterDTO.getName(),
                             filterDTO.getAuthors(),
-                            filterDTO.getTags()/*, pageable*/);
+                            filterDTO.getTag()/*, pageable*/);
         }
     }
 
@@ -133,7 +127,7 @@ public class BookService {
                     .findById(bookDTO.getId())
                     .orElseThrow(() -> new BookNotFoundException("book not exist"));
             book.setAuthors(authorService.getAuthorsFromStringArray(bookDTO.getAuthors()));
-            book.setTags(tagService.getTagsByStringArray(bookDTO.getTags()));
+            book.setTag(tagService.getTagByString(bookDTO.getTag()));
             return book;
         }
     }

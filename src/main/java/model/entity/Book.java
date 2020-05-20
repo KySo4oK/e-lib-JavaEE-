@@ -9,19 +9,19 @@ public class Book {
     private String name;
     private String nameUa;
     private List<Author> authors = new ArrayList<>();
-    private List<Tag> tags = new ArrayList<>();
+    private Tag tag;
     private boolean available = true;
     private Shelf shelf;
 
     public Book() {
     }
 
-    public Book(Long bookId, String name, String nameUa, List<Author> authors, List<Tag> tags, boolean available, Shelf shelf) {
+    public Book(Long bookId, String name, String nameUa, List<Author> authors, Tag tag, boolean available, Shelf shelf) {
         this.bookId = bookId;
         this.name = name;
         this.nameUa = nameUa;
         this.authors = authors;
-        this.tags = tags;
+        this.tag = tag;
         this.available = available;
         this.shelf = shelf;
     }
@@ -39,7 +39,7 @@ public class Book {
 
     @Override
     public int hashCode() {
-        return Objects.hash(bookId, name, nameUa, authors, tags, available);
+        return Objects.hash(bookId, name, nameUa, authors, tag, available);
     }
 
     public Long getBookId() {
@@ -74,12 +74,12 @@ public class Book {
         this.authors = authors;
     }
 
-    public List<Tag> getTags() {
-        return tags;
+    public Tag getTag() {
+        return tag;
     }
 
-    public void setTags(List<Tag> tags) {
-        this.tags = tags;
+    public void setTag(Tag tag) {
+        this.tag = tag;
     }
 
     @Override
@@ -89,7 +89,7 @@ public class Book {
                 ", name='" + name + '\'' +
                 ", nameUa='" + nameUa + '\'' +
                 ", authors=" + authors +
-                ", tags=" + tags +
+                ", tag=" + tag +
                 ", available=" + available +
                 ", shelf=" + shelf +
                 '}';
@@ -111,12 +111,13 @@ public class Book {
         this.shelf = shelf;
     }
 
+
     public static final class Builder {
         private Long bookId;
         private String name;
         private String nameUa;
         private List<Author> authors = new ArrayList<>();
-        private List<Tag> tags = new ArrayList<>();
+        private Tag tag;
         private boolean available = true;
         private Shelf shelf;
 
@@ -147,8 +148,8 @@ public class Book {
             return this;
         }
 
-        public Builder tags(List<Tag> tags) {
-            this.tags = tags;
+        public Builder tag(Tag tag) {
+            this.tag = tag;
             return this;
         }
 
@@ -163,15 +164,7 @@ public class Book {
         }
 
         public Book build() {
-            Book book = new Book();
-            book.setBookId(bookId);
-            book.setName(name);
-            book.setNameUa(nameUa);
-            book.setAuthors(authors);
-            book.setTags(tags);
-            book.setAvailable(available);
-            book.setShelf(shelf);
-            return book;
+            return new Book(bookId, name, nameUa, authors, tag, available, shelf);
         }
     }
 }

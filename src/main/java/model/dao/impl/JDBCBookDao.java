@@ -47,16 +47,16 @@ public class JDBCBookDao implements BookDao {
     }
 
     @Override
-    public List<Book> getBooksByFilter(String partOfName, String[] authorsStrings, String[] tagsStrings) {
-        return getByFilter(partOfName, authorsStrings, tagsStrings, SQL_FIND_BY_FILTER);
+    public List<Book> getBooksByFilter(String partOfName, String[] authorsStrings, String tagString) {
+        return getByFilter(partOfName, authorsStrings, tagString, SQL_FIND_BY_FILTER);
     }
 
     @Override
-    public List<Book> getBooksByFilterUa(String partOfName, String[] authorsStrings, String[] tagsStrings) {
-        return getByFilter(partOfName, authorsStrings, tagsStrings, SQL_FIND_BY_FILTER_UA);
+    public List<Book> getBooksByFilterUa(String partOfName, String[] authorsStrings, String tagString) {
+        return getByFilter(partOfName, authorsStrings, tagString, SQL_FIND_BY_FILTER_UA);
     }
 
-    private List<Book> getByFilter(String partOfName, String[] authorsStrings, String[] tagsStrings, String sqlFindByFilterUa) {
+    private List<Book> getByFilter(String partOfName, String[] authorsStrings, String tagString, String sqlFindByFilterUa) {
         List<Book> resultList = new ArrayList<>();
         Map<Long, Book> books = new HashMap<>();
         Map<Long, Tag> tags = new HashMap<>();
@@ -65,8 +65,7 @@ public class JDBCBookDao implements BookDao {
             PreparedStatement statement = connection.prepareStatement(sqlFindByFilterUa);
             statement.setArray(1,
                     statement.getConnection().createArrayOf("text", authorsStrings));
-            statement.setArray(2,
-                    statement.getConnection().createArrayOf("text", tagsStrings));
+            statement.setString(2, tagString);
             statement.setString(3, partOfName);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
@@ -88,11 +87,11 @@ public class JDBCBookDao implements BookDao {
             statement.setString(2, entity.getNameUa());
             statement.setBoolean(3, entity.isAvailable());
 
-            for (Tag tag : entity.getTags()) {
-                statementForTags.setString(1, entity.getName());
-                statementForTags.setLong(2, tag.getTagId());
-                statementForTags.addBatch();
-            }
+//            for (Tag tag : entity.getTags()) {
+//                statementForTags.setString(1, entity.getName());
+//                statementForTags.setLong(2, tag.getTagId());
+//                statementForTags.addBatch();
+//            } //todo
 
             for (Author author : entity.getAuthors()) {
                 statementForAuthors.setString(1, entity.getName());
