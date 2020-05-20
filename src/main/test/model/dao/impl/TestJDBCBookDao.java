@@ -7,6 +7,7 @@ import model.entity.Tag;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TestJDBCBookDao {
@@ -51,11 +52,23 @@ public class TestJDBCBookDao {
     }
 
     @Test
-    public void testCreate(){
-
+    public void testCreate() {
+        Book book = Book.Builder.aBook()
+                .name("test")
+                .nameUa("test_ua")
+                .available(true)
+                .authors(new ArrayList<>(List.of(
+                        Author.Builder.anAuthor()
+                                .name("test")
+                                .nameUa("test_ua")
+                                .authorId(135L)
+                                .build())))
+                .build();
+        bookDao.create(book);
     }
+
     @Test
-    public void testDelete(){
+    public void testDelete() {
 
     }
 }
