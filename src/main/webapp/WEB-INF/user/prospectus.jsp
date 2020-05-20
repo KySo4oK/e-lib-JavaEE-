@@ -115,8 +115,8 @@
                         </div>
                     </td>
                     <td>
-                        <div v-for="tag in book.tags">
-                            <h1 v-text="tag">
+                        <div>
+                            <h1 v-text="book.tag">
                             </h1>
                         </div>
                     </td>
@@ -208,10 +208,10 @@
             async loadMore() {
                 if (this.filter) {
                     this.page++;
-                    this.loadByFilter();
+                    await this.loadByFilter();
                 } else {
                     this.page++;
-                    this.getBooks();
+                    await this.getBooks();
                 }
             }
         }

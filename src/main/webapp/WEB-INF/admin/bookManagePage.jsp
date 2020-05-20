@@ -179,9 +179,9 @@
                         <div id="editTags" class="col-md-6 boxes">
                             <div v-for="tag in tags">
                                 <div style="display: inline;">
-                                    <input style="display: inline; float: left; margin-left: 0px" type="checkbox"
+                                    <input style="display: inline; float: left; margin-left: 0px" type="radio"
                                            v-bind:value="tag"
-                                           v-model="book.tags">
+                                           v-model="book.tag">
                                     <h6 style="display: inline; margin-right: 0px;">{{tag}}</h6>
                                 </div>
                             </div>
@@ -225,7 +225,7 @@
                 name: "",
                 nameUa: "",
                 authors: [],
-                tags: [],
+                tag: "",
             },
             picked: '',
             books: [],
