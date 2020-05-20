@@ -1,15 +1,13 @@
 package model.dao.impl;
 
 import model.dao.ShelfDao;
-import model.dao.mapper.impl.BookMapper;
 import model.dao.mapper.impl.ShelfMapper;
-import model.entity.Author;
-import model.entity.Book;
 import model.entity.Shelf;
-import model.entity.Tag;
 
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class JDBCShelfDao implements ShelfDao {
@@ -23,15 +21,13 @@ public class JDBCShelfDao implements ShelfDao {
     @Override
     public Optional<Shelf> findByBookId(Long bookId) {
         Shelf shelf = null;
-        Map<Long, Book> books = new HashMap<>();
-        Map<Long, Tag> tags = new HashMap<>();
-        Map<Long, Author> authors = new HashMap<>();
+
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_BOOK_ID);
             statement.setLong(1, bookId);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                shelf = shelfMapper.fullExtractFromResultSet(rs, books, tags, authors);
+                shelf = shelfMapper.fullExtractFromResultSet(rs);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -43,7 +39,11 @@ public class JDBCShelfDao implements ShelfDao {
     public void create(Shelf entity) {
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_INSERT);
-            statement.setLong(1, entity.getBook().getBookId()); //todo
+            if (entity.getBook() != null) {
+                statement.setLong(1, entity.getBook().getBookId());
+            } else {
+                statement.setNull(1, Types.BIGINT);
+            }
             statement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -53,15 +53,13 @@ public class JDBCShelfDao implements ShelfDao {
     @Override
     public Optional<Shelf> findById(long id) {
         Shelf shelf = null;
-        Map<Long, Book> books = new HashMap<>();
-        Map<Long, Tag> tags = new HashMap<>();
-        Map<Long, Author> authors = new HashMap<>();
+
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ID);
             statement.setLong(1, id);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                shelf = shelfMapper.fullExtractFromResultSet(rs, books, tags, authors);
+                shelf = shelfMapper.fullExtractFromResultSet(rs);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -72,13 +70,11 @@ public class JDBCShelfDao implements ShelfDao {
     @Override
     public List<Shelf> findAll() {
         List<Shelf> shelves = new ArrayList<>();
-        Map<Long, Book> books = new HashMap<>();
-        Map<Long, Tag> tags = new HashMap<>();
-        Map<Long, Author> authors = new HashMap<>();
+
         try (Statement st = connection.createStatement()) {
             ResultSet rs = st.executeQuery(SQL_FIND_ALL);
             while (rs.next()) {
-                Shelf shelf = shelfMapper.fullExtractFromResultSet(rs, books, tags, authors);
+                Shelf shelf = shelfMapper.fullExtractFromResultSet(rs);
                 shelves.add(shelf);
             }
             return shelves.stream().distinct().collect(Collectors.toList());

@@ -1,10 +1,8 @@
 package model.dao.mapper.impl;
 
 import model.dao.mapper.ObjectMapper;
-import model.entity.Author;
 import model.entity.Book;
 import model.entity.Shelf;
-import model.entity.Tag;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -28,21 +26,15 @@ public class ShelfMapper implements ObjectMapper<Shelf> {
         return shelf;
     }
 
-    public Shelf fullExtractFromResultSet(ResultSet rs,
-                                          Map<Long, Book> books,
-                                          Map<Long, Tag> tags,
-                                          Map<Long, Author> authors) throws SQLException {
+    public Shelf fullExtractFromResultSet(ResultSet rs) throws SQLException {
         Shelf shelf = extractFromResultSet(rs);
-        setBookIfNeeded(rs, shelf, books, tags, authors);
+        setBookIfNeeded(rs, shelf);
         return shelf;
     }
 
-    private void setBookIfNeeded(ResultSet rs, Shelf shelf,
-                                 Map<Long, Book> books,
-                                 Map<Long, Tag> tags,
-                                 Map<Long, Author> authors) throws SQLException {
+    private void setBookIfNeeded(ResultSet rs, Shelf shelf) throws SQLException {
         if (rs.getLong("booKId") != 0) {
-            Book book = bookMapper.fullExtractFromResultSet(rs, books, tags, authors);
+            Book book = bookMapper.extractFromResultSet(rs);
             shelf.setBook(book);
             book.setShelf(shelf);
         }

@@ -27,26 +27,30 @@ public class TestJDBCShelfDao {
             }
         }
     }
-//    @Test
-//    public void testCreate() {
-//        Shelf shelf = new Shelf();
-//        int sizeBefore = shelfDao.findAll().size();
-//        shelfDao.create(shelf);
-//        Assert.assertEquals(sizeBefore + 1, shelfDao.findAll().size());
-//    }
-//
-//    @Test
-//    public void testDelete() {
-//        Tag tag = Tag.Builder.aTag().name("test").nameUa("test_ua").build();
-//        shelfDao.delete(shelfDao.findByName(tag.getName()).getTagId());
-//        Assert.assertNull(shelfDao.findByName(tag.getName()));
-//    }
+
+    @Test
+    public void testCreate() {
+        Shelf shelf = new Shelf();
+        int sizeBefore = shelfDao.findAll().size();
+        shelfDao.create(shelf);
+        Assert.assertEquals(sizeBefore + 1, shelfDao.findAll().size());
+    }
+
+    @Test
+    public void testDelete() {
+        Shelf shelf = shelfDao.findById(shelfDao.findAll()
+                .stream()
+                .map(Shelf::getShelfId)
+                .max(Long::compare).get()).get();
+        shelfDao.delete(shelf.getShelfId());
+        Assert.assertEquals(shelfDao.findById(shelf.getShelfId()), Optional.empty());
+    }
 
     @Test
     public void testFindById() {
         Shelf shelf = shelfDao.findAll().get(0);
         Assert.assertEquals(shelf.getShelfId(), shelfDao.findById(shelf.getShelfId())
-                .orElseThrow(()-> new RuntimeException("oops")).getShelfId());
+                .orElseThrow(() -> new RuntimeException("oops")).getShelfId());
     }
 
 //    @Test
