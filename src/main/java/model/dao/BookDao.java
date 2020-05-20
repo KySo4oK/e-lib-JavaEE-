@@ -20,8 +20,7 @@ public interface BookDao extends GenericDao<Book> {
             "       author.name      as \"authorName\",\n" +
             "       shelf.shelf_id   as \"shelf_id\"\n" +
             "from book\n" +
-            "         left join book_tag on book.book_id = book_tag.book_id\n" +
-            "         left join tag on book_tag.tag_id = tag.tag_id\n" +
+            "         left join tag on book.tag_id = tag.tag_id\n" +
             "         left join book_author on book.book_id = book_author.book_id\n" +
             "         left join author on book_author.author_id = author.author_id\n" +
             "         left join shelf on book.book_id = shelf.book_id";
@@ -39,10 +38,10 @@ public interface BookDao extends GenericDao<Book> {
             "                           from author\n" +
             "                           where name in (SELECT * FROM unnest(?))))\n" +
             "  and book.book_id in (select book_id\n" +
-            "                       from book_tag\n" +
+            "                       from book\n" +
             "                       where tag_id in (select tag_id\n" +
             "                                        from tag\n" +
-            "                                        where name_ua in ?))\n" +
+            "                                        where name in (SELECT * FROM unnest(?))))\n" +
             "  and book.name like ?";
     String SQL_FIND_BY_FILTER_UA = SQL_FIND_ALL + " where available = true\n" +
             "  and book.book_id in\n" +
@@ -52,17 +51,17 @@ public interface BookDao extends GenericDao<Book> {
             "                           from author\n" +
             "                           where name_ua in (SELECT * FROM unnest(?))))\n" +
             "  and book.book_id in (select book_id\n" +
-            "                       from book_tag\n" +
+            "                       from book\n" +
             "                       where tag_id in (select tag_id\n" +
             "                                        from tag\n" +
-            "                                        where name_ua in ?))\n" +
+            "                                        where name_ua in (SELECT * FROM unnest(?))))\n" +
             "  and book.name_ua like ?";
 
     Optional<Book> findByName(String name);
 
     Optional<Book> findByNameUa(String nameUa);
 
-    List<Book> getBooksByFilter(String partOfName, String[] authors, String tags);
+    List<Book> getBooksByFilter(String partOfName, String[] authors, String[] tags);
 
-    List<Book> getBooksByFilterUa(String partOfName, String[] authors, String tags);
+    List<Book> getBooksByFilterUa(String partOfName, String[] authors, String[] tags);
 }

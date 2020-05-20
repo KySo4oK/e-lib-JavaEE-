@@ -3,10 +3,10 @@ package model.dao.impl;
 import model.dao.BookDao;
 import model.entity.Author;
 import model.entity.Book;
-import model.entity.Tag;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class TestJDBCBookDao {
     }
 
     @Test
-    public void testFindById() {
+    public void testFindById() {//todo fix authors
         List<Book> books = bookDao.findAll();
         for (Book book : books) {
             Assert.assertEquals(book,
@@ -36,7 +36,7 @@ public class TestJDBCBookDao {
             System.out.println(book);
             List<Book> booksByFilter = bookDao.getBooksByFilter("%" + book.getName() + "%",
                     book.getAuthors().stream().map(Author::getName).toArray(String[]::new),
-                    book.getTag().getName());
+                    new String[]{book.getTag().getName()});
             System.out.println(booksByFilter);
             Assert.assertTrue(booksByFilter.contains(book));
         }
@@ -48,7 +48,7 @@ public class TestJDBCBookDao {
         for (Book book : books) {
             List<Book> booksByFilter = bookDao.getBooksByFilterUa("%" + book.getNameUa() + "%",
                     book.getAuthors().stream().map(Author::getNameUa).toArray(String[]::new),
-                    book.getTag().getNameUa());
+                    new String[]{book.getTag().getNameUa()});
             Assert.assertTrue(booksByFilter.contains(book));
         }
     }

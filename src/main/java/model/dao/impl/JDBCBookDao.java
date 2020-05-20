@@ -47,16 +47,16 @@ public class JDBCBookDao implements BookDao {
     }
 
     @Override
-    public List<Book> getBooksByFilter(String partOfName, String[] authorsStrings, String tagString) {
+    public List<Book> getBooksByFilter(String partOfName, String[] authorsStrings, String[] tagString) {
         return getByFilter(partOfName, authorsStrings, tagString, SQL_FIND_BY_FILTER);
     }
 
     @Override
-    public List<Book> getBooksByFilterUa(String partOfName, String[] authorsStrings, String tagString) {
+    public List<Book> getBooksByFilterUa(String partOfName, String[] authorsStrings, String[] tagString) {
         return getByFilter(partOfName, authorsStrings, tagString, SQL_FIND_BY_FILTER_UA);
     }
 
-    private List<Book> getByFilter(String partOfName, String[] authorsStrings, String tagString, String sqlFindByFilterUa) {
+    private List<Book> getByFilter(String partOfName, String[] authorsStrings, String[] tagsStrings, String sqlFindByFilterUa) {
         List<Book> resultList = new ArrayList<>();
         Map<Long, Book> books = new HashMap<>();
         Map<Long, Tag> tags = new HashMap<>();
@@ -65,7 +65,8 @@ public class JDBCBookDao implements BookDao {
             PreparedStatement statement = connection.prepareStatement(sqlFindByFilterUa);
             statement.setArray(1,
                     statement.getConnection().createArrayOf("text", authorsStrings));
-            statement.setString(2, tagString);
+            statement.setArray(2,
+                    statement.getConnection().createArrayOf("text", tagsStrings));
             statement.setString(3, partOfName);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {

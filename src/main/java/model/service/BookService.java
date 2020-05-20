@@ -106,11 +106,11 @@ public class BookService {
                     bookDao.getBooksByFilter(
                             filterDTO.getName(),
                             filterDTO.getAuthors(),
-                            filterDTO.getTag()/*, pageable*/) :
+                            filterDTO.getTags()/*, pageable*/) :
                     bookDao.getBooksByFilterUa(
                             filterDTO.getName(),
                             filterDTO.getAuthors(),
-                            filterDTO.getTag()/*, pageable*/);
+                            filterDTO.getTags()/*, pageable*/);
         }
     }
 
