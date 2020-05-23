@@ -72,6 +72,19 @@ public class TestJDBCBookDao {
     }
 
     @Test
+    public void testUpdate() {
+        Book book = bookDao.findById(bookDao.findAll().stream().map(Book::getBookId).max(Long::compareTo).get()).get();
+        book.setAvailable(!book.isAvailable());
+        book.setTag(JDBCDaoFactory.getInstance().createTagDao().findAll().get(1));
+        bookDao.update(book);
+        Book changedBook = bookDao.findById(book.getBookId()).get();
+        if (book.isAvailable() == changedBook.isAvailable() ||
+                book.getTag() == changedBook.getTag()) {
+            Assert.fail();
+        }
+    }
+
+    @Test
     public void testDelete() {
         try {
             bookDao.delete(bookDao.findAll().stream().map(Book::getBookId).max(Long::compareTo).get());

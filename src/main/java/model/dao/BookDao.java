@@ -28,7 +28,7 @@ public interface BookDao extends GenericDao<Book> {
     String SQL_FIND_BY_NAME = SQL_FIND_ALL + " where book.name = ?";
     String SQL_FIND_BY_NAME_UA = SQL_FIND_ALL + " where book.name_ua = ?";
     String SQL_INSERT_BOOK_FIELDS = "insert into book (name, name_ua, available, tag_id) values (?, ?, ?, ?)";
-    String SQL_UPDATE = "update book set available = ? where book_id = ?";
+    String SQL_UPDATE = "update book set available = ? and tag_id = ? where book_id = ?";
     String SQL_DELETE = "delete from book where book_id = ?";
     String SQL_FIND_BY_FILTER = SQL_FIND_ALL + " where available = true\n" +
             "  and book.book_id in\n" +
