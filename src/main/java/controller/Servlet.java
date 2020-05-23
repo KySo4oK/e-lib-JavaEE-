@@ -14,15 +14,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
-public class Servlet extends javax.servlet.http.HttpServlet { //todo change collections for safe
-    private final Map<String, Command> commands = new HashMap<>();
-    private static final Log log
-            = LogFactory.getLog(Servlet.class);
+public class Servlet extends javax.servlet.http.HttpServlet {
+    private final Map<String, Command> commands = new ConcurrentHashMap<>();
+    private static final Log log = LogFactory.getLog(Servlet.class);
     private static final String REDIRECT = "redirect:";
 
     public void init(ServletConfig servletConfig) {
@@ -70,32 +69,36 @@ public class Servlet extends javax.servlet.http.HttpServlet { //todo change coll
     }
 
     @Override
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp)
+    protected void doPut(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(req, resp);
+        processRequest(request, response);
     }
 
     @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        processRequest(req, resp);
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String path = request.getRequestURI();
-        log.info("path " + path);
+        log.info("request path - " + path);
         path = getPathForChoosingCommand(path);
-        System.out.println(path);
         Command command = commands.getOrDefault(path,
                 (r) -> "index");
-        String page = command.execute(request);
-        if (page.contains(REDIRECT)) {
-            response.sendRedirect(/*request.getContextPath() + */page.replace(REDIRECT, ""));
-        } else if (page.contains("{") || page.contains("[")) {
-            response.getWriter().print(page);
+        String result = command.execute(request);
+        if (containsJson(result)) {
+            response.getWriter().print(result);
+        } else if (result.contains(REDIRECT)) {
+            response.sendRedirect(result.replace(REDIRECT, ""));
         } else {
-            request.getRequestDispatcher(page).forward(request, response);
+            request.getRequestDispatcher(result).forward(request, response);
         }
+    }
+
+    private boolean containsJson(String page) {
+        return page.contains("{") || page.contains("[");
     }
 
     private String getPathForChoosingCommand(String path) {

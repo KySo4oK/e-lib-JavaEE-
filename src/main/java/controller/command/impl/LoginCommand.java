@@ -3,13 +3,14 @@ package controller.command.impl;
 import controller.command.Command;
 import model.entity.User;
 import model.service.UserService;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import javax.servlet.http.HttpServletRequest;
 
 public class LoginCommand implements Command {
     private final UserService userService;
-    private static final org.apache.logging.log4j.Logger log
-            = org.apache.logging.log4j.LogManager.getLogger(LoginCommand.class);
+    private static final Log log = LogFactory.getLog(LoginCommand.class);
 
     public LoginCommand(UserService userService) {
         this.userService = userService;
@@ -17,26 +18,19 @@ public class LoginCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-        System.out.println("logincom");
         String name = request.getParameter("username");
         String pass = request.getParameter("password");
-        log.info(name + pass);
-
-//        if (name == null || name.equals("") || pass == null || pass.equals("")) {
-//            //System.out.println("Not");
-//            return "/login.jsp";
-//        }
-//        System.out.println(name + " " + pass);
-//        //System.out.println("Yes!");
+        log.info("trying login - " + name + " with - " + pass);
         if (request.getParameter("username") == null) {
             return "/login.jsp";
         }
         User.ROLE role = (userService.getRoleByUser(request.getParameter("username"),
                 request.getParameter("password")));
-        System.out.println(role + "rolllleee");
+        log.info("role from db - " + role);
 
 
         if (CommandUtility.checkUserIsLogged(request, name)) {
+            log.info("user with this username logged");
             return "redirect:/login";
         }
 

@@ -1,6 +1,8 @@
 package controller.filters;
 
 import model.entity.User;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -9,24 +11,22 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class SecurityFilter implements Filter {
-    private static final org.apache.logging.log4j.Logger log
-            = org.apache.logging.log4j.LogManager.getLogger(SecurityFilter.class);
+    private static final Log log = LogFactory.getLog(SecurityFilter.class);
 
     public void destroy() {
     }
 
     public void doFilter(ServletRequest request, ServletResponse response,
                          FilterChain chain) throws IOException, ServletException {
-        System.out.println("auth filter");
+        log.info("in security filter");
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
         HttpSession session = req.getSession();
-        System.out.println(session.getAttribute("role"));
-        log.info(session.getAttribute("role"));
+        log.info("role in session" + session.getAttribute("role"));
         if (session.getAttribute("role") == null) {
             setGuestRole(session);
         }
-        System.out.println(req.getRequestURI());
+        log.info("request uri" + req.getRequestURI());
         if (!checkAccess(req, User.ROLE.valueOf(session.getAttribute("role").toString()))) {
             resp.sendRedirect("redirect:/error");
             return;
