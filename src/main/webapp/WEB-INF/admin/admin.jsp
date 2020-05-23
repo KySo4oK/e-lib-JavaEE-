@@ -50,7 +50,7 @@
                 </a>
             </span>
             <span>
-                <a style="float: right; margin-right: 5px" href="/admin/orders">
+                <a style="float: right; margin-right: 5px" href="/admin">
                     <fmt:message key="orders"/>
                 </a>
             </span>

@@ -22,11 +22,11 @@ public class SecurityFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
         HttpSession session = req.getSession();
-        log.info("role in session" + session.getAttribute("role"));
+        log.info("role in session " + session.getAttribute("role"));
         if (session.getAttribute("role") == null) {
             setGuestRole(session);
         }
-        log.info("request uri" + req.getRequestURI());
+        log.info("request uri - " + req.getRequestURI());
         if (!checkAccess(req, User.ROLE.valueOf(session.getAttribute("role").toString()))) {
             resp.sendRedirect("redirect:/error");
             return;
