@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import java.sql.Array;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class TestJDBCBookDao {
@@ -56,18 +57,26 @@ public class TestJDBCBookDao {
 
     @Test
     public void testCreate() {
-        Book book = Book.Builder.aBook()
-                .name("test")
-                .nameUa("test_ua")
-                .available(true)
-                .authors(new ArrayList<>(List.of(JDBCDaoFactory.getInstance().createAuthorDao().findAll().get(0))))
-                .tag(JDBCDaoFactory.getInstance().createTagDao().findAll().get(0))
-                .build();
-        bookDao.create(book);
+        try {
+            Book book = Book.Builder.aBook()
+                    .name("test")
+                    .nameUa("test_ua")
+                    .available(true)
+                    .authors(new ArrayList<>(List.of(JDBCDaoFactory.getInstance().createAuthorDao().findAll().get(0))))
+                    .tag(JDBCDaoFactory.getInstance().createTagDao().findAll().get(0))
+                    .build();
+            bookDao.create(book);
+        } catch (Exception e) {
+            Assert.fail();
+        }
     }
 
     @Test
     public void testDelete() {
-
+        try {
+            bookDao.delete(bookDao.findAll().stream().map(Book::getBookId).max(Long::compareTo).get());
+        } catch (Exception e) {
+            Assert.fail();
+        }
     }
 }
