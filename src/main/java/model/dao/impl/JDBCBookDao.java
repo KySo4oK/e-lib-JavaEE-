@@ -5,6 +5,8 @@ import model.dao.mapper.impl.BookMapper;
 import model.entity.Author;
 import model.entity.Book;
 import model.entity.Tag;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.sql.*;
 import java.util.*;
@@ -13,6 +15,7 @@ import java.util.stream.Collectors;
 public class JDBCBookDao implements BookDao {
     private final Connection connection;
     private final BookMapper bookMapper = new BookMapper();
+    private final static Log log = LogFactory.getLog(JDBCBookDao.class);
 
     public JDBCBookDao(Connection connection) {
         this.connection = connection;
@@ -36,7 +39,7 @@ public class JDBCBookDao implements BookDao {
                 book = bookMapper.fullExtractFromResultSet(rs, books, tags, authors);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e);
         }
         return Optional.ofNullable(book);
     }
@@ -56,7 +59,10 @@ public class JDBCBookDao implements BookDao {
         return getByFilter(partOfName, authorsStrings, tagString, SQL_FIND_BY_FILTER_UA);
     }
 
-    private List<Book> getByFilter(String partOfName, String[] authorsStrings, String[] tagsStrings, String sqlFindByFilterUa) {
+    private List<Book> getByFilter(String partOfName,
+                                   String[] authorsStrings,
+                                   String[] tagsStrings,
+                                   String sqlFindByFilterUa) {
         List<Book> resultList = new ArrayList<>();
         Map<Long, Book> books = new HashMap<>();
         Map<Long, Tag> tags = new HashMap<>();
@@ -82,28 +88,30 @@ public class JDBCBookDao implements BookDao {
     @Override
     public void create(Book entity) {
         try (PreparedStatement statement = connection.prepareStatement(SQL_INSERT_BOOK_FIELDS);
-             PreparedStatement statementForTags = connection.prepareStatement(SQL_INSERT_INTO_BOOK_TAG);
              PreparedStatement statementForAuthors = connection.prepareStatement(SQL_INSERT_INTO_BOOK_AUTHOR)) {
+            connection.setAutoCommit(false);
             statement.setString(1, entity.getName());
             statement.setString(2, entity.getNameUa());
             statement.setBoolean(3, entity.isAvailable());
-
-//            for (Tag tag : entity.getTags()) {
-//                statementForTags.setString(1, entity.getName());
-//                statementForTags.setLong(2, tag.getTagId());
-//                statementForTags.addBatch();
-//            } //todo
+            statement.setLong(4, entity.getTag().getTagId());
 
             for (Author author : entity.getAuthors()) {
                 statementForAuthors.setString(1, entity.getName());
                 statementForAuthors.setLong(2, author.getAuthorId());
+                statementForAuthors.addBatch();
             }
 
             statement.execute();
-            statementForTags.executeBatch();
             statementForAuthors.executeBatch();
+            connection.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e);
+            try {
+                connection.rollback();
+            } catch (SQLException e1) {
+                log.fatal(e1);
+                throw new RuntimeException(e1);
+            }
         }
     }
 
@@ -121,7 +129,7 @@ public class JDBCBookDao implements BookDao {
                 book = bookMapper.fullExtractFromResultSet(rs, books, tags, authors);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
         return Optional.ofNullable(book);
     }
@@ -139,6 +147,7 @@ public class JDBCBookDao implements BookDao {
                 resultList.add(book);
             }
         } catch (SQLException e) {
+            log.error(e.getMessage() + " when trying findAll books");
             throw new RuntimeException(e);
         }
         return resultList.stream().distinct().collect(Collectors.toList());
@@ -152,13 +161,15 @@ public class JDBCBookDao implements BookDao {
             statement.setLong(2, entity.getBookId());
             statement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage() + "when trying update book");
+            throw new RuntimeException(e);
         }
     }
 
     @Override
     public void delete(long id) {
         try {
+            connection.setAutoCommit(false);
             PreparedStatement statement = connection.prepareStatement(SQL_DELETE);
             statement.setLong(1, id);
             PreparedStatement statement1 = connection.prepareStatement(SQL_DELETE_BOOK_AUTHOR);
@@ -166,8 +177,15 @@ public class JDBCBookDao implements BookDao {
 
             statement.execute();
             statement1.execute();
+            connection.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage() + " when trying commit transaction");
+            try {
+                connection.rollback();
+            } catch (SQLException e1) {
+                log.fatal(e1.getMessage() + " when trying rollback transaction");
+                throw new RuntimeException(e1);
+            }
         }
     }
 
@@ -176,6 +194,7 @@ public class JDBCBookDao implements BookDao {
         try {
             connection.close();
         } catch (SQLException e) {
+            log.error(e.getMessage() + " when trying close");
             throw new RuntimeException(e);
         }
     }

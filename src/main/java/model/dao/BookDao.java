@@ -7,7 +7,6 @@ import java.util.Optional;
 
 public interface BookDao extends GenericDao<Book> {
     String SQL_DELETE_BOOK_AUTHOR = "delete from book_author where book_id = ?";
-    String SQL_INSERT_INTO_BOOK_TAG = "insert into book_tag (book_id, tag_id) values ((select book_id from book where name = ?), ?)";
     String SQL_INSERT_INTO_BOOK_AUTHOR = "insert into book_author (book_id, author_id) values ((select book_id from book where name = ?), ?)";
     String SQL_FIND_ALL = "select book.book_id     as \"bookId\",\n" +
             "       book.name        as \"bookName\",\n" +
@@ -28,7 +27,7 @@ public interface BookDao extends GenericDao<Book> {
     String SQL_FIND_BY_ID = SQL_FIND_ALL + " where book.book_id = ?";
     String SQL_FIND_BY_NAME = SQL_FIND_ALL + " where book.name = ?";
     String SQL_FIND_BY_NAME_UA = SQL_FIND_ALL + " where book.name_ua = ?";
-    String SQL_INSERT_BOOK_FIELDS = "insert into book (name, name_ua, available) values (?, ?, ?)";
+    String SQL_INSERT_BOOK_FIELDS = "insert into book (name, name_ua, available, tag_id) values (?, ?, ?, ?)";
     String SQL_UPDATE = "update book set available = ? where book_id = ?";
     String SQL_DELETE = "delete from book where book_id = ?";
     String SQL_FIND_BY_FILTER = SQL_FIND_ALL + " where available = true\n" +

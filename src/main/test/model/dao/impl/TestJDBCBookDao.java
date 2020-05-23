@@ -3,6 +3,7 @@ package model.dao.impl;
 import model.dao.BookDao;
 import model.entity.Author;
 import model.entity.Book;
+import model.entity.Tag;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -59,12 +60,8 @@ public class TestJDBCBookDao {
                 .name("test")
                 .nameUa("test_ua")
                 .available(true)
-                .authors(new ArrayList<>(List.of(
-                        Author.Builder.anAuthor()
-                                .name("test")
-                                .nameUa("test_ua")
-                                .authorId(135L)
-                                .build())))
+                .authors(new ArrayList<>(List.of(JDBCDaoFactory.getInstance().createAuthorDao().findAll().get(0))))
+                .tag(JDBCDaoFactory.getInstance().createTagDao().findAll().get(0))
                 .build();
         bookDao.create(book);
     }
