@@ -3,6 +3,8 @@ package model.dao.impl;
 import model.dao.ShelfDao;
 import model.dao.mapper.impl.ShelfMapper;
 import model.entity.Shelf;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,6 +15,7 @@ import java.util.stream.Collectors;
 public class JDBCShelfDao implements ShelfDao {
     private final Connection connection;
     private final ShelfMapper shelfMapper = new ShelfMapper();
+    private final Log log = LogFactory.getLog(JDBCShelfDao.class);
 
     public JDBCShelfDao(Connection connection) {
         this.connection = connection;
@@ -30,7 +33,7 @@ public class JDBCShelfDao implements ShelfDao {
                 shelf = shelfMapper.fullExtractFromResultSet(rs);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.info("failed - " + e);
         }
         return Optional.ofNullable(shelf);
     }

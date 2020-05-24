@@ -10,6 +10,8 @@ import model.entity.Book;
 import model.entity.Shelf;
 import model.entity.Tag;
 import model.exception.BookNotFoundException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,8 +20,8 @@ public class BookService {
     private final DaoFactory daoFactory = DaoFactory.getInstance();
     private final TagService tagService;
     private final AuthorService authorService;
-    private static final org.apache.logging.log4j.Logger log
-            = org.apache.logging.log4j.LogManager.getLogger(BookService.class);
+    private static final Log log
+            = LogFactory.getLog(BookService.class);
 
     public BookService(TagService tagService,
                        AuthorService authorService) {
@@ -70,7 +72,7 @@ public class BookService {
 
     //@Transactional
     public void saveNewBookFromClient(BookDTO bookDTO) {
-        log.info("create book {}", bookDTO);
+        log.info("create book - " + bookDTO);
         try (BookDao bookDao = daoFactory.createBookDao();
              ShelfDao shelfDao = daoFactory.createShelfDao()) {
             Shelf shelf = shelfDao.findByBookId(null).orElse(new Shelf());
@@ -115,7 +117,7 @@ public class BookService {
     }
 
     public void editBookAndSave(BookDTO bookDTO) throws BookNotFoundException {
-        log.info("save book {}", bookDTO);
+        log.info("save book - " + bookDTO);
         try (BookDao bookDao = daoFactory.createBookDao()) {
             bookDao.update(getEditedBook(bookDTO));//todo normal updating
         }
@@ -133,7 +135,7 @@ public class BookService {
     }
 
     public void deleteBook(long id) throws BookNotFoundException {
-        log.info("delete book with id {}", id);
+        log.info("delete book with id - " + id);
         try (BookDao bookDao = daoFactory.createBookDao()) {
             bookDao.delete(id);
         }

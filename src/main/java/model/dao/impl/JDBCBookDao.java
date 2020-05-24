@@ -105,11 +105,11 @@ public class JDBCBookDao implements BookDao {
             statementForAuthors.executeBatch();
             connection.commit();
         } catch (SQLException e) {
-            log.error(e);
+            log.info(e);
             try {
                 connection.rollback();
             } catch (SQLException e1) {
-                log.fatal(e1);
+                log.info(e1);
                 throw new RuntimeException(e1);
             }
         }

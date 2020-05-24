@@ -75,15 +75,15 @@
     <div v-if="picked==1" id="add" style="max-width: 500px; margin: auto;">
         <input id="book_name" type="text" class="form-control" placeholder="<fmt:message key="book.name.en"/>"
                v-model="addedBook.name">
-        <input id="book_name_ua" type="text" class="form-control" placeholder="<fmt:message key="book.name.en"/>"
+        <input id="book_name_ua" type="text" class="form-control" placeholder="<fmt:message key="book.name.ua"/>"
                v-model="addedBook.nameUa">
         <!--            tags-->
         <div id="tagsChecks" class="col-md-6 boxes">
             <div v-for="tag in tags">
                 <div style="display: inline;">
-                    <input style="display: inline; float: left; margin-left: 0px" type="checkbox"
+                    <input style="display: inline; float: left; margin-left: 0px" type="radio"
                            v-bind:value="tag"
-                           v-model="addedBook.tags">
+                           v-model="addedBook.tag">
                     <h6 style="display: inline; margin-right: 0px;">{{tag}}</h6>
                 </div>
             </div>
@@ -203,7 +203,8 @@
                         <button class="btn btn-warning" v-on:click="editBook(book)"><fmt:message key="edit"/></button>
                     </td>
                     <td>
-                        <button class="btn btn-warning" v-on:click="deleteBook(book)"><fmt:message key="delete"/></button>
+                        <button class="btn btn-warning" v-on:click="deleteBook(book)"><fmt:message
+                                key="delete"/></button>
                     </td>
                 </tr>
                 </tbody>
@@ -248,7 +249,7 @@
                 let res = await axios.post('/admin/add', this.addedBook)
                     .catch(function (error) {
                         if (error.response) {
-                            if(error.response.status == '404')
+                            if (error.response.status == '404')
                                 return;//todo show field with this problem
                         }
                     });
@@ -292,11 +293,11 @@
             async editBook(book) {
                 let res = await axios.put('/admin/edit', book)
                     .catch(function (error) {
-                    if (error.response) {
-                        if(error.response.status == '404')
-                            return;//todo show field with this problem
-                    }
-                });
+                        if (error.response) {
+                            if (error.response.status == '404')
+                                return;//todo show field with this problem
+                        }
+                    });
                 if (!res) return;
                 this.message = res.data + book.name;
                 this.page = 0;
@@ -306,7 +307,7 @@
                 let res = await axios.delete('/admin/delete/' + book.id)
                     .catch(function (error) {
                         if (error.response) {
-                            if(error.response.status == '404')
+                            if (error.response.status == '404')
                                 return;//todo show field with this problem
                         }
                     });

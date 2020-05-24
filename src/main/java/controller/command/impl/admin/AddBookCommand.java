@@ -5,12 +5,15 @@ import controller.command.Command;
 import model.dto.BookDTO;
 import model.exception.BookAlreadyExistException;
 import model.service.BookService;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 public class AddBookCommand implements Command {
     private final BookService bookService;
+    private final static Log log = LogFactory.getLog(AddBookCommand.class);
 
     public AddBookCommand(BookService bookService) {
         this.bookService = bookService;
@@ -18,9 +21,13 @@ public class AddBookCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
+
         try {
-            bookService.saveNewBookFromClient(getBookDTOFromRequest(request));
+            BookDTO bookDTO = getBookDTOFromRequest(request);
+            log.info("trying save - " + bookDTO);
+            bookService.saveNewBookFromClient(bookDTO);
         } catch (IOException e) {
+            log.info("failed read json");
             throw new BookAlreadyExistException("oops");
         }
         return "{}";
