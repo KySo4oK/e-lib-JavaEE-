@@ -16,7 +16,7 @@ public interface ShelfDao extends GenericDao<Shelf> {
     String SQL_FIND_BY_BOOK_ID = SQL_FIND_ALL + " where book.book_id = ?";
     String SQL_FIND_EMPTY = SQL_FIND_ALL + " where book.book_id is null limit 1";
     String SQL_INSERT = "insert into shelf (book_id) values (?)";
-    String SQL_UPDATE = "update shelf set name where shelf_id = ?";
+    String SQL_UPDATE = "update shelf set book_id = ? where shelf_id = ?";
     String SQL_DELETE = "delete from shelf where shelf_id = ?";
 
     Optional<Shelf> findByBookId(Long bookId);

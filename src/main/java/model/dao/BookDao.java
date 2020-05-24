@@ -7,7 +7,8 @@ import java.util.Optional;
 
 public interface BookDao extends GenericDao<Book> {
     String SQL_DELETE_BOOK_AUTHOR = "delete from book_author where book_id = ?";
-    String SQL_INSERT_INTO_BOOK_AUTHOR = "insert into book_author (book_id, author_id) values ((select book_id from book where name = ?), ?)";
+    String SQL_INSERT_INTO_BOOK_AUTHOR = "insert into book_author (book_id, author_id)\n" +
+            "values ((select currval(pg_get_serial_sequence('book', 'book_id'))), ?)";
     String SQL_FIND_ALL = "select book.book_id     as \"bookId\",\n" +
             "       book.name        as \"bookName\",\n" +
             "       book.name_ua     as \"bookNameUa\",\n" +

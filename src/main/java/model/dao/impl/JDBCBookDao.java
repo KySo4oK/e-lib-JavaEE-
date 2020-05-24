@@ -96,8 +96,7 @@ public class JDBCBookDao implements BookDao {
             statement.setLong(4, entity.getTag().getTagId());
 
             for (Author author : entity.getAuthors()) {
-                statementForAuthors.setString(1, entity.getName());
-                statementForAuthors.setLong(2, author.getAuthorId());
+                statementForAuthors.setLong(1, author.getAuthorId());
                 statementForAuthors.addBatch();
             }
 
