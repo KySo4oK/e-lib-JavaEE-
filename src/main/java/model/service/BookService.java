@@ -14,6 +14,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class BookService {
@@ -75,11 +76,13 @@ public class BookService {
         log.info("create book - " + bookDTO);
         try (BookDao bookDao = daoFactory.createBookDao();
              ShelfDao shelfDao = daoFactory.createShelfDao()) {
-            Shelf shelf = shelfDao.findByBookId(null).orElse(new Shelf());
+            Shelf shelf = shelfDao.findByBookId(null)
+                    .orElseThrow(() -> new RuntimeException("not available shelf"));//todo change exc
             Book book = BuildBookFromClient(bookDTO, shelf);
             bookDao.create(book);
-            shelf.setBook(book);
-            shelfDao.create(shelf);
+            shelf.setBook(bookDao.findByName(book.getName())
+                    .orElseThrow(() -> new BookNotFoundException("failed saving")));
+            shelfDao.update(shelf);
         }
     }
 

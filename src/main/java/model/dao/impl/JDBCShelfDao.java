@@ -24,16 +24,26 @@ public class JDBCShelfDao implements ShelfDao {
     @Override
     public Optional<Shelf> findByBookId(Long bookId) {
         Shelf shelf = null;
-
-        try {
-            PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_BOOK_ID);
-            statement.setLong(1, bookId);
-            ResultSet rs = statement.executeQuery();
-            while (rs.next()) {
-                shelf = shelfMapper.fullExtractFromResultSet(rs);
+        if (bookId == null) {
+            try (Statement statement = connection.createStatement()) {
+                ResultSet rs = statement.executeQuery(SQL_FIND_EMPTY);
+                while (rs.next()) {
+                    shelf = shelfMapper.fullExtractFromResultSet(rs);
+                }
+            } catch (SQLException e) {
+                log.info("failed - " + e);
             }
-        } catch (SQLException e) {
-            log.info("failed - " + e);
+        } else {
+            try {
+                PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_BOOK_ID);
+                statement.setObject(1, bookId, Types.BIGINT);
+                ResultSet rs = statement.executeQuery();
+                while (rs.next()) {
+                    shelf = shelfMapper.fullExtractFromResultSet(rs);
+                }
+            } catch (SQLException e) {
+                log.info("failed - " + e);
+            }
         }
         return Optional.ofNullable(shelf);
     }
