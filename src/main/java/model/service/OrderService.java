@@ -10,6 +10,8 @@ import model.exception.BookNotAvailableException;
 import model.exception.BookNotFoundException;
 import model.exception.OrderNotFoundException;
 import model.exception.UsernameNotFoundException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -21,8 +23,8 @@ import java.util.stream.Collectors;
 public class OrderService {
     private final DaoFactory daoFactory = DaoFactory.getInstance();
     private static final int PERIOD_OF_USE = 1;
-    private static final org.apache.logging.log4j.Logger log
-            = org.apache.logging.log4j.LogManager.getLogger(OrderService.class);
+    private static final Log log
+            = LogFactory.getLog(OrderService.class);
 
 
     public void createAndSaveNewOrder(BookDTO bookDTO, String username) {
@@ -47,7 +49,7 @@ public class OrderService {
     }
 
     public void permitOrder(OrderDTO orderDTO) {
-        log.info("permit order {}", orderDTO);
+        log.info("permit order - " + orderDTO);
         try (OrderDao orderDao = daoFactory.createOrderDao()) {
             orderDao.update(activateAndChangeOrder(orderDTO));// todo normal updating
         }
@@ -87,7 +89,7 @@ public class OrderService {
     }
 
     public List<OrderDTO> getActiveOrdersByUserName(String name) {
-        log.info("active orders by username {}", name);
+        log.info("active orders by username - " + name);
         try (OrderDao orderDao = daoFactory.createOrderDao()) {
             return orderDao.findAllByActiveAndUser_Username(true, name)
                     .stream()
@@ -120,7 +122,7 @@ public class OrderService {
     }
 
     public List<OrderDTO> getPassiveOrdersByUserName(String name) {
-        log.info("passive orders by username {}", name);
+        log.info("passive orders by username - " + name);
         try (OrderDao orderDao = daoFactory.createOrderDao()) {
             return orderDao.findAllByActiveAndUser_Username(false, name)
                     .stream()
@@ -130,7 +132,7 @@ public class OrderService {
     }
 
     public void returnBook(OrderDTO orderDTO) {
-        log.info("return book {}", orderDTO.getBookName());
+        log.info("return book - " + orderDTO.getBookName());
         saveBookAndDeleteOrder(getOrderAndPrepareBookForReturning(orderDTO));
     }
 
