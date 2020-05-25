@@ -2,6 +2,7 @@ package controller.command.impl.admin;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import controller.command.Command;
+import controller.util.LocaleExtractor;
 import model.dto.BookDTO;
 import model.exception.BookAlreadyExistException;
 import model.service.BookService;
@@ -10,7 +11,6 @@ import org.apache.commons.logging.LogFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.Locale;
 
 public class AddBookCommand implements Command {
     private final BookService bookService;
@@ -27,7 +27,7 @@ public class AddBookCommand implements Command {
             BookDTO bookDTO = getBookDTOFromRequest(request);
             log.info("trying save - " + bookDTO);
             bookService.saveNewBookFromClient(bookDTO,
-                    (Locale) request.getSession().getAttribute("language"));
+                    LocaleExtractor.extractFromRequest(request));
         } catch (IOException e) {
             log.info("failed read json");
             throw new BookAlreadyExistException("oops");

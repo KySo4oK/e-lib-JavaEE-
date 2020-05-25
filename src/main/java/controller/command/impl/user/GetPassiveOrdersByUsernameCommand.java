@@ -3,6 +3,7 @@ package controller.command.impl.user;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import controller.command.Command;
+import controller.util.LocaleExtractor;
 import model.exception.OrderNotFoundException;
 import model.service.OrderService;
 import org.apache.commons.logging.Log;
@@ -23,7 +24,7 @@ public class GetPassiveOrdersByUsernameCommand implements Command {
     public String execute(HttpServletRequest request) {
         try {
             return getJsonOfPassiveOrdersByUserName(request.getSession().getAttribute("username").toString(),
-                    (Locale) request.getSession().getAttribute("language"));
+                    LocaleExtractor.extractFromRequest(request));
         } catch (JsonProcessingException e) {
             throw new OrderNotFoundException("order not found"); //todo
         }

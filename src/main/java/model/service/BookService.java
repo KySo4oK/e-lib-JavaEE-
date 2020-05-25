@@ -32,6 +32,7 @@ public class BookService {
 
     public List<BookDTO> getAvailableBooks(/*Pageable pageable*/Locale locale) {
         //return bookDao.findAllByAvailableIsTrue(pageable) //todo
+        log.info("locale - " + locale);
         try (BookDao bookDao = daoFactory.createBookDao()) {
             return bookDao.findAll()
                     .stream()
