@@ -2,6 +2,7 @@ package model.dao;
 
 import model.entity.Book;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,6 +58,7 @@ public interface BookDao extends GenericDao<Book> {
             "                                        from tag\n" +
             "                                        where name_ua in (SELECT * FROM unnest(?))))\n" +
             "  and book.name_ua like ?";
+    String SQL_FIND_ALL_AVAILABLE =SQL_FIND_ALL + " where available = true";
 
     Optional<Book> findByName(String name);
 
@@ -65,4 +67,6 @@ public interface BookDao extends GenericDao<Book> {
     List<Book> getBooksByFilter(String partOfName, String[] authors, String[] tags);
 
     List<Book> getBooksByFilterUa(String partOfName, String[] authors, String[] tags);
+
+    List<Book> findAllByAvailableIsTrue();
 }

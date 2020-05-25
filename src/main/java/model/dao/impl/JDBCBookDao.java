@@ -59,6 +59,29 @@ public class JDBCBookDao implements BookDao {
         return getByFilter(partOfName, authorsStrings, tagString, SQL_FIND_BY_FILTER_UA);
     }
 
+    @Override
+    public List<Book> findAllByAvailableIsTrue() {
+        return findAllWithQuery(SQL_FIND_ALL_AVAILABLE);
+    }
+
+    private List<Book> findAllWithQuery(String sqlFindAllAvailable) {
+        List<Book> resultList = new ArrayList<>();
+        Map<Long, Book> books = new HashMap<>();
+        Map<Long, Tag> tags = new HashMap<>();
+        Map<Long, Author> authors = new HashMap<>();
+        try (Statement st = connection.createStatement()) {
+            ResultSet rs = st.executeQuery(sqlFindAllAvailable);
+            while (rs.next()) {
+                Book book = bookMapper.fullExtractFromResultSet(rs, books, tags, authors);
+                resultList.add(book);
+            }
+        } catch (SQLException e) {
+            log.error(e.getMessage() + " when trying findAll books");
+            throw new RuntimeException(e);
+        }
+        return resultList.stream().distinct().collect(Collectors.toList());
+    }
+
     private List<Book> getByFilter(String partOfName,
                                    String[] authorsStrings,
                                    String[] tagsStrings,
@@ -135,21 +158,7 @@ public class JDBCBookDao implements BookDao {
 
     @Override
     public List<Book> findAll() {
-        List<Book> resultList = new ArrayList<>();
-        Map<Long, Book> books = new HashMap<>();
-        Map<Long, Tag> tags = new HashMap<>();
-        Map<Long, Author> authors = new HashMap<>();
-        try (Statement st = connection.createStatement()) {
-            ResultSet rs = st.executeQuery(SQL_FIND_ALL);
-            while (rs.next()) {
-                Book book = bookMapper.fullExtractFromResultSet(rs, books, tags, authors);
-                resultList.add(book);
-            }
-        } catch (SQLException e) {
-            log.error(e.getMessage() + " when trying findAll books");
-            throw new RuntimeException(e);
-        }
-        return resultList.stream().distinct().collect(Collectors.toList());
+        return findAllWithQuery(SQL_FIND_ALL);
     }
 
     @Override
