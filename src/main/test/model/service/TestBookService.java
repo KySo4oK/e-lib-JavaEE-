@@ -4,20 +4,23 @@ import model.dto.BookDTO;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.Locale;
+
 public class TestBookService {
+
+    private final BookService bookService = ServiceFactory.getInstance().createBookService();
+
     @Test
     public void testSaveNewBookFromClient() {
-        BookService bookService = ServiceFactory.getInstance().createBookService();
         bookService.saveNewBookFromClient(BookDTO.Builder.aBookDTO()
                 .authors(new String[]{"Fyodor Dostoyevsky"})
                 .tag("drama")
                 .name("The Idiot")
                 .nameUa("Ідіот")
-                .build());
+                .build(), Locale.ENGLISH);
     }
     @Test
     public void testDeleteBook(){
-        BookService bookService = ServiceFactory.getInstance().createBookService();
         try{
             bookService.deleteBook(58L);
         } catch (Exception e){
@@ -25,4 +28,9 @@ public class TestBookService {
             Assert.fail();
         }
     }
+    @Test
+    public void testAvailableBooks(){
+        System.out.println(bookService.getAvailableBooks(new Locale("ua")));
+    }
+
 }

@@ -8,6 +8,7 @@ import model.service.BookService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Locale;
 
 public class EditBookCommand implements Command {
     private final BookService bookService;
@@ -19,7 +20,8 @@ public class EditBookCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         try {
-            bookService.editBookAndSave(getBookDTOFromRequest(request));
+            bookService.editBookAndSave(getBookDTOFromRequest(request),
+                    (Locale) request.getSession().getAttribute("language"));
         } catch (IOException e) {
             throw new BookAlreadyExistException("oops");
         }

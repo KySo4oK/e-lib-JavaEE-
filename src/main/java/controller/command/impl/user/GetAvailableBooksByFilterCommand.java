@@ -10,6 +10,7 @@ import model.service.BookService;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 public class GetAvailableBooksByFilterCommand implements Command {
     private final BookService bookService;
@@ -29,7 +30,8 @@ public class GetAvailableBooksByFilterCommand implements Command {
 
     private List<BookDTO> getAvailableBooksByFilter(HttpServletRequest request) throws IOException {
         return bookService
-                .getAvailableBooksByFilter(getFilterDTOFromRequest(request));
+                .getAvailableBooksByFilter(getFilterDTOFromRequest(request),
+                        (Locale) request.getSession().getAttribute("language"));
     }
 
     private String getJsonOfBookList(List<BookDTO> list) throws IOException {

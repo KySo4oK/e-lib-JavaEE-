@@ -7,6 +7,7 @@ import model.exception.AuthorNotFoundException;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -15,30 +16,30 @@ public class AuthorService {
     private static final org.apache.logging.log4j.Logger log
             = org.apache.logging.log4j.LogManager.getLogger(AuthorService.class);
 
-    public List<String> getAllAuthors() {
+    public List<String> getAllAuthors(Locale locale) {
         try (AuthorDao authorDao = daoFactory.createAuthorDao()) {
             return authorDao.findAll()
                     .stream()
-                    .map(this::getNameByLocale)
+                    .map(a -> getNameByLocale(a, locale))
                     .collect(Collectors.toList());
         }
     }
 
-    private String getNameByLocale(Author author) {
-        return /*LocaleContextHolder.getLocale().equals(Locale.ENGLISH)*/true ? author.getName() : author.getNameUa();
+    private String getNameByLocale(Author author, Locale locale) {
+        return locale.equals(Locale.ENGLISH) ? author.getName() : author.getNameUa();
     }
 
-    public List<Author> getAuthorsFromStringArray(String[] authors) {
+    public List<Author> getAuthorsFromStringArray(String[] authors, Locale locale) {
         log.info("get authors from array {}", Arrays.toString(authors));
         return Arrays.stream(authors)
-                .map(x -> getByNameWithLocale(x)
+                .map(x -> getByNameWithLocale(x, locale)
                         .orElseThrow(() -> new AuthorNotFoundException("can not found author")))
                 .collect(Collectors.toList());
     }
 
-    private Optional<Author> getByNameWithLocale(String author) {
+    private Optional<Author> getByNameWithLocale(String author, Locale locale) {
         try (AuthorDao authorDao = daoFactory.createAuthorDao()) {
-            return /*LocaleContextHolder.getLocale().equals(Locale.ENGLISH)*/true ?
+            return locale.equals(Locale.ENGLISH) ?
                     authorDao.findByName(author) : authorDao.findByNameUa(author);
         }
 

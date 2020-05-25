@@ -69,64 +69,63 @@ public class OrderService {
         }
     }
 
-    public List<OrderDTO> getActiveOrders() {
+    public List<OrderDTO> getActiveOrders(Locale locale) {
         try (OrderDao orderDao = daoFactory.createOrderDao()) {
             return orderDao
                     .findAllByActive(true)
                     .stream()
-                    .map(this::buildOrderDTO)
+                    .map(order -> buildOrderDTO(order, locale))
                     .collect(Collectors.toList());
         }
     }
 
-    public List<OrderDTO> getPassiveOrders() {
+    public List<OrderDTO> getPassiveOrders(Locale locale) {
         try (OrderDao orderDao = daoFactory.createOrderDao()) {
             return orderDao.findAllByActive(false)
                     .stream()
-                    .map(this::buildOrderDTO)
+                    .map(order -> buildOrderDTO(order, locale))
                     .collect(Collectors.toList());
         }
     }
 
-    public List<OrderDTO> getActiveOrdersByUserName(String name) {
+    public List<OrderDTO> getActiveOrdersByUserName(String name, Locale locale) {
         log.info("active orders by username - " + name);
         try (OrderDao orderDao = daoFactory.createOrderDao()) {
             return orderDao.findAllByActiveAndUser_Username(true, name)
                     .stream()
-                    .map(this::buildOrderDTO)
+                    .map(order -> buildOrderDTO(order, locale))
                     .collect(Collectors.toList());
         }
     }
 
-    private OrderDTO buildOrderDTO(Order order) {
+    private OrderDTO buildOrderDTO(Order order, Locale locale) {
         return OrderDTO.Builder.anOrderDTO()
-                .bookName(getBookNameByLocale(order))
+                .bookName(getBookNameByLocale(order, locale))
                 .id(order.getOrderId())
                 .userName(order.getUser().getUsername())
                 .endDate(order.getEndDate()
-                        .format(getFormatterByLocale()))
+                        .format(getFormatterByLocale(locale)))
                 .startDate(order.getStartDate()
-                        .format(getFormatterByLocale()))
+                        .format(getFormatterByLocale(locale)))
                 .build();
     }
 
-    private String getBookNameByLocale(Order order) {
-        return /*LocaleContextHolder.getLocale().equals(Locale.ENGLISH)*/true ?
+    private String getBookNameByLocale(Order order, Locale locale) {
+        return locale.equals(Locale.ENGLISH) ?
                 order.getBook().getName() : order.getBook().getNameUa();
     }
 
-    private DateTimeFormatter getFormatterByLocale() {
+    private DateTimeFormatter getFormatterByLocale(Locale locale) {
         return DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)
-                .withLocale(//LocaleContextHolder.getLocale());
-                        Locale.ENGLISH);
+                .withLocale(locale);
     }
 
-    public List<OrderDTO> getPassiveOrdersByUserName(String name) {
+    public List<OrderDTO> getPassiveOrdersByUserName(String name, Locale locale) {
         log.info("passive orders by username - " + name);
         try (OrderDao orderDao = daoFactory.createOrderDao()) {
             return orderDao.findAllByActiveAndUser_Username(false, name)
                     .stream()
-                    .map(this::buildOrderDTO)
+                    .map(order -> buildOrderDTO(order, locale))
                     .collect(Collectors.toList());
         }
     }

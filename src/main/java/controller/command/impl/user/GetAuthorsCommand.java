@@ -7,6 +7,7 @@ import model.exception.AuthorNotFoundException;
 import model.service.AuthorService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Locale;
 
 public class GetAuthorsCommand implements Command {
     private final AuthorService authorService;
@@ -18,7 +19,8 @@ public class GetAuthorsCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         try {
-            return new ObjectMapper().writeValueAsString(authorService.getAllAuthors());
+            return new ObjectMapper().writeValueAsString(authorService
+                    .getAllAuthors((Locale) request.getSession().getAttribute("language")));
         } catch (JsonProcessingException e) {
             throw new AuthorNotFoundException("author not found"); // todo
         }

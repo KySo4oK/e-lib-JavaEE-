@@ -26,7 +26,7 @@ public class BookDTO {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", nameUa='" + nameUa + '\'' +
-                ", tags=" + tag +
+                ", tag=" + tag +
                 ", authors=" + Arrays.toString(authors) +
                 '}';
     }

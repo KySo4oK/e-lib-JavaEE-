@@ -10,6 +10,7 @@ import org.apache.commons.logging.LogFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Locale;
 
 public class AddBookCommand implements Command {
     private final BookService bookService;
@@ -25,7 +26,8 @@ public class AddBookCommand implements Command {
         try {
             BookDTO bookDTO = getBookDTOFromRequest(request);
             log.info("trying save - " + bookDTO);
-            bookService.saveNewBookFromClient(bookDTO);
+            bookService.saveNewBookFromClient(bookDTO,
+                    (Locale) request.getSession().getAttribute("language"));
         } catch (IOException e) {
             log.info("failed read json");
             throw new BookAlreadyExistException("oops");

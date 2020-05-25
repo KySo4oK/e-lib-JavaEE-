@@ -7,6 +7,7 @@ import model.exception.TagNotFoundException;
 import model.service.TagService;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Locale;
 
 public class GetTagsCommand implements Command {
     private final TagService tagsService;
@@ -18,7 +19,8 @@ public class GetTagsCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         try {
-            return new ObjectMapper().writeValueAsString(tagsService.getAllTags());
+            return new ObjectMapper().writeValueAsString(tagsService
+                    .getAllTags((Locale) request.getSession().getAttribute("language")));
         } catch (JsonProcessingException e) {
             throw new TagNotFoundException("tag not found");//todo use more specific exc
         }

@@ -5,11 +5,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import controller.command.Command;
 import model.exception.OrderNotFoundException;
 import model.service.OrderService;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Locale;
 
 public class GetActiveOrdersByUsernameCommand implements Command {
     private final OrderService orderService;
+    private Log log = LogFactory.getLog(GetActiveOrdersByUsernameCommand.class);
 
     public GetActiveOrdersByUsernameCommand(OrderService orderService) {
         this.orderService = orderService;
@@ -18,13 +22,20 @@ public class GetActiveOrdersByUsernameCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         try {
-            return getJsonOfActiveOrdersByUserName(request.getSession().getAttribute("username").toString());
+            return getJsonOfActiveOrdersByUserName(request
+                            .getSession()
+                            .getAttribute("username")
+                            .toString(),
+                    (Locale) request.getSession().getAttribute("language"));
         } catch (JsonProcessingException e) {
             throw new OrderNotFoundException("order not found"); //todo
         }
     }
 
-    private String getJsonOfActiveOrdersByUserName(String username) throws JsonProcessingException {
-        return new ObjectMapper().writeValueAsString(orderService.getActiveOrdersByUserName(username));
+    private String getJsonOfActiveOrdersByUserName(String username, Locale locale)
+            throws JsonProcessingException {
+        log.info("request locale - " + locale);
+        return new ObjectMapper()
+                .writeValueAsString(orderService.getActiveOrdersByUserName(username, locale));
     }
 }

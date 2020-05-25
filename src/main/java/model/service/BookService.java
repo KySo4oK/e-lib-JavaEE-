@@ -14,7 +14,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class BookService {
@@ -30,55 +30,55 @@ public class BookService {
         this.authorService = authorService;
     }
 
-    public List<BookDTO> getAvailableBooks(/*Pageable pageable*/) {
+    public List<BookDTO> getAvailableBooks(/*Pageable pageable*/Locale locale) {
         //return bookDao.findAllByAvailableIsTrue(pageable) //todo
         try (BookDao bookDao = daoFactory.createBookDao()) {
             return bookDao.findAll()
                     .stream()
-                    .map(this::buildBookDTO)
+                    .map(book -> buildBookDTO(book, locale))
                     .collect(Collectors.toList());
         }
     }
 
-    private BookDTO buildBookDTO(Book book) {
+    private BookDTO buildBookDTO(Book book, Locale locale) {
         return BookDTO.Builder.aBookDTO()
                 .id(book.getBookId())
-                .authors(getArrayOfAuthors(book))
-                .tag(getTagNameByLocale(book.getTag()))
-                .name(getBookNameByLocale(book))
+                .authors(getArrayOfAuthors(book, locale))
+                .tag(getTagNameByLocale(book.getTag(), locale))
+                .name(getBookNameByLocale(book, locale))
                 .build();
     }
 
-    private String getBookNameByLocale(Book book) {
-        return /*LocaleContextHolder.getLocale().equals(Locale.ENGLISH)*/true ? book.getName() : book.getNameUa();
+    private String getBookNameByLocale(Book book, Locale locale) {
+        return locale.equals(Locale.ENGLISH) ? book.getName() : book.getNameUa();
     }
 
 
-    private String getTagNameByLocale(Tag tag) {
-        return /*LocaleContextHolder.getLocale().equals(Locale.ENGLISH)*/true ?
+    private String getTagNameByLocale(Tag tag, Locale locale) {
+        return locale.equals(Locale.ENGLISH) ?
                 tag.getName() : tag.getNameUa();
     }
 
-    private String[] getArrayOfAuthors(Book book) {
+    private String[] getArrayOfAuthors(Book book, Locale locale) {
         return book.getAuthors()
                 .stream()
-                .map(this::getAuthorsByLocale)
+                .map(author -> getAuthorsByLocale(author, locale))
                 .toArray(String[]::new);
     }
 
-    private String getAuthorsByLocale(Author author) {
-        return /*LocaleContextHolder.getLocale().equals(Locale.ENGLISH)*/true ?
+    private String getAuthorsByLocale(Author author, Locale locale) {
+        return locale.equals(Locale.ENGLISH) ?
                 author.getName() : author.getNameUa();
     }
 
     //@Transactional
-    public void saveNewBookFromClient(BookDTO bookDTO) {
+    public void saveNewBookFromClient(BookDTO bookDTO, Locale locale) {
         log.info("create book - " + bookDTO);
         try (BookDao bookDao = daoFactory.createBookDao();
              ShelfDao shelfDao = daoFactory.createShelfDao()) {
             Shelf shelf = shelfDao.findByBookId(null)
                     .orElseThrow(() -> new RuntimeException("not available shelf"));//todo change exc
-            Book book = BuildBookFromClient(bookDTO, shelf);
+            Book book = BuildBookFromClient(bookDTO, shelf, locale);
             bookDao.create(book);
             shelf.setBook(bookDao.findByName(book.getName())
                     .orElseThrow(() -> new BookNotFoundException("failed saving")));
@@ -86,28 +86,28 @@ public class BookService {
         }
     }
 
-    private Book BuildBookFromClient(BookDTO bookDTO, Shelf shelf) {
+    private Book BuildBookFromClient(BookDTO bookDTO, Shelf shelf, Locale locale) {
         return Book.Builder.aBook()
                 .name(bookDTO.getName())
                 .nameUa(bookDTO.getNameUa())
                 .shelf(shelf)
-                .authors(authorService.getAuthorsFromStringArray(bookDTO.getAuthors()))
-                .tag(tagService.getTagByString(bookDTO.getTag()))
+                .authors(authorService.getAuthorsFromStringArray(bookDTO.getAuthors(), locale))
+                .tag(tagService.getTagByString(bookDTO.getTag(), locale))
                 .available(true)
                 .build();
     }
 
-    public List<BookDTO> getAvailableBooksByFilter(FilterDTO filterDTO/*, Pageable pageable*/) {//todo
-        return getBooksByFilter(filterDTO/*, pageable*/)
+    public List<BookDTO> getAvailableBooksByFilter(FilterDTO filterDTO,/*, Pageable pageable*/Locale locale) {//todo
+        return getBooksByFilter(filterDTO,/*, pageable*/locale)
                 .stream()
-                .map(this::buildBookDTO)
+                .map(book -> buildBookDTO(book, locale))
                 .collect(Collectors.toList());
 
     }
 
-    private List<Book> getBooksByFilter(FilterDTO filterDTO/*, Pageable pageable*/) {
+    private List<Book> getBooksByFilter(FilterDTO filterDTO,/*, Pageable pageable*/Locale locale) {
         try (BookDao bookDao = daoFactory.createBookDao()) {
-            return /*LocaleContextHolder.getLocale().equals(Locale.ENGLISH)*/true ?
+            return locale.equals(Locale.ENGLISH) ?
                     bookDao.getBooksByFilter(
                             filterDTO.getName(),
                             filterDTO.getAuthors(),
@@ -119,20 +119,20 @@ public class BookService {
         }
     }
 
-    public void editBookAndSave(BookDTO bookDTO) throws BookNotFoundException {
+    public void editBookAndSave(BookDTO bookDTO, Locale locale) throws BookNotFoundException {
         log.info("save book - " + bookDTO);
         try (BookDao bookDao = daoFactory.createBookDao()) {
-            bookDao.update(getEditedBook(bookDTO));//todo normal updating
+            bookDao.update(getEditedBook(bookDTO, locale));//todo normal updating
         }
     }
 
-    private Book getEditedBook(BookDTO bookDTO) {
+    private Book getEditedBook(BookDTO bookDTO, Locale locale) {
         try (BookDao bookDao = daoFactory.createBookDao()) {
             Book book = bookDao
                     .findById(bookDTO.getId())
                     .orElseThrow(() -> new BookNotFoundException("book not exist"));
-            book.setAuthors(authorService.getAuthorsFromStringArray(bookDTO.getAuthors()));
-            book.setTag(tagService.getTagByString(bookDTO.getTag()));
+            book.setAuthors(authorService.getAuthorsFromStringArray(bookDTO.getAuthors(), locale));
+            book.setTag(tagService.getTagByString(bookDTO.getTag(), locale));
             return book;
         }
     }

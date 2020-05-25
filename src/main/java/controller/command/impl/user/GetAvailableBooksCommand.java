@@ -3,13 +3,13 @@ package controller.command.impl.user;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import controller.command.Command;
 import model.dto.BookDTO;
-import model.dto.FilterDTO;
 import model.exception.BookNotFoundException;
 import model.service.BookService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 public class GetAvailableBooksCommand implements Command {
     private final BookService bookService;
@@ -29,7 +29,7 @@ public class GetAvailableBooksCommand implements Command {
 
     private List<BookDTO> getAvailableBooksByFilter(HttpServletRequest request) throws IOException {
         return bookService
-                .getAvailableBooks();//todo
+                .getAvailableBooks((Locale) request.getSession().getAttribute("language"));//todo
     }
 
     private String getJsonOfBookList(List<BookDTO> list) throws IOException {
