@@ -5,10 +5,7 @@ import model.dao.DaoFactory;
 import model.dao.ShelfDao;
 import model.dto.BookDTO;
 import model.dto.FilterDTO;
-import model.entity.Author;
-import model.entity.Book;
-import model.entity.Shelf;
-import model.entity.Tag;
+import model.entity.*;
 import model.exception.BookNotFoundException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -30,10 +27,10 @@ public class BookService {
         this.authorService = authorService;
     }
 
-    public List<BookDTO> getAvailableBooks(/*Pageable pageable*/Locale locale) {
+    public List<BookDTO> getAvailableBooks(Pageable pageable, Locale locale) {
         log.info("locale - " + locale);
         try (BookDao bookDao = daoFactory.createBookDao()) {
-            return bookDao.findAllByAvailableIsTrue(/*pageable*/)
+            return bookDao.findAllByAvailableIsTrue(pageable)
                     .stream()
                     .map(book -> buildBookDTO(book, locale))
                     .collect(Collectors.toList());
@@ -97,25 +94,25 @@ public class BookService {
                 .build();
     }
 
-    public List<BookDTO> getAvailableBooksByFilter(FilterDTO filterDTO,/*, Pageable pageable*/Locale locale) {//todo
-        return getBooksByFilter(filterDTO,/*, pageable*/locale)
+    public List<BookDTO> getAvailableBooksByFilter(FilterDTO filterDTO, Pageable pageable, Locale locale) {//todo
+        return getBooksByFilter(filterDTO, pageable, locale)
                 .stream()
                 .map(book -> buildBookDTO(book, locale))
                 .collect(Collectors.toList());
 
     }
 
-    private List<Book> getBooksByFilter(FilterDTO filterDTO,/*, Pageable pageable*/Locale locale) {
+    private List<Book> getBooksByFilter(FilterDTO filterDTO, Pageable pageable, Locale locale) {
         try (BookDao bookDao = daoFactory.createBookDao()) {
             return locale.equals(Locale.ENGLISH) ?
                     bookDao.getBooksByFilter(
                             filterDTO.getName(),
                             filterDTO.getAuthors(),
-                            filterDTO.getTags()/*, pageable*/) :
+                            filterDTO.getTags(), pageable) :
                     bookDao.getBooksByFilterUa(
                             filterDTO.getName(),
                             filterDTO.getAuthors(),
-                            filterDTO.getTags()/*, pageable*/);
+                            filterDTO.getTags(), pageable);
         }
     }
 

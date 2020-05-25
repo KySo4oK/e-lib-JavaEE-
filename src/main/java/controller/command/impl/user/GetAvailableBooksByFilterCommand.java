@@ -3,8 +3,10 @@ package controller.command.impl.user;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import controller.command.Command;
 import controller.util.LocaleExtractor;
+import controller.util.PageableExtractor;
 import model.dto.BookDTO;
 import model.dto.FilterDTO;
+import model.entity.Pageable;
 import model.exception.BookNotFoundException;
 import model.service.BookService;
 
@@ -32,6 +34,7 @@ public class GetAvailableBooksByFilterCommand implements Command {
     private List<BookDTO> getAvailableBooksByFilter(HttpServletRequest request) throws IOException {
         return bookService
                 .getAvailableBooksByFilter(getFilterDTOFromRequest(request),
+                        PageableExtractor.extractPageableFromUri(request.getRequestURI()),
                         LocaleExtractor.extractFromRequest(request));
     }
 

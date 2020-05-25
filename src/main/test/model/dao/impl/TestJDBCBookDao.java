@@ -3,13 +3,11 @@ package model.dao.impl;
 import model.dao.BookDao;
 import model.entity.Author;
 import model.entity.Book;
-import model.entity.Tag;
+import model.entity.Pageable;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.sql.Array;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 public class TestJDBCBookDao {
@@ -38,7 +36,10 @@ public class TestJDBCBookDao {
             System.out.println(book);
             List<Book> booksByFilter = bookDao.getBooksByFilter("%" + book.getName() + "%",
                     book.getAuthors().stream().map(Author::getName).toArray(String[]::new),
-                    new String[]{book.getTag().getName()});
+                    new String[]{book.getTag().getName()}, Pageable.Builder.aPageable()
+                            .page(0)
+                            .number(3)
+                            .build());
             System.out.println(booksByFilter);
             Assert.assertTrue(booksByFilter.contains(book));
         }
@@ -50,7 +51,10 @@ public class TestJDBCBookDao {
         for (Book book : books) {
             List<Book> booksByFilter = bookDao.getBooksByFilterUa("%" + book.getNameUa() + "%",
                     book.getAuthors().stream().map(Author::getNameUa).toArray(String[]::new),
-                    new String[]{book.getTag().getNameUa()});
+                    new String[]{book.getTag().getNameUa()}, Pageable.Builder.aPageable()
+                            .page(20)
+                            .number(0)
+                            .build());
             Assert.assertTrue(booksByFilter.contains(book));
         }
     }

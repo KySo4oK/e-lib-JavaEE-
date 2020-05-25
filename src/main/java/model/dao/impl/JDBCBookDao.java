@@ -4,6 +4,7 @@ import model.dao.BookDao;
 import model.dao.mapper.impl.BookMapper;
 import model.entity.Author;
 import model.entity.Book;
+import model.entity.Pageable;
 import model.entity.Tag;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -50,27 +51,26 @@ public class JDBCBookDao implements BookDao {
     }
 
     @Override
-    public List<Book> getBooksByFilter(String partOfName, String[] authorsStrings, String[] tagString) {
-        return getByFilter(partOfName, authorsStrings, tagString, SQL_FIND_BY_FILTER);
+    public List<Book> getBooksByFilter(String partOfName, String[] authorsStrings, String[] tagString, Pageable pageable) {
+        return getByFilter(partOfName, authorsStrings, tagString, SQL_FIND_BY_FILTER, pageable);
     }
 
     @Override
-    public List<Book> getBooksByFilterUa(String partOfName, String[] authorsStrings, String[] tagString) {
-        return getByFilter(partOfName, authorsStrings, tagString, SQL_FIND_BY_FILTER_UA);
+    public List<Book> getBooksByFilterUa(String partOfName, String[] authorsStrings, String[] tagString, Pageable pageable) {
+        return getByFilter(partOfName, authorsStrings, tagString, SQL_FIND_BY_FILTER_UA, pageable);
     }
 
     @Override
-    public List<Book> findAllByAvailableIsTrue() {
-        return findAllWithQuery(SQL_FIND_ALL_AVAILABLE);
-    }
-
-    private List<Book> findAllWithQuery(String sqlFindAllAvailable) {
+    public List<Book> findAllByAvailableIsTrue(Pageable pageable) {
         List<Book> resultList = new ArrayList<>();
         Map<Long, Book> books = new HashMap<>();
         Map<Long, Tag> tags = new HashMap<>();
         Map<Long, Author> authors = new HashMap<>();
-        try (Statement st = connection.createStatement()) {
-            ResultSet rs = st.executeQuery(sqlFindAllAvailable);
+        try {
+            PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL_AVAILABLE);
+            statement.setInt(1, pageable.getNumber());
+            statement.setInt(2, pageable.getNumber() * pageable.getPage());
+            ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 Book book = bookMapper.fullExtractFromResultSet(rs, books, tags, authors);
                 resultList.add(book);
@@ -85,18 +85,22 @@ public class JDBCBookDao implements BookDao {
     private List<Book> getByFilter(String partOfName,
                                    String[] authorsStrings,
                                    String[] tagsStrings,
-                                   String sqlFindByFilterUa) {
+                                   String sqlFindByFilterUa, Pageable pageable) {
         List<Book> resultList = new ArrayList<>();
         Map<Long, Book> books = new HashMap<>();
         Map<Long, Tag> tags = new HashMap<>();
         Map<Long, Author> authors = new HashMap<>();
         try {
             PreparedStatement statement = connection.prepareStatement(sqlFindByFilterUa);
+
             statement.setArray(1,
                     statement.getConnection().createArrayOf("text", authorsStrings));
             statement.setArray(2,
                     statement.getConnection().createArrayOf("text", tagsStrings));
             statement.setString(3, partOfName);
+            statement.setInt(4, pageable.getNumber());
+            statement.setInt(5, pageable.getNumber() * pageable.getPage());
+            System.out.println(statement);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 Book book = bookMapper.fullExtractFromResultSet(rs, books, tags, authors);
@@ -158,7 +162,21 @@ public class JDBCBookDao implements BookDao {
 
     @Override
     public List<Book> findAll() {
-        return findAllWithQuery(SQL_FIND_ALL);
+        List<Book> resultList = new ArrayList<>();
+        Map<Long, Book> books = new HashMap<>();
+        Map<Long, Tag> tags = new HashMap<>();
+        Map<Long, Author> authors = new HashMap<>();
+        try (Statement st = connection.createStatement()) {
+            ResultSet rs = st.executeQuery(SQL_FIND_ALL);
+            while (rs.next()) {
+                Book book = bookMapper.fullExtractFromResultSet(rs, books, tags, authors);
+                resultList.add(book);
+            }
+        } catch (SQLException e) {
+            log.error(e.getMessage() + " when trying findAll books");
+            throw new RuntimeException(e);
+        }
+        return resultList.stream().distinct().collect(Collectors.toList());
     }
 
     @Override
