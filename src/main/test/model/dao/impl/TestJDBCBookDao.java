@@ -31,7 +31,10 @@ public class TestJDBCBookDao {
 
     @Test
     public void testGetBooksByFilter() {
-        List<Book> books = bookDao.findAll();
+        List<Book> books = bookDao.findAllByAvailableIsTrue(Pageable.Builder.aPageable()
+                .page(0)
+                .number(30)
+                .build());
         for (Book book : books) {
             System.out.println(book);
             List<Book> booksByFilter = bookDao.getBooksByFilter("%" + book.getName() + "%",
@@ -47,13 +50,16 @@ public class TestJDBCBookDao {
 
     @Test
     public void testGetBooksByFilterUa() {
-        List<Book> books = bookDao.findAll();
+        List<Book> books = bookDao.findAllByAvailableIsTrue(Pageable.Builder.aPageable()
+                .page(0)
+                .number(30)
+                .build());
         for (Book book : books) {
             List<Book> booksByFilter = bookDao.getBooksByFilterUa("%" + book.getNameUa() + "%",
                     book.getAuthors().stream().map(Author::getNameUa).toArray(String[]::new),
                     new String[]{book.getTag().getNameUa()}, Pageable.Builder.aPageable()
-                            .page(20)
-                            .number(0)
+                            .page(0)
+                            .number(3)
                             .build());
             Assert.assertTrue(booksByFilter.contains(book));
         }
