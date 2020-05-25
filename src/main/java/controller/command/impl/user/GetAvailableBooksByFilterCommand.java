@@ -2,6 +2,7 @@ package controller.command.impl.user;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import controller.command.Command;
+import controller.util.LocaleExtractor;
 import model.dto.BookDTO;
 import model.dto.FilterDTO;
 import model.exception.BookNotFoundException;
@@ -31,7 +32,7 @@ public class GetAvailableBooksByFilterCommand implements Command {
     private List<BookDTO> getAvailableBooksByFilter(HttpServletRequest request) throws IOException {
         return bookService
                 .getAvailableBooksByFilter(getFilterDTOFromRequest(request),
-                        (Locale) request.getSession().getAttribute("language"));
+                        LocaleExtractor.extractFromRequest(request));
     }
 
     private String getJsonOfBookList(List<BookDTO> list) throws IOException {
