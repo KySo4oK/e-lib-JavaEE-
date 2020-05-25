@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface BookDao extends GenericDao<Book> {
-    String SQL_DELETE_BOOK_AUTHOR = "delete from book_author where book_id = ?";
+    String SQL_DELETE_ID_IN_SHELF = "update shelf set book_id = null where book_id = ?";
     String SQL_INSERT_INTO_BOOK_AUTHOR = "insert into book_author (book_id, author_id)\n" +
             "values ((select currval(pg_get_serial_sequence('book', 'book_id'))), ?)";
     String SQL_FIND_ALL = "select book.book_id     as \"bookId\",\n" +

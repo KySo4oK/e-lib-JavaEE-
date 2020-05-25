@@ -1,6 +1,7 @@
 package model.service;
 
 import model.dto.BookDTO;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class TestBookService {
@@ -13,5 +14,15 @@ public class TestBookService {
                 .name("The Idiot")
                 .nameUa("Ідіот")
                 .build());
+    }
+    @Test
+    public void testDeleteBook(){
+        BookService bookService = ServiceFactory.getInstance().createBookService();
+        try{
+            bookService.deleteBook(58L);
+        } catch (Exception e){
+            e.printStackTrace();
+            Assert.fail();
+        }
     }
 }

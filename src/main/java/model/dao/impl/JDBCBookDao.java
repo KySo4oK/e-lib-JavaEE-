@@ -172,7 +172,7 @@ public class JDBCBookDao implements BookDao {
             connection.setAutoCommit(false);
             PreparedStatement statement = connection.prepareStatement(SQL_DELETE);
             statement.setLong(1, id);
-            PreparedStatement statement1 = connection.prepareStatement(SQL_DELETE_BOOK_AUTHOR);
+            PreparedStatement statement1 = connection.prepareStatement(SQL_DELETE_ID_IN_SHELF);
             statement1.setLong(1, id);
 
             statement.execute();
