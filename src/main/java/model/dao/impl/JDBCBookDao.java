@@ -100,7 +100,6 @@ public class JDBCBookDao implements BookDao {
             statement.setString(3, partOfName);
             statement.setInt(4, pageable.getNumber());
             statement.setInt(5, pageable.getNumber() * pageable.getPage());
-            System.out.println(statement);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 Book book = bookMapper.fullExtractFromResultSet(rs, books, tags, authors);
