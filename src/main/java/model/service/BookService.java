@@ -7,8 +7,8 @@ import model.dto.BookDTO;
 import model.dto.FilterDTO;
 import model.entity.*;
 import model.exception.BookNotFoundException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 import java.util.Locale;
@@ -18,8 +18,7 @@ public class BookService {
     private final DaoFactory daoFactory = DaoFactory.getInstance();
     private final TagService tagService;
     private final AuthorService authorService;
-    private static final Log log
-            = LogFactory.getLog(BookService.class);
+    private final static Logger log = LogManager.getLogger(BookService.class);
 
     public BookService(TagService tagService,
                        AuthorService authorService) {

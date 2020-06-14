@@ -10,8 +10,8 @@ import model.exception.BookNotAvailableException;
 import model.exception.BookNotFoundException;
 import model.exception.OrderNotFoundException;
 import model.exception.UsernameNotFoundException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -23,9 +23,7 @@ import java.util.stream.Collectors;
 public class OrderService {
     private final DaoFactory daoFactory = DaoFactory.getInstance();
     private static final int PERIOD_OF_USE = 1;
-    private static final Log log
-            = LogFactory.getLog(OrderService.class);
-
+    private final static Logger log = LogManager.getLogger(OrderService.class);
 
     public void createAndSaveNewOrder(BookDTO bookDTO, String username) {
         try (OrderDao orderDao = daoFactory.createOrderDao()) {

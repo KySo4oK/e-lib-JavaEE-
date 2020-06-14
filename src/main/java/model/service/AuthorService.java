@@ -4,6 +4,8 @@ import model.dao.AuthorDao;
 import model.dao.DaoFactory;
 import model.entity.Author;
 import model.exception.AuthorNotFoundException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Arrays;
 import java.util.List;
@@ -13,8 +15,7 @@ import java.util.stream.Collectors;
 
 public class AuthorService {
     private final DaoFactory daoFactory = DaoFactory.getInstance();
-    private static final org.apache.logging.log4j.Logger log
-            = org.apache.logging.log4j.LogManager.getLogger(AuthorService.class);
+    private final static Logger log = LogManager.getLogger(AuthorService.class);
 
     public List<String> getAllAuthors(Locale locale) {
         try (AuthorDao authorDao = daoFactory.createAuthorDao()) {

@@ -1,7 +1,7 @@
 package controller.filters;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.Locale;
 
 public class LocaleFilter implements javax.servlet.Filter {
-    private static final Log log = LogFactory.getLog(LocaleFilter.class);
+    private final static Logger log = LogManager.getLogger(LocaleFilter.class);
 
     public void destroy() {
     }

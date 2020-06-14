@@ -6,8 +6,8 @@ import model.entity.Author;
 import model.entity.Book;
 import model.entity.Pageable;
 import model.entity.Tag;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.*;
@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public class JDBCBookDao implements BookDao {
     private final Connection connection;
     private final BookMapper bookMapper = new BookMapper();
-    private final static Log log = LogFactory.getLog(JDBCBookDao.class);
+    private final static Logger log = LogManager.getLogger(JDBCBookDao.class);
 
     public JDBCBookDao(Connection connection) {
         this.connection = connection;

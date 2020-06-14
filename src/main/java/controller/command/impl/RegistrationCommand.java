@@ -4,14 +4,14 @@ import controller.command.Command;
 import model.dto.UserDTO;
 import model.entity.User;
 import model.service.UserService;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
 public class RegistrationCommand implements Command {
     private final UserService userService;
-    private static final Log log = LogFactory.getLog(RegistrationCommand.class);
+    private final static Logger log = LogManager.getLogger(RegistrationCommand.class);
 
     public RegistrationCommand(UserService userService) {
         this.userService = userService;

@@ -3,8 +3,8 @@ package controller.command.impl;
 
 import controller.command.Command;
 import model.entity.User;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 import java.util.HashSet;
 
 public class LogOutCommand implements Command {
-    private static final Log log = LogFactory.getLog(LogOutCommand.class);
+    private final static Logger log = LogManager.getLogger(LogOutCommand.class);
 
     @Override
     public String execute(HttpServletRequest request) {

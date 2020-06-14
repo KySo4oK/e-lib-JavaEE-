@@ -5,15 +5,15 @@ import controller.command.Command;
 import model.dto.OrderDTO;
 import model.exception.OrderNotFoundException;
 import model.service.OrderService;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 public class ReturnBookCommand implements Command {
     private final OrderService orderService;
-    private static final Log log = LogFactory.getLog(ReturnBookCommand.class);
+    private final static Logger log = LogManager.getLogger(ReturnBookCommand.class);
 
     public ReturnBookCommand(OrderService orderService) {
         this.orderService = orderService;

@@ -1,10 +1,12 @@
 import model.dao.impl.JDBCDaoFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.SQLException;
 
 public class App {
-    private static final org.apache.logging.log4j.Logger log
-            = org.apache.logging.log4j.LogManager.getLogger(App.class);
+    private final static Logger log = LogManager.getLogger(App.class);
+
     public static void main(String[] args) throws SQLException {
         System.out.println(new JDBCDaoFactory().createAuthorDao().findAll());
 //        System.out.println(new UserService().getRoleByUser("user", "j"));

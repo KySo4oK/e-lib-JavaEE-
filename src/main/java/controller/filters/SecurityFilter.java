@@ -1,8 +1,8 @@
 package controller.filters;
 
 import model.entity.User;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class SecurityFilter implements Filter {
-    private static final Log log = LogFactory.getLog(SecurityFilter.class);
+    private final static Logger log = LogManager.getLogger(SecurityFilter.class);
 
     public void destroy() {
     }

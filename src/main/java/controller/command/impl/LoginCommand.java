@@ -3,14 +3,14 @@ package controller.command.impl;
 import controller.command.Command;
 import model.entity.User;
 import model.service.UserService;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 
 public class LoginCommand implements Command {
     private final UserService userService;
-    private static final Log log = LogFactory.getLog(LoginCommand.class);
+    private final static Logger log = LogManager.getLogger(LoginCommand.class);
 
     public LoginCommand(UserService userService) {
         this.userService = userService;

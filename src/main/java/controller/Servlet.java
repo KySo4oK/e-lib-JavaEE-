@@ -5,8 +5,8 @@ import controller.command.impl.*;
 import controller.command.impl.admin.*;
 import controller.command.impl.user.*;
 import model.service.ServiceFactory;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 
 public class Servlet extends javax.servlet.http.HttpServlet {
     private final Map<String, Command> commands = new ConcurrentHashMap<>();
-    private static final Log log = LogFactory.getLog(Servlet.class);
+    private final static Logger log = LogManager.getLogger(Servlet.class);
     private static final String REDIRECT = "redirect:";
 
     public void init(ServletConfig servletConfig) {

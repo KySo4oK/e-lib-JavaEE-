@@ -6,15 +6,15 @@ import controller.util.LocaleExtractor;
 import model.dto.BookDTO;
 import model.exception.BookAlreadyExistException;
 import model.service.BookService;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 public class AddBookCommand implements Command {
     private final BookService bookService;
-    private final static Log log = LogFactory.getLog(AddBookCommand.class);
+    private final static Logger log = LogManager.getLogger(AddBookCommand.class);
 
     public AddBookCommand(BookService bookService) {
         this.bookService = bookService;

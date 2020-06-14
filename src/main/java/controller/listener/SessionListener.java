@@ -1,7 +1,7 @@
 package controller.listener;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
@@ -9,7 +9,7 @@ import java.util.HashSet;
 
 
 public class SessionListener implements HttpSessionListener {
-    private static final Log log = LogFactory.getLog(SessionListener.class);
+    private final static Logger log = LogManager.getLogger(SessionListener.class);
 
     @Override
     public void sessionCreated(HttpSessionEvent httpSessionEvent) {

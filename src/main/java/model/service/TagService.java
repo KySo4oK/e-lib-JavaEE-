@@ -4,10 +4,9 @@ import model.dao.DaoFactory;
 import model.dao.TagDao;
 import model.entity.Tag;
 import model.exception.TagNotFoundException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -15,7 +14,7 @@ import java.util.stream.Collectors;
 
 public class TagService {
     private final DaoFactory daoFactory = DaoFactory.getInstance();
-    private static final Log log = LogFactory.getLog(TagService.class);
+    private final static Logger log = LogManager.getLogger(TagService.class);
 
     public List<String> getAllTags(Locale locale) {
         try (TagDao tagDao = daoFactory.createTagDao()) {

@@ -1,13 +1,13 @@
 package controller.util;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Locale;
 
 public class LocaleExtractor {
-    private static final Log log = LogFactory.getLog(LocaleExtractor.class);
+    private final static Logger log = LogManager.getLogger(LocaleExtractor.class);
 
     public static Locale extractFromRequest(HttpServletRequest request) {
         Object localeObj = request.getSession().getAttribute("language");
