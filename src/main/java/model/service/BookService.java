@@ -1,5 +1,6 @@
 package model.service;
 
+import com.atomikos.icatch.jta.UserTransactionImp;
 import model.dao.BookDao;
 import model.dao.DaoFactory;
 import model.dao.ShelfDao;
@@ -10,6 +11,7 @@ import model.exception.BookNotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.transaction.SystemException;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -67,11 +69,12 @@ public class BookService {
                 author.getName() : author.getNameUa();
     }
 
-    //@Transactional
     public void saveNewBookFromClient(BookDTO bookDTO, Locale locale) {
         log.info("create book - " + bookDTO);
+        UserTransactionImp utx = new UserTransactionImp();
         try (BookDao bookDao = daoFactory.createBookDao();
              ShelfDao shelfDao = daoFactory.createShelfDao()) {
+            utx.begin();
             Shelf shelf = shelfDao.findByBookId(null)
                     .orElseThrow(() -> new RuntimeException("not available shelf"));//todo change exc
             Book book = BuildBookFromClient(bookDTO, shelf, locale);
@@ -79,6 +82,19 @@ public class BookService {
             shelf.setBook(bookDao.findByName(book.getName())
                     .orElseThrow(() -> new BookNotFoundException("failed saving")));
             shelfDao.update(shelf);
+            try {
+                utx.commit();
+            } catch (Exception e) {
+                try {
+                    utx.rollback();
+                } catch (SystemException systemException) {
+                    log.error("cannot perform transaction {}", systemException.getMessage());
+                }
+            }
+
+        } catch (Exception e) {
+            log.error("cannot perform transaction {}", e.getMessage());
+            throw new RuntimeException(e.getMessage());
         }
     }
 

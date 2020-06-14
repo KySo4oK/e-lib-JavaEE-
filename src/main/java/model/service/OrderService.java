@@ -1,5 +1,6 @@
 package model.service;
 
+import com.atomikos.icatch.jta.UserTransactionImp;
 import model.dao.*;
 import model.dto.BookDTO;
 import model.dto.OrderDTO;
@@ -13,6 +14,7 @@ import model.exception.UsernameNotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.transaction.SystemException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
@@ -133,12 +135,26 @@ public class OrderService {
         saveBookAndDeleteOrder(getOrderAndPrepareBookForReturning(orderDTO));
     }
 
-    //    @Transactional
     void saveBookAndDeleteOrder(Order order) {
+        UserTransactionImp utx = new UserTransactionImp();
         try (OrderDao orderDao = daoFactory.createOrderDao();
              BookDao bookDao = daoFactory.createBookDao()) {
+            utx.begin();
             bookDao.update(order.getBook());
             orderDao.delete(order.getOrderId());
+            try {
+                utx.commit();
+            } catch (Exception e) {
+                try {
+                    utx.rollback();
+                } catch (SystemException systemException) {
+                    log.error("cannot perform transaction {}", systemException.getMessage());
+                }
+            }
+
+        } catch (Exception e) {
+            log.error("cannot perform transaction {}", e.getMessage());
+            throw new RuntimeException(e.getMessage());
         }
     }
 
