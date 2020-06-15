@@ -16,7 +16,7 @@
 <body style="text-align: center">
 <header>
     <div class="navbar navbar-default" style="background-color: aquamarine;">
-        <h1 style="float: left">{{ siteName }}</h1>
+        <h1 style="float: left"><fmt:message key="site.name"/></h1>
         <span><a style="float: right; margin-right: 5px" href="?language=en"><fmt:message
                 key="label.lang.en"/></a></span>
         <span><a style="float: right; margin-right: 5px" href="?language=ua"><fmt:message

@@ -19,7 +19,7 @@
 <body>
 <header>
     <div class="navbar navbar-default" style="background-color: aquamarine; margin: 0 !important">
-        <h1 style="float: left">{{ siteName }}</h1>
+        <h1 style="float: left"><fmt:message key="site.name"/></h1>
         <span>
                 <a style="float: right; margin-right: 5px" href="/admin?language=ua">
                     <fmt:message key="label.lang.ua"/>
