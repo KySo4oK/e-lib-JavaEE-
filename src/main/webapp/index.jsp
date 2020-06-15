@@ -11,13 +11,6 @@
     <title><fmt:message key="main"/></title>
 </head>
 <body>
-<br/>
-<a href="${pageContext.request.contextPath}/login"><fmt:message key="sign.in"/> </a>
-<a href="${pageContext.request.contextPath}/registration"><fmt:message key="sign.up"/></a>
-<br>
-<ul>
-    <li><a href="?language=en"><fmt:message key="label.lang.en"/></a></li>
-    <li><a href="?language=ua"><fmt:message key="label.lang.ua"/></a></li>
-</ul>
+<jsp:include page="guest-header.jsp"/>
 </body>
 </html>
