@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: KySo4oK
-  Date: 11.04.2020
-  Time: 20:19
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -28,39 +21,7 @@
     </head>
 <body style="text-align: center">
 <div id="app">
-    <header>
-        <div class="navbar navbar-default" style="background-color: aquamarine; margin: 0 !important">
-            <h1 style="float: left">{{ siteName }}</h1>
-            <span>
-                <a style="float: right; margin-right: 5px" href="/admin?language=ua">
-                    <fmt:message key="label.lang.ua"/>
-                </a>
-            </span>
-            <span>
-                <a style="float: right; margin-right: 5px" href="/admin?language=en">
-                    <fmt:message key="label.lang.en"/>
-                </a>
-            </span>
-            <span><a style="float: right; margin-right: 5px" href="/logout">
-                <fmt:message key="logout"/>
-            </a></span>
-            <span>
-                <a style="float: right; margin-right: 5px" href="/admin/bookManage">
-                    <fmt:message key="books"/>
-                </a>
-            </span>
-            <span>
-                <a style="float: right; margin-right: 5px" href="/admin">
-                    <fmt:message key="orders"/>
-                </a>
-            </span>
-            <span>
-                <a style="float: right; margin-right: 5px" href="/">
-                    <fmt:message key="main"/>
-                </a>
-            </span>
-        </div>
-    </header>
+    <jsp:include page="admin-header.jsp" />
     <div style="padding-top: 10%; text-align: center; width: 83%; float: right">
         <input type="radio" id="one" value="1" v-model="picked">
         <label for="one">
