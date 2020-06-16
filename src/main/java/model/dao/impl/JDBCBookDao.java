@@ -183,8 +183,9 @@ public class JDBCBookDao implements BookDao {
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_UPDATE);
             statement.setBoolean(1, entity.isAvailable());
-//            statement.setLong(2, entity.getTag().getTagId()); todo change update
-            statement.setLong(2, entity.getBookId());
+            statement.setString(2, entity.getName());
+            statement.setString(3, entity.getNameUa());
+            statement.setLong(4, entity.getBookId());
             statement.execute();
         } catch (SQLException e) {
             log.error(e.getMessage() + "when trying update book");
