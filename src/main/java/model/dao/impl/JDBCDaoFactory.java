@@ -41,6 +41,16 @@ public class JDBCDaoFactory extends DaoFactory {
         return new JDBCOrderDao(getConnection());
     }
 
+    @Override
+    public AuthorSearchDao createAuthorSearchDao() {
+        return new JDBCAuthorSearchDao(getConnection());
+    }
+
+    @Override
+    public TagSearchDao createTagSearchDao() {
+        return new JDBCTagSearchDao(getConnection());
+    }
+
 
     private Connection getConnection() {
         try {
