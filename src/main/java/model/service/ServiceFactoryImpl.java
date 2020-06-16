@@ -1,5 +1,7 @@
 package model.service;
 
+import controller.util.SHA1PasswordEncoder;
+
 public class ServiceFactoryImpl extends ServiceFactory {
     @Override
     public BookService createBookService() {
@@ -8,7 +10,7 @@ public class ServiceFactoryImpl extends ServiceFactory {
 
     @Override
     public UserService createUserService() {
-        return new UserService();
+        return new UserService(new SHA1PasswordEncoder());
     }
 
     @Override
