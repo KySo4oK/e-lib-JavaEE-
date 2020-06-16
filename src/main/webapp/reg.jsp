@@ -19,13 +19,13 @@
     <p class="h3 text-center mb-4"><fmt:message key="sign.up"/></p>
     <form action="registration" method="post" style="max-width: 500px; margin: auto;">
         <fmt:message key="username" var="username"/>
-        <input id="username" class="form-control" type="text" placeholder="${username}">
+        <input id="username" class="form-control" type="text" placeholder="${username}" name="username">
         <fmt:message key="phone" var="phone"/>
-        <input id="phone" class="form-control" type="text" placeholder="${phone}">
+        <input id="phone" class="form-control" type="text" placeholder="${phone}" name="phone">
         <fmt:message key="email" var="email"/>
-        <input type="email" class="form-control" id="email" placeholder="${email}">
+        <input type="email" class="form-control" id="email" placeholder="${email}" name="email">
         <fmt:message key="password" var="password"/>
-        <input type="password" class="form-control" id="password" placeholder="${password}">
+        <input type="password" class="form-control" id="password" placeholder="${password}" name="password">
         <div style="text-align: center; margin-top: 20px">
             <fmt:message key="submit" var="submit"/>
             <input class="btn btn-warning" type="submit" name="submit" value="${submit}">
