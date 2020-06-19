@@ -133,12 +133,12 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="book in books">
+                <tr v-for="book in books" style="padding-right: 0px">
                     <td>
-                        <h1><input type="text" :value="book.name" v-model="book.name"></h1></td>
+                        <h1><input type="text" class="form-control" :value="book.name" v-model="book.name"></h1></td>
                     <td>
                     <td>
-                        <h1><input type="text" :value="book.nameUa" v-model="book.nameUa"></h1></td>
+                        <h1><input type="text" class="form-control" :value="book.nameUa" v-model="book.nameUa"></h1></td>
                     <td>
                         <button class="btn btn-warning" v-on:click="editBook(book)"><fmt:message key="edit"/></button>
                     </td>
@@ -221,7 +221,7 @@
                 console.log(this.books);
             },
             async getBooks() {
-                let res = await axios.get('/admin/books/' + this.page + "/5");
+                let res = await axios.get('/admin/books/' + this.page + "/5");//todo normal updating
                 if (!res) return;
                 this.books = this.books.concat(res.data);
             },
