@@ -22,7 +22,7 @@ public class EditBookCommand implements Command {
         try {
             bookService.editBookAndSave(getBookDTOFromRequest(request),
                     LocaleExtractor.extractFromRequest(request));
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new BookAlreadyExistException("oops");
         }
         return "{}";

@@ -130,11 +130,11 @@ public class JDBCBookDao implements BookDao {
             statementForAuthors.executeBatch();
             connection.commit();
         } catch (SQLException e) {
-            log.info(e);
+            log.warn(e);
             try {
                 connection.rollback();
             } catch (SQLException e1) {
-                log.info(e1);
+                log.warn(e1);
                 throw new RuntimeException(e1);
             }
         }
@@ -186,6 +186,7 @@ public class JDBCBookDao implements BookDao {
             statement.setString(2, entity.getName());
             statement.setString(3, entity.getNameUa());
             statement.setLong(4, entity.getBookId());
+            log.info("statement - {}", statement);
             statement.execute();
         } catch (SQLException e) {
             log.error(e.getMessage() + "when trying update book");

@@ -21,7 +21,7 @@
     </head>
 <body style="text-align: center">
 <div id="app">
-    <jsp:include page="admin-header.jsp" />
+    <jsp:include page="admin-header.jsp"/>
     <div style="padding-top: 10%; text-align: center; width: 83%; float: right">
         <input type="radio" id="one" value="1" v-model="picked">
         <label for="one">
@@ -127,39 +127,14 @@
                 <thead>
                 <tr>
                     <th><fmt:message key="book.name"/></th>
-                    <th><fmt:message key="authors"/></th>
-                    <th><fmt:message key="tags"/></th>
                     <th><fmt:message key="edit"/></th>
                     <th><fmt:message key="delete"/></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr v-for="book in books">
-                    <td><h1 v-text="book.name"></h1></td>
                     <td>
-                        <div id="editTags" class="col-md-6 boxes">
-                            <div v-for="tag in tags">
-                                <div style="display: inline;">
-                                    <input style="display: inline; float: left; margin-left: 0px" type="radio"
-                                           v-bind:value="tag"
-                                           v-model="book.tag">
-                                    <h6 style="display: inline; margin-right: 0px;">{{tag}}</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div style="padding-top: 10px" id="editAuthors" class="col-md-6 boxes">
-                            <div v-for="author in authors">
-                                <div style="display: inline;">
-                                    <input style="display: inline; float: left; margin-left: 0px" type="checkbox"
-                                           v-bind:value="author"
-                                           v-model="book.authors">
-                                    <h6 style="display: inline;">{{author}}</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </td>
+                        <h1><input type="text" :value="book.name" v-model="book.name"></h1></td>
                     <td>
                         <button class="btn btn-warning" v-on:click="editBook(book)"><fmt:message key="edit"/></button>
                     </td>

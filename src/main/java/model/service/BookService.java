@@ -143,8 +143,11 @@ public class BookService {
             Book book = bookDao
                     .findById(bookDTO.getId())
                     .orElseThrow(() -> new BookNotFoundException("book not exist"));
-            book.setAuthors(authorService.getAuthorsFromStringArray(bookDTO.getAuthors(), locale));
-            book.setTag(tagService.getTagByString(bookDTO.getTag(), locale));
+            if (!locale.equals(Locale.ENGLISH)) {
+                book.setNameUa(bookDTO.getNameUa());
+            } else {
+                book.setName(bookDTO.getName());
+            }
             return book;
         }
     }
