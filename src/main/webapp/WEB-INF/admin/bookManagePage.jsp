@@ -126,7 +126,8 @@
             <table style="width: 75%;margin-left:25%; padding-top: 10%; display: table" class="table table-borderless">
                 <thead>
                 <tr>
-                    <th><fmt:message key="book.name"/></th>
+                    <th><fmt:message key="book.name.en"/></th>
+                    <th><fmt:message key="book.name.ua"/></th>
                     <th><fmt:message key="edit"/></th>
                     <th><fmt:message key="delete"/></th>
                 </tr>
@@ -135,6 +136,9 @@
                 <tr v-for="book in books">
                     <td>
                         <h1><input type="text" :value="book.name" v-model="book.name"></h1></td>
+                    <td>
+                    <td>
+                        <h1><input type="text" :value="book.nameUa" v-model="book.nameUa"></h1></td>
                     <td>
                         <button class="btn btn-warning" v-on:click="editBook(book)"><fmt:message key="edit"/></button>
                     </td>
@@ -201,7 +205,7 @@
                     authors: this.addedAuthors,
                     name: '%' + this.partOfName + '%',
                 };
-                let res = await axios.post('/user-admin/filter/' + this.page + "/5", filter);
+                let res = await axios.post('/admin/filter/' + this.page + "/5", filter);
                 if (!res) return;
                 if (this.page === 0) {
                     this.books = res.data;
@@ -217,7 +221,7 @@
                 console.log(this.books);
             },
             async getBooks() {
-                let res = await axios.get('/user-admin/books/' + this.page + "/5");
+                let res = await axios.get('/admin/books/' + this.page + "/5");
                 if (!res) return;
                 this.books = this.books.concat(res.data);
             },

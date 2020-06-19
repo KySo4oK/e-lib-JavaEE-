@@ -52,8 +52,10 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         commands.put("user/passive", new GetPassiveOrdersByUsernameCommand(serviceFactory.createOrderService()));
         commands.put("user/return", new ReturnBookCommand(serviceFactory.createOrderService()));
         commands.put("user/order", new OrderBookCommand(serviceFactory.createOrderService()));
-        commands.put("user-admin/filter", new GetAvailableBooksByFilterCommand(serviceFactory.createBookService()));
-        commands.put("user-admin/books", new GetAvailableBooksCommand(serviceFactory.createBookService()));
+        commands.put("user/filter", new GetAvailableBooksByFilterCommand(serviceFactory.createBookService()));
+        commands.put("user/books", new GetAvailableBooksCommand(serviceFactory.createBookService()));
+        commands.put("admin/filter", new GetAvailableFullBooksByFilterCommand(serviceFactory.createBookService()));
+        commands.put("admin/books", new GetAvailableFullBooksCommand(serviceFactory.createBookService()));
         commands.put("user-admin/tags", new GetTagsCommand(serviceFactory.createTagService()));
         commands.put("user-admin/authors", new GetAuthorsCommand(serviceFactory.createAuthorService()));
     }

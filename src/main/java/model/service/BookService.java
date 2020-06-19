@@ -114,7 +114,6 @@ public class BookService {
                 .stream()
                 .map(book -> buildBookDTO(book, locale))
                 .collect(Collectors.toList());
-
     }
 
     private List<Book> getBooksByFilter(FilterDTO filterDTO, Pageable pageable, Locale locale) {
@@ -143,11 +142,8 @@ public class BookService {
             Book book = bookDao
                     .findById(bookDTO.getId())
                     .orElseThrow(() -> new BookNotFoundException("book not exist"));
-            if (!locale.equals(Locale.ENGLISH)) {
-                book.setNameUa(bookDTO.getNameUa());
-            } else {
-                book.setName(bookDTO.getName());
-            }
+            book.setNameUa(bookDTO.getNameUa());
+            book.setName(bookDTO.getName());
             return book;
         }
     }
@@ -157,5 +153,31 @@ public class BookService {
         try (BookDao bookDao = daoFactory.createBookDao()) {
             bookDao.delete(id);
         }
+    }
+
+    public List<BookDTO> getAvailableFullBooksByFilter(FilterDTO filterDTO, Pageable pageable, Locale locale) {
+        return getBooksByFilter(filterDTO, pageable, locale)
+                .stream()
+                .map(book -> buildFullBookDTO(book, locale))
+                .collect(Collectors.toList());
+    }
+
+    public List<BookDTO> getAvailableFullBooks(Pageable pageable, Locale locale) {
+        try (BookDao bookDao = daoFactory.createBookDao()) {
+            return bookDao.findAllByAvailableIsTrue(pageable)
+                    .stream()
+                    .map(book -> buildFullBookDTO(book, locale))
+                    .collect(Collectors.toList());
+        }
+    }
+
+    private BookDTO buildFullBookDTO(Book book, Locale locale) {
+        return BookDTO.Builder.aBookDTO()
+                .id(book.getBookId())
+                .authors(getArrayOfAuthors(book, locale))
+                .tag(getTagNameByLocale(book.getTag(), locale))
+                .name(book.getName())
+                .nameUa(book.getNameUa())
+                .build();
     }
 }
