@@ -32,8 +32,7 @@ public class JDBCBookDao implements BookDao {
         Map<Long, Book> books = new HashMap<>();
         Map<Long, Tag> tags = new HashMap<>();
         Map<Long, Author> authors = new HashMap<>();
-        try {
-            PreparedStatement statement = connection.prepareStatement(sqlFindByName);
+        try (PreparedStatement statement = connection.prepareStatement(sqlFindByName)) {
             statement.setString(1, name);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
@@ -66,8 +65,7 @@ public class JDBCBookDao implements BookDao {
         Map<Long, Book> books = new HashMap<>();
         Map<Long, Tag> tags = new HashMap<>();
         Map<Long, Author> authors = new HashMap<>();
-        try {
-            PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL_AVAILABLE);
+        try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL_AVAILABLE)) {
             statement.setInt(1, pageable.getNumber());
             statement.setInt(2, pageable.getNumber() * pageable.getPage());
             ResultSet rs = statement.executeQuery();
@@ -90,9 +88,7 @@ public class JDBCBookDao implements BookDao {
         Map<Long, Book> books = new HashMap<>();
         Map<Long, Tag> tags = new HashMap<>();
         Map<Long, Author> authors = new HashMap<>();
-        try {
-            PreparedStatement statement = connection.prepareStatement(sqlFindByFilterUa);
-
+        try (PreparedStatement statement = connection.prepareStatement(sqlFindByFilterUa)) {
             statement.setArray(1,
                     statement.getConnection().createArrayOf("text", authorsStrings));
             statement.setArray(2,
@@ -146,8 +142,7 @@ public class JDBCBookDao implements BookDao {
         Map<Long, Book> books = new HashMap<>();
         Map<Long, Tag> tags = new HashMap<>();
         Map<Long, Author> authors = new HashMap<>();
-        try {
-            PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ID);
+        try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ID)) {
             statement.setLong(1, id);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
@@ -180,8 +175,7 @@ public class JDBCBookDao implements BookDao {
 
     @Override
     public void update(Book entity) {
-        try {
-            PreparedStatement statement = connection.prepareStatement(SQL_UPDATE);
+        try (PreparedStatement statement = connection.prepareStatement(SQL_UPDATE)) {
             statement.setBoolean(1, entity.isAvailable());
             statement.setString(2, entity.getName());
             statement.setString(3, entity.getNameUa());
@@ -196,9 +190,8 @@ public class JDBCBookDao implements BookDao {
 
     @Override
     public void delete(long id) {
-        try {
+        try (PreparedStatement statement = connection.prepareStatement(SQL_DELETE)) {
             connection.setAutoCommit(false);
-            PreparedStatement statement = connection.prepareStatement(SQL_DELETE);
             statement.setLong(1, id);
             PreparedStatement statement1 = connection.prepareStatement(SQL_DELETE_ID_IN_SHELF);
             statement1.setLong(1, id);

@@ -22,8 +22,7 @@ public class JDBCAuthorDao implements AuthorDao {
 
     private Optional<Author> findAuthorByName(String name, String sqlFindByName) {
         Author author = null;
-        try {
-            PreparedStatement statement = connection.prepareStatement(sqlFindByName);
+        try (PreparedStatement statement = connection.prepareStatement(sqlFindByName)) {
             statement.setString(1, name);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
@@ -42,8 +41,7 @@ public class JDBCAuthorDao implements AuthorDao {
 
     @Override
     public void create(Author entity) {
-        try {
-            PreparedStatement statement = connection.prepareStatement(SQL_INSERT);
+        try (PreparedStatement statement = connection.prepareStatement(SQL_INSERT)) {
             statement.setString(1, entity.getName());
             statement.setString(2, entity.getNameUa());
             statement.execute();
@@ -55,8 +53,7 @@ public class JDBCAuthorDao implements AuthorDao {
     @Override
     public Optional<Author> findById(long id) {
         Author author = null;
-        try {
-            PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ID);
+        try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ID)) {
             statement.setLong(1, id);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
@@ -89,8 +86,7 @@ public class JDBCAuthorDao implements AuthorDao {
 
     @Override
     public void update(Author entity) {
-        try {
-            PreparedStatement statement = connection.prepareStatement(SQL_UPDATE);
+        try (PreparedStatement statement = connection.prepareStatement(SQL_UPDATE)) {
             statement.setString(1, entity.getName());
             statement.setLong(2, entity.getAuthorId());
             statement.execute();
@@ -101,8 +97,7 @@ public class JDBCAuthorDao implements AuthorDao {
 
     @Override
     public void delete(long id) {
-        try {
-            PreparedStatement statement = connection.prepareStatement(SQL_DELETE);
+        try (PreparedStatement statement = connection.prepareStatement(SQL_DELETE)) {
             statement.setLong(1, id);
             statement.execute();
         } catch (SQLException e) {

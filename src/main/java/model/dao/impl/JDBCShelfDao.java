@@ -34,8 +34,7 @@ public class JDBCShelfDao implements ShelfDao {
                 log.info("failed - " + e);
             }
         } else {
-            try {
-                PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_BOOK_ID);
+            try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_BOOK_ID)) {
                 statement.setObject(1, bookId, Types.BIGINT);
                 ResultSet rs = statement.executeQuery();
                 while (rs.next()) {
@@ -50,8 +49,7 @@ public class JDBCShelfDao implements ShelfDao {
 
     @Override
     public void create(Shelf entity) {
-        try {
-            PreparedStatement statement = connection.prepareStatement(SQL_INSERT);
+        try (PreparedStatement statement = connection.prepareStatement(SQL_INSERT)) {
             if (entity.getBook() != null) {
                 statement.setLong(1, entity.getBook().getBookId());
             } else {
@@ -67,8 +65,7 @@ public class JDBCShelfDao implements ShelfDao {
     public Optional<Shelf> findById(long id) {
         Shelf shelf = null;
 
-        try {
-            PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ID);
+        try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ID)) {
             statement.setLong(1, id);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
@@ -99,8 +96,7 @@ public class JDBCShelfDao implements ShelfDao {
 
     @Override
     public void update(Shelf entity) {
-        try {
-            PreparedStatement statement = connection.prepareStatement(SQL_UPDATE);
+        try (PreparedStatement statement = connection.prepareStatement(SQL_UPDATE)) {
             statement.setLong(1, entity.getBook().getBookId());//todo
             statement.setLong(2, entity.getShelfId());
             statement.execute();
@@ -111,8 +107,7 @@ public class JDBCShelfDao implements ShelfDao {
 
     @Override
     public void delete(long id) {
-        try {
-            PreparedStatement statement = connection.prepareStatement(SQL_DELETE);
+        try (PreparedStatement statement = connection.prepareStatement(SQL_DELETE)) {
             statement.setLong(1, id);
             statement.execute();
         } catch (SQLException e) {

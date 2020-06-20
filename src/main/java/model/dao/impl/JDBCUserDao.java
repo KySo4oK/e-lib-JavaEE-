@@ -18,8 +18,7 @@ public class JDBCUserDao implements UserDao {
     }
 
     public void create(User entity) {
-        try {
-            PreparedStatement statement = connection.prepareStatement(SQL_INSERT);
+        try (PreparedStatement statement = connection.prepareStatement(SQL_INSERT)) {
             statement.setString(1, entity.getUsername());
             statement.setString(2, entity.getPassword());
             statement.setString(3, entity.getRole().toString());
@@ -33,13 +32,11 @@ public class JDBCUserDao implements UserDao {
 
     public Optional<User> findById(long id) {
         User user = null;
-        try {
-            PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ID);
+        try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ID)) {
             statement.setLong(1, id);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                user = userMapper
-                        .extractFromResultSet(rs);
+                user = userMapper.extractFromResultSet(rs);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -52,10 +49,8 @@ public class JDBCUserDao implements UserDao {
         try (Statement st = connection.createStatement()) {
             ResultSet rs = st.executeQuery(SQL_FIND_ALL);
             while (rs.next()) {
-                User user = userMapper
-                        .extractFromResultSet(rs);
-                user = userMapper //useless now
-                        .makeUnique(users, user);
+                User user = userMapper.extractFromResultSet(rs);
+                userMapper.makeUnique(users, user);
             }
             return new ArrayList<>(users.values());
         } catch (SQLException e) {
@@ -65,8 +60,7 @@ public class JDBCUserDao implements UserDao {
     }
 
     public void update(User entity) {
-        try {
-            PreparedStatement statement = connection.prepareStatement(SQL_UPDATE);
+        try (PreparedStatement statement = connection.prepareStatement(SQL_UPDATE)) {
             statement.setString(1, entity.getPassword());
             statement.setLong(2, entity.getId());
             statement.execute();
@@ -77,8 +71,7 @@ public class JDBCUserDao implements UserDao {
 
     @Override
     public void delete(long id) {
-        try {
-            PreparedStatement statement = connection.prepareStatement(SQL_DELETE);
+        try (PreparedStatement statement = connection.prepareStatement(SQL_DELETE)) {
             statement.setLong(1, id);
             statement.execute();
         } catch (SQLException e) {
@@ -98,8 +91,7 @@ public class JDBCUserDao implements UserDao {
     @Override
     public Optional<User> findByUsername(String username) {
         User user = null;
-        try {
-            PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_USERNAME);
+        try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_USERNAME)) {
             statement.setString(1, username);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {

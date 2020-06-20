@@ -24,8 +24,7 @@ public class JDBCOrderDao implements OrderDao {
         Map<Long, Book> books = new HashMap<>();
         Map<Long, User> users = new HashMap<>();
 
-        try {
-            PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ACTIVE);
+        try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ACTIVE)) {
             statement.setBoolean(1, active);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
@@ -45,8 +44,7 @@ public class JDBCOrderDao implements OrderDao {
         Map<Long, Book> books = new HashMap<>();
         Map<Long, User> users = new HashMap<>();
 
-        try {
-            PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ACTIVE_AND_USERNAME);
+        try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ACTIVE_AND_USERNAME)) {
             statement.setBoolean(1, active);
             statement.setString(2, username);
             ResultSet rs = statement.executeQuery();
@@ -62,8 +60,7 @@ public class JDBCOrderDao implements OrderDao {
 
     @Override
     public void create(Order entity) {
-        try {
-            PreparedStatement statement = connection.prepareStatement(SQL_INSERT);
+        try (PreparedStatement statement = connection.prepareStatement(SQL_INSERT)) {
             statement.setLong(1, entity.getBook().getBookId());//todo
             statement.setLong(2, entity.getUser().getId());
             statement.setBoolean(3, entity.isActive());
@@ -81,8 +78,7 @@ public class JDBCOrderDao implements OrderDao {
         Map<Long, Order> orders = new HashMap<>();
         Map<Long, Book> books = new HashMap<>();
         Map<Long, User> users = new HashMap<>();
-        try {
-            PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ID);
+        try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ID)) {
             statement.setLong(1, id);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
@@ -100,8 +96,7 @@ public class JDBCOrderDao implements OrderDao {
         Map<Long, Order> orders = new HashMap<>();
         Map<Long, Book> books = new HashMap<>();
         Map<Long, User> users = new HashMap<>();
-        try {
-            PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL);
+        try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL)) {
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 Order order = orderMapper.fullExtractFromResultSet(rs, orders, books, users);
@@ -115,8 +110,7 @@ public class JDBCOrderDao implements OrderDao {
 
     @Override
     public void update(Order entity) {
-        try {
-            PreparedStatement statement = connection.prepareStatement(SQL_UPDATE);
+        try (PreparedStatement statement = connection.prepareStatement(SQL_UPDATE)) {
             statement.setBoolean(1, entity.isActive());
             statement.setLong(2, entity.getOrderId());
             statement.execute();
@@ -127,8 +121,7 @@ public class JDBCOrderDao implements OrderDao {
 
     @Override
     public void delete(long id) {
-        try {
-            PreparedStatement statement = connection.prepareStatement(SQL_DELETE);
+        try (PreparedStatement statement = connection.prepareStatement(SQL_DELETE)) {
             statement.setLong(1, id);
             statement.execute();
         } catch (SQLException e) {
