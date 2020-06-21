@@ -68,16 +68,13 @@ public class JDBCTagDao implements TagDao {
 
     @Override
     public List<Tag> findAll() {
-        Map<Long, Tag> tags = new HashMap<>();
+        List<Tag> resultList = new ArrayList<>();
         try (Statement st = connection.createStatement()) {
             ResultSet rs = st.executeQuery(SQL_FIND_ALL);
             while (rs.next()) {
-                Tag tag = tagMapper
-                        .extractFromResultSet(rs);
-                tag = tagMapper //useless now
-                        .makeUnique(tags, tag);
+                resultList.add(tagMapper.extractFromResultSet(rs));
             }
-            return new ArrayList<>(tags.values());
+            return resultList;
         } catch (SQLException e) {
             e.printStackTrace();
             return null;

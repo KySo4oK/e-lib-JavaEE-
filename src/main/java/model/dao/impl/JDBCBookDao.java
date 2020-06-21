@@ -70,8 +70,7 @@ public class JDBCBookDao implements BookDao {
             statement.setInt(2, pageable.getNumber() * pageable.getPage());
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                Book book = bookMapper.fullExtractFromResultSet(rs, books, tags, authors);
-                resultList.add(book);
+                resultList.add(bookMapper.fullExtractFromResultSet(rs, books, tags, authors));
             }
         } catch (SQLException e) {
             log.error(e.getMessage() + " when trying findAll books");
@@ -98,8 +97,7 @@ public class JDBCBookDao implements BookDao {
             statement.setInt(5, pageable.getNumber() * pageable.getPage());
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                Book book = bookMapper.fullExtractFromResultSet(rs, books, tags, authors);
-                resultList.add(book);
+                resultList.add(bookMapper.fullExtractFromResultSet(rs, books, tags, authors));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -163,8 +161,7 @@ public class JDBCBookDao implements BookDao {
         try (Statement st = connection.createStatement()) {
             ResultSet rs = st.executeQuery(SQL_FIND_ALL);
             while (rs.next()) {
-                Book book = bookMapper.fullExtractFromResultSet(rs, books, tags, authors);
-                resultList.add(book);
+                resultList.add(bookMapper.fullExtractFromResultSet(rs, books, tags, authors));
             }
         } catch (SQLException e) {
             log.error(e.getMessage() + " when trying findAll books");
@@ -180,7 +177,6 @@ public class JDBCBookDao implements BookDao {
             statement.setString(2, entity.getName());
             statement.setString(3, entity.getNameUa());
             statement.setLong(4, entity.getBookId());
-            log.info("statement - {}", statement);
             statement.execute();
         } catch (SQLException e) {
             log.error(e.getMessage() + "when trying update book");

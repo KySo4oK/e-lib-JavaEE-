@@ -57,8 +57,7 @@ public class JDBCAuthorDao implements AuthorDao {
             statement.setLong(1, id);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                author = authorMapper
-                        .extractFromResultSet(rs);
+                author = authorMapper.extractFromResultSet(rs);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -68,16 +67,13 @@ public class JDBCAuthorDao implements AuthorDao {
 
     @Override
     public List<Author> findAll() {
-        Map<Long, Author> authors = new HashMap<>();
+        List<Author> resultList = new ArrayList<>();
         try (Statement st = connection.createStatement()) {
             ResultSet rs = st.executeQuery(SQL_FIND_ALL);
             while (rs.next()) {
-                Author author = authorMapper
-                        .extractFromResultSet(rs);
-                author = authorMapper //useless now
-                        .makeUnique(authors, author);
+                resultList.add(authorMapper.extractFromResultSet(rs));
             }
-            return new ArrayList<>(authors.values());
+            return resultList;
         } catch (SQLException e) {
             e.printStackTrace();
             return null;

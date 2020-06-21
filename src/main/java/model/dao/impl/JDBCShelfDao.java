@@ -64,7 +64,6 @@ public class JDBCShelfDao implements ShelfDao {
     @Override
     public Optional<Shelf> findById(long id) {
         Shelf shelf = null;
-
         try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ID)) {
             statement.setLong(1, id);
             ResultSet rs = statement.executeQuery();
@@ -80,12 +79,10 @@ public class JDBCShelfDao implements ShelfDao {
     @Override
     public List<Shelf> findAll() {
         List<Shelf> shelves = new ArrayList<>();
-
         try (Statement st = connection.createStatement()) {
             ResultSet rs = st.executeQuery(SQL_FIND_ALL);
             while (rs.next()) {
-                Shelf shelf = shelfMapper.fullExtractFromResultSet(rs);
-                shelves.add(shelf);
+                shelves.add(shelfMapper.fullExtractFromResultSet(rs));
             }
             return shelves.stream().distinct().collect(Collectors.toList());
         } catch (SQLException e) {

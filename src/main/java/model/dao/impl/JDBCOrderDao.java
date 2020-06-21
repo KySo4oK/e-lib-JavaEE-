@@ -28,8 +28,7 @@ public class JDBCOrderDao implements OrderDao {
             statement.setBoolean(1, active);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                Order order = orderMapper.fullExtractFromResultSet(rs, orders, books, users);
-                resultList.add(order);
+                resultList.add(orderMapper.fullExtractFromResultSet(rs, orders, books, users));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -49,8 +48,7 @@ public class JDBCOrderDao implements OrderDao {
             statement.setString(2, username);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                Order order = orderMapper.fullExtractFromResultSet(rs, orders, books, users);
-                resultList.add(order);
+                resultList.add(orderMapper.fullExtractFromResultSet(rs, orders, books, users));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -99,8 +97,7 @@ public class JDBCOrderDao implements OrderDao {
         try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL)) {
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                Order order = orderMapper.fullExtractFromResultSet(rs, orders, books, users);
-                resultList.add(order);
+                resultList.add(orderMapper.fullExtractFromResultSet(rs, orders, books, users));
             }
         } catch (SQLException e) {
             e.printStackTrace();

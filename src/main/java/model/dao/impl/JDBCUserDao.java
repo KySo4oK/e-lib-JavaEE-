@@ -45,14 +45,13 @@ public class JDBCUserDao implements UserDao {
     }
 
     public List<User> findAll() {
-        Map<Long, User> users = new HashMap<>();
+        List<User> resultList = new ArrayList<>();
         try (Statement st = connection.createStatement()) {
             ResultSet rs = st.executeQuery(SQL_FIND_ALL);
             while (rs.next()) {
-                User user = userMapper.extractFromResultSet(rs);
-                userMapper.makeUnique(users, user);
+                resultList.add(userMapper.extractFromResultSet(rs));
             }
-            return new ArrayList<>(users.values());
+            return resultList;
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
