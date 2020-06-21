@@ -10,11 +10,11 @@ import java.util.Map;
 public class TagMapper implements ObjectMapper<Tag> {
     @Override
     public Tag extractFromResultSet(ResultSet rs) throws SQLException {
-        Tag tag = new Tag();
-        tag.setTagId(rs.getLong("tagId"));
-        tag.setName(rs.getString("tagName"));
-        tag.setNameUa(rs.getString("tagNameUa"));
-        return tag;
+        return Tag.Builder.aTag()
+                .tagId(rs.getLong("tagId"))
+                .name(rs.getString("tagName"))
+                .nameUa(rs.getString("tagNameUa"))
+                .build();
     }
 
     @Override

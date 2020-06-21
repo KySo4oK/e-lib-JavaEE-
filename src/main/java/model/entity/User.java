@@ -111,4 +111,61 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public static final class Builder {
+        private Long id;
+        private String username;
+        private String password;
+        private String email;
+        private String phone;
+        private ROLE role;
+
+        private Builder() {
+        }
+
+        public static Builder anUser() {
+            return new Builder();
+        }
+
+        public Builder id(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder username(String username) {
+            this.username = username;
+            return this;
+        }
+
+        public Builder password(String password) {
+            this.password = password;
+            return this;
+        }
+
+        public Builder email(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public Builder phone(String phone) {
+            this.phone = phone;
+            return this;
+        }
+
+        public Builder role(ROLE role) {
+            this.role = role;
+            return this;
+        }
+
+        public User build() {
+            User user = new User();
+            user.setId(id);
+            user.setUsername(username);
+            user.setPassword(password);
+            user.setEmail(email);
+            user.setPhone(phone);
+            user.setRole(role);
+            return user;
+        }
+    }
 }

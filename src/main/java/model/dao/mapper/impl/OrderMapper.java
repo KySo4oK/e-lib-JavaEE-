@@ -1,7 +1,9 @@
 package model.dao.mapper.impl;
 
 import model.dao.mapper.ObjectMapper;
-import model.entity.*;
+import model.entity.Book;
+import model.entity.Order;
+import model.entity.User;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,14 +12,15 @@ import java.util.Map;
 public class OrderMapper implements ObjectMapper<Order> {
     private final BookMapper bookMapper = new BookMapper();
     private final UserMapper userMapper = new UserMapper();
+
     @Override
     public Order extractFromResultSet(ResultSet rs) throws SQLException {
-        Order order = new Order();
-        order.setOrderId(rs.getLong("order_id"));
-        order.setActive(rs.getBoolean("active"));
-        order.setEndDate(rs.getDate("end_date").toLocalDate());
-        order.setStartDate(rs.getDate("start_date").toLocalDate());
-        return order;
+        return Order.Builder.anOrder()
+                .orderId(rs.getLong("order_id"))
+                .active(rs.getBoolean("active"))
+                .endDate(rs.getDate("end_date").toLocalDate())
+                .startDate(rs.getDate("start_date").toLocalDate())
+                .build();
     }
 
     public Order fullExtractFromResultSet(ResultSet rs,

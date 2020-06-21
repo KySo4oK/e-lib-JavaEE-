@@ -8,6 +8,13 @@ public class Shelf {
     private Long shelfId;
     private Book book;
 
+    public Shelf() {
+    }
+
+    public Shelf(Long shelf_id) {
+        this.shelfId = shelf_id;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

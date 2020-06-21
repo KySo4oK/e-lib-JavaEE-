@@ -10,14 +10,14 @@ import java.util.Map;
 public class UserMapper implements ObjectMapper<User> {
 
     public User extractFromResultSet(ResultSet rs) throws SQLException {
-        User user = new User();
-        user.setId(rs.getLong("userId"));
-        user.setUsername(rs.getString("username"));
-        user.setEmail(rs.getString("email"));
-        user.setPhone(rs.getString("phone"));
-        user.setPassword(rs.getString("password"));
-        user.setRole(User.ROLE.valueOf(rs.getString("role")));
-        return user;
+        return User.Builder.anUser()
+                .id(rs.getLong("userId"))
+                .username(rs.getString("username"))
+                .email(rs.getString("email"))
+                .phone(rs.getString("phone"))
+                .password(rs.getString("password"))
+                .role(User.ROLE.valueOf(rs.getString("role")))
+                .build();
     }
 
     public User makeUnique(Map<Long, User> cache,

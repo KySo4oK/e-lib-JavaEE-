@@ -3,7 +3,6 @@ package model.dao.mapper.impl;
 import model.dao.mapper.ObjectMapper;
 import model.entity.Author;
 import model.entity.Book;
-import model.entity.Shelf;
 import model.entity.Tag;
 
 import java.sql.ResultSet;
@@ -26,12 +25,12 @@ public class BookMapper implements ObjectMapper<Book> {
 
     @Override
     public Book extractFromResultSet(ResultSet rs) throws SQLException {
-        Book book = new Book();
-        book.setBookId(rs.getLong("bookId"));
-        book.setAvailable(rs.getBoolean("available"));
-        book.setName(rs.getString("bookName"));
-        book.setNameUa(rs.getString("bookNameUa"));
-        return book;
+        return Book.Builder.aBook()
+                .bookId(rs.getLong("bookId"))
+                .available(rs.getBoolean("available"))
+                .name(rs.getString("bookName"))
+                .nameUa(rs.getString("bookNameUa"))
+                .build();
     }
 
     public Book fullExtractFromResultSet(ResultSet rs,

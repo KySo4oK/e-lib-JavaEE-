@@ -10,11 +10,11 @@ import java.util.Map;
 public class AuthorMapper implements ObjectMapper<Author> {
     @Override
     public Author extractFromResultSet(ResultSet rs) throws SQLException {
-        Author author = new Author();
-        author.setAuthorId(rs.getLong("authorId"));
-        author.setName(rs.getString("authorName"));
-        author.setNameUa(rs.getString("authorNameUa"));
-        return author;
+        return Author.Builder.anAuthor()
+                .authorId(rs.getLong("authorId"))
+                .name(rs.getString("authorName"))
+                .nameUa(rs.getString("authorNameUa"))
+                .build();
     }
 
     @Override
