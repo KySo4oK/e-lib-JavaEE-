@@ -25,8 +25,6 @@ public class LogOutCommand implements Command {
         loggedUsers.remove(userName);
         session.setAttribute("loggedUsers", loggedUsers);
         context.setAttribute("loggedUsers", loggedUsers);
-        loggedUsers = (HashSet<String>) context.getAttribute("loggedUsers");
-        log.info("logged users - " + loggedUsers);
         log.info("remove from logged users - " + userName);
         return "redirect:/index";
     }

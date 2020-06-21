@@ -22,7 +22,7 @@ public class RegistrationCommand implements Command {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         log.info("trying process registration for " + username + " with " + password);
-        if (username == null && password == null) {
+        if (username == null && password == null) {//todo validation
             return "/reg.jsp";
         }
         userService.saveUser(new User(UserDTO.Builder.anUserDTO()
