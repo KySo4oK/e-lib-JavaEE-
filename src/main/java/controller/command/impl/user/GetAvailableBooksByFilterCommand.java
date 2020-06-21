@@ -6,14 +6,12 @@ import controller.util.LocaleExtractor;
 import controller.util.PageableExtractor;
 import model.dto.BookDTO;
 import model.dto.FilterDTO;
-import model.entity.Pageable;
-import model.exception.BookNotFoundException;
+import model.exception.FilterNotFoundException;
 import model.service.BookService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
-import java.util.Locale;
 
 public class GetAvailableBooksByFilterCommand implements Command {
     private final BookService bookService;
@@ -25,9 +23,9 @@ public class GetAvailableBooksByFilterCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         try {
-            return getJsonOfBookList(getAvailableBooksByFilter(request));//todo pagination
+            return getJsonOfBookList(getAvailableBooksByFilter(request));
         } catch (IOException e) {
-            throw new BookNotFoundException("not found");//todo
+            throw new FilterNotFoundException("not found");
         }
     }
 

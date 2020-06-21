@@ -5,7 +5,7 @@ import controller.command.Command;
 import controller.util.LocaleExtractor;
 import controller.util.PageableExtractor;
 import model.dto.BookDTO;
-import model.exception.BookNotFoundException;
+import model.exception.FilterNotFoundException;
 import model.service.BookService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -29,7 +29,7 @@ public class GetAvailableBooksCommand implements Command {
             return getJsonOfBookList(getAvailableBooksByFilter(request));
         } catch (Exception e) {
             log.info(e);
-            throw new BookNotFoundException("not found");//todo
+            throw new FilterNotFoundException("not found");
         }
     }
 

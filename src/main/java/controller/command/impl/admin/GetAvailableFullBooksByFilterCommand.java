@@ -6,7 +6,7 @@ import controller.util.LocaleExtractor;
 import controller.util.PageableExtractor;
 import model.dto.BookDTO;
 import model.dto.FilterDTO;
-import model.exception.BookNotFoundException;
+import model.exception.FilterNotFoundException;
 import model.service.BookService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,9 +23,9 @@ public class GetAvailableFullBooksByFilterCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         try {
-            return getJsonOfBookList(getAvailableBooksByFilter(request));//todo pagination
+            return getJsonOfBookList(getAvailableBooksByFilter(request));
         } catch (IOException e) {
-            throw new BookNotFoundException("not found");//todo
+            throw new FilterNotFoundException("not found");
         }
     }
 
