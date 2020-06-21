@@ -24,25 +24,21 @@ public class LoginCommand implements Command {
         if (request.getParameter("username") == null) {//todo validation
             return "/login.jsp";
         }
-        User.ROLE role = (userService.getRoleByUser(request.getParameter("username"),
-                request.getParameter("password")));
-        log.info("role from db - " + role);
-
-        if (role == User.ROLE.UNKNOWN) {
+        User.ROLE role;
+        try {
+            role = userService.getRoleByUser(request.getParameter("username"),
+                    request.getParameter("password"));
+        } catch (RuntimeException e) {
+            log.warn("cannot perform logging");
             return "/login.jsp";
         }
+        log.info("role from db - " + role);
 
         if (CommandUtility.checkUserIsLogged(request, name)) {
             log.info("user with this username logged");
             return "redirect:/login";
         }
-
-        if (role.equals(User.ROLE.ADMIN)) {
-            CommandUtility.setUserRole(request, User.ROLE.ADMIN, name);
-            return "redirect:/admin";
-        } else {
-            CommandUtility.setUserRole(request, User.ROLE.USER, name);
-            return "redirect:/user";
-        }
+        CommandUtility.setUserRole(request, role, name);
+        return role.equals(User.ROLE.ADMIN) ? "redirect:/admin" : "redirect:/user";
     }
 }
