@@ -8,6 +8,7 @@ import model.dto.BookDTO;
 import model.dto.FilterDTO;
 import model.entity.*;
 import model.exception.BookNotFoundException;
+import model.exception.ShelfNotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -76,7 +77,7 @@ public class BookService {
              ShelfDao shelfDao = daoFactory.createShelfDao()) {
             utx.begin();
             Shelf shelf = shelfDao.findByBookId(null)
-                    .orElseThrow(() -> new RuntimeException("not available shelf"));//todo change exc
+                    .orElseThrow(() -> new ShelfNotFoundException("not available shelf"));
             Book book = BuildBookFromClient(bookDTO, shelf, locale);
             bookDao.create(book);
             shelf.setBook(bookDao.findByName(book.getName())
@@ -109,7 +110,7 @@ public class BookService {
                 .build();
     }
 
-    public List<BookDTO> getAvailableBooksByFilter(FilterDTO filterDTO, Pageable pageable, Locale locale) {//todo
+    public List<BookDTO> getAvailableBooksByFilter(FilterDTO filterDTO, Pageable pageable, Locale locale) {
         return getBooksByFilter(filterDTO, pageable, locale)
                 .stream()
                 .map(book -> buildBookDTO(book, locale))
@@ -130,14 +131,14 @@ public class BookService {
         }
     }
 
-    public void editBookAndSave(BookDTO bookDTO, Locale locale) throws BookNotFoundException {
+    public void editBookAndSave(BookDTO bookDTO) throws BookNotFoundException {
         log.info("save book - " + bookDTO);
         try (BookDao bookDao = daoFactory.createBookDao()) {
-            bookDao.update(getEditedBook(bookDTO, locale));//todo normal updating
+            bookDao.update(getEditedBook(bookDTO));
         }
     }
 
-    private Book getEditedBook(BookDTO bookDTO, Locale locale) {
+    private Book getEditedBook(BookDTO bookDTO) {
         try (BookDao bookDao = daoFactory.createBookDao()) {
             Book book = bookDao
                     .findById(bookDTO.getId())

@@ -2,7 +2,6 @@ package controller.command.impl.admin;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import controller.command.Command;
-import controller.util.LocaleExtractor;
 import model.dto.BookDTO;
 import model.exception.BookAlreadyExistException;
 import model.service.BookService;
@@ -20,8 +19,7 @@ public class EditBookCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         try {
-            bookService.editBookAndSave(getBookDTOFromRequest(request),
-                    LocaleExtractor.extractFromRequest(request));
+            bookService.editBookAndSave(getBookDTOFromRequest(request));
         } catch (Exception e) {
             throw new BookAlreadyExistException("oops");
         }
