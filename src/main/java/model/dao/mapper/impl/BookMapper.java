@@ -37,14 +37,9 @@ public class BookMapper implements ObjectMapper<Book> {
                                          Map<Long, Book> books,
                                          Map<Long, Tag> tags,
                                          Map<Long, Author> authors) throws SQLException {
-        Book book = extractFromResultSet(rs);
-        book = makeUnique(books, book);
-        Tag tag = tagMapper.extractFromResultSet(rs);
-        Author author = authorMapper.extractFromResultSet(rs);
-        tag = tagMapper.makeUnique(tags, tag);
-        author = authorMapper.makeUnique(authors, author);
-        book.getAuthors().add(author);
-        book.setTag(tag);
+        Book book = makeUnique(books, extractFromResultSet(rs));
+        book.getAuthors().add(authorMapper.makeUnique(authors, authorMapper.extractFromResultSet(rs)));
+        book.setTag(tagMapper.makeUnique(tags, tagMapper.extractFromResultSet(rs)));
         book.setAuthors(book.getAuthors().stream().distinct().collect(Collectors.toList()));
         return book;
     }

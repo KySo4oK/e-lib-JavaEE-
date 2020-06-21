@@ -27,14 +27,9 @@ public class OrderMapper implements ObjectMapper<Order> {
                                           Map<Long, Order> orders,
                                           Map<Long, Book> books,
                                           Map<Long, User> users) throws SQLException {
-        Order order = extractFromResultSet(rs);
-        order = makeUnique(orders, order);
-        Book book = bookMapper.extractFromResultSet(rs);
-        book = bookMapper.makeUnique(books, book);
-        User user = userMapper.extractFromResultSet(rs);
-        user = userMapper.makeUnique(users, user);
-        order.setUser(user);
-        order.setBook(book);
+        Order order = makeUnique(orders, extractFromResultSet(rs));
+        order.setUser(userMapper.makeUnique(users, userMapper.extractFromResultSet(rs)));
+        order.setBook(bookMapper.makeUnique(books, bookMapper.extractFromResultSet(rs)));
         return order;
     }
 
