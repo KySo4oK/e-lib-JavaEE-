@@ -60,29 +60,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         commands.put("user-admin/authors", new GetAuthorsCommand(serviceFactory.createAuthorService()));
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws javax.servlet.ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws javax.servlet.ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    @Override
-    protected void doPut(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    @Override
-    protected void doDelete(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    private void processRequest(HttpServletRequest request, HttpServletResponse response)
+    protected void service(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String path = request.getRequestURI();
         log.info("request path - " + path);
