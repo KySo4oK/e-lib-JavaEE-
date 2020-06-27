@@ -59,7 +59,7 @@ public class JDBCOrderDao implements OrderDao {
     @Override
     public void create(Order entity) {
         try (PreparedStatement statement = connection.prepareStatement(SQL_INSERT)) {
-            statement.setLong(1, entity.getBook().getBookId());//todo
+            statement.setLong(1, entity.getBook().getBookId());
             statement.setLong(2, entity.getUser().getId());
             statement.setBoolean(3, entity.isActive());
             statement.setDate(4, Date.valueOf(entity.getEndDate()));

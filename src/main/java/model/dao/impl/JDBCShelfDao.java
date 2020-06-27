@@ -94,7 +94,7 @@ public class JDBCShelfDao implements ShelfDao {
     @Override
     public void update(Shelf entity) {
         try (PreparedStatement statement = connection.prepareStatement(SQL_UPDATE)) {
-            statement.setLong(1, entity.getBook().getBookId());//todo
+            statement.setLong(1, entity.getBook().getBookId());
             statement.setLong(2, entity.getShelfId());
             statement.execute();
         } catch (SQLException e) {

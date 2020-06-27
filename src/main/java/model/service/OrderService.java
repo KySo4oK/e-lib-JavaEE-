@@ -51,7 +51,7 @@ public class OrderService {
     public void permitOrder(OrderDTO orderDTO) {
         log.info("permit order - " + orderDTO);
         try (OrderDao orderDao = daoFactory.createOrderDao()) {
-            orderDao.update(activateAndChangeOrder(orderDTO));// todo normal updating
+            orderDao.update(activateAndChangeOrder(orderDTO));
         }
     }
 
