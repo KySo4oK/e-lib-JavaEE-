@@ -68,7 +68,6 @@ public class SecurityFilter implements Filter {
         session.setAttribute("role", User.ROLE.UNKNOWN.toString());
     }
 
-    public void init(FilterConfig fConfig) throws ServletException {
+    public void init(FilterConfig fConfig) {
     }
-
 }

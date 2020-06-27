@@ -20,6 +20,7 @@ public class LogOutCommand implements Command {
         ServletContext context = session.getServletContext();
         String userName = (String) session.getAttribute("username");
         CommandUtility.setUserRole(request, User.ROLE.UNKNOWN, "Guest");
+        @SuppressWarnings("unchecked")
         HashSet<String> loggedUsers = (HashSet<String>) context.getAttribute("loggedUsers");
         log.info("logged users - " + loggedUsers);
         loggedUsers.remove(userName);
