@@ -40,7 +40,6 @@ public class BookMapper implements ObjectMapper<Book> {
         Book book = makeUnique(books, extractFromResultSet(rs));
         book.getAuthors().add(authorMapper.makeUnique(authors, authorMapper.extractFromResultSet(rs)));
         book.setTag(tagMapper.makeUnique(tags, tagMapper.extractFromResultSet(rs)));
-        book.setAuthors(book.getAuthors().stream().distinct().collect(Collectors.toList()));
         return book;
     }
 

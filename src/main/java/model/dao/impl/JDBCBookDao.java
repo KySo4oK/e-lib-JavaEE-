@@ -61,7 +61,6 @@ public class JDBCBookDao implements BookDao {
 
     @Override
     public List<Book> findAllByAvailableIsTrue(Pageable pageable) {
-        List<Book> resultList = new ArrayList<>();
         Map<Long, Book> books = new HashMap<>();
         Map<Long, Tag> tags = new HashMap<>();
         Map<Long, Author> authors = new HashMap<>();
@@ -70,20 +69,19 @@ public class JDBCBookDao implements BookDao {
             statement.setInt(2, pageable.getNumber() * pageable.getPage());
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                resultList.add(bookMapper.fullExtractFromResultSet(rs, books, tags, authors));
+                bookMapper.fullExtractFromResultSet(rs, books, tags, authors);
             }
         } catch (SQLException e) {
             log.error(e.getMessage() + " when trying findAll books");
             throw new RuntimeException(e);
         }
-        return resultList.stream().distinct().collect(Collectors.toList());
+        return new ArrayList<>(books.values());
     }
 
     private List<Book> getByFilter(String partOfName,
                                    String[] authorsStrings,
                                    String[] tagsStrings,
                                    String sqlFindByFilterUa, Pageable pageable) {
-        List<Book> resultList = new ArrayList<>();
         Map<Long, Book> books = new HashMap<>();
         Map<Long, Tag> tags = new HashMap<>();
         Map<Long, Author> authors = new HashMap<>();
@@ -97,12 +95,12 @@ public class JDBCBookDao implements BookDao {
             statement.setInt(5, pageable.getNumber() * pageable.getPage());
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                resultList.add(bookMapper.fullExtractFromResultSet(rs, books, tags, authors));
+                bookMapper.fullExtractFromResultSet(rs, books, tags, authors);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return resultList.stream().distinct().collect(Collectors.toList());
+        return new ArrayList<>(books.values());
     }
 
     @Override
@@ -154,20 +152,19 @@ public class JDBCBookDao implements BookDao {
 
     @Override
     public List<Book> findAll() {
-        List<Book> resultList = new ArrayList<>();
         Map<Long, Book> books = new HashMap<>();
         Map<Long, Tag> tags = new HashMap<>();
         Map<Long, Author> authors = new HashMap<>();
         try (Statement st = connection.createStatement()) {
             ResultSet rs = st.executeQuery(SQL_FIND_ALL);
             while (rs.next()) {
-                resultList.add(bookMapper.fullExtractFromResultSet(rs, books, tags, authors));
+                bookMapper.fullExtractFromResultSet(rs, books, tags, authors);
             }
         } catch (SQLException e) {
             log.error(e.getMessage() + " when trying findAll books");
             throw new RuntimeException(e);
         }
-        return resultList.stream().distinct().collect(Collectors.toList());
+        return new ArrayList<>(books.values());
     }
 
     @Override
