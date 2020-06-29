@@ -4,6 +4,8 @@ package model.dao.impl;
 import model.dao.UserDao;
 import model.dao.mapper.impl.UserMapper;
 import model.entity.User;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.*;
@@ -11,6 +13,7 @@ import java.util.*;
 public class JDBCUserDao implements UserDao {
     private final Connection connection;
     private final UserMapper userMapper = new UserMapper();
+    private final static Logger log = LogManager.getLogger(JDBCUserDao.class);
 
 
     public JDBCUserDao(Connection connection) {
@@ -26,7 +29,8 @@ public class JDBCUserDao implements UserDao {
             statement.setString(5, entity.getPhone());
             statement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
@@ -39,7 +43,8 @@ public class JDBCUserDao implements UserDao {
                 user = userMapper.extractFromResultSet(rs);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
+            throw new RuntimeException(e);
         }
         return Optional.ofNullable(user);
     }
@@ -53,8 +58,8 @@ public class JDBCUserDao implements UserDao {
             }
             return resultList;
         } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
+            log.error(e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
@@ -64,7 +69,8 @@ public class JDBCUserDao implements UserDao {
             statement.setLong(2, entity.getId());
             statement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
@@ -74,7 +80,8 @@ public class JDBCUserDao implements UserDao {
             statement.setLong(1, id);
             statement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
@@ -97,7 +104,8 @@ public class JDBCUserDao implements UserDao {
                 user = userMapper.extractFromResultSet(rs);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
+            throw new RuntimeException(e);
         }
         return Optional.ofNullable(user);
     }

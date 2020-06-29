@@ -3,6 +3,8 @@ package model.dao.impl;
 import model.dao.OrderDao;
 import model.dao.mapper.impl.OrderMapper;
 import model.entity.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Date;
 import java.sql.*;
@@ -12,6 +14,7 @@ import java.util.stream.Collectors;
 public class JDBCOrderDao implements OrderDao {
     private final Connection connection;
     private final OrderMapper orderMapper = new OrderMapper();
+    private final static Logger log = LogManager.getLogger(JDBCOrderDao.class);
 
     public JDBCOrderDao(Connection connection) {
         this.connection = connection;
@@ -31,7 +34,8 @@ public class JDBCOrderDao implements OrderDao {
                 resultList.add(orderMapper.fullExtractFromResultSet(rs, orders, books, users));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
+            throw new RuntimeException(e);
         }
         return resultList.stream().distinct().collect(Collectors.toList());
     }
@@ -51,7 +55,8 @@ public class JDBCOrderDao implements OrderDao {
                 resultList.add(orderMapper.fullExtractFromResultSet(rs, orders, books, users));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
+            throw new RuntimeException(e);
         }
         return resultList.stream().distinct().collect(Collectors.toList());
     }
@@ -66,7 +71,8 @@ public class JDBCOrderDao implements OrderDao {
             statement.setDate(5, Date.valueOf(entity.getStartDate()));
             statement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
@@ -83,7 +89,8 @@ public class JDBCOrderDao implements OrderDao {
                 order = orderMapper.fullExtractFromResultSet(rs, orders, books, users);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
+            throw new RuntimeException(e);
         }
         return Optional.ofNullable(order);
     }
@@ -100,7 +107,8 @@ public class JDBCOrderDao implements OrderDao {
                 resultList.add(orderMapper.fullExtractFromResultSet(rs, orders, books, users));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
+            throw new RuntimeException(e);
         }
         return resultList.stream().distinct().collect(Collectors.toList());
     }
@@ -112,7 +120,8 @@ public class JDBCOrderDao implements OrderDao {
             statement.setLong(2, entity.getOrderId());
             statement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
@@ -122,7 +131,8 @@ public class JDBCOrderDao implements OrderDao {
             statement.setLong(1, id);
             statement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 

@@ -39,7 +39,7 @@ public class JDBCBookDao implements BookDao {
                 book = bookMapper.fullExtractFromResultSet(rs, books, tags, authors);
             }
         } catch (SQLException e) {
-            log.error(e);
+            log.error(e.getMessage());
         }
         return Optional.ofNullable(book);
     }
@@ -128,7 +128,7 @@ public class JDBCBookDao implements BookDao {
             try {
                 connection.rollback();
             } catch (SQLException e1) {
-                log.warn(e1);
+                log.fatal(e1);
                 throw new RuntimeException(e1);
             }
         }

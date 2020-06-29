@@ -3,13 +3,18 @@ package model.dao.impl;
 import model.dao.AuthorDao;
 import model.dao.mapper.impl.AuthorMapper;
 import model.entity.Author;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class JDBCAuthorDao implements AuthorDao {
     private final Connection connection;
     private final AuthorMapper authorMapper = new AuthorMapper();
+    private final static Logger log = LogManager.getLogger(JDBCAuthorDao.class);
 
     public JDBCAuthorDao(Connection connection) {
         this.connection = connection;
@@ -29,7 +34,7 @@ public class JDBCAuthorDao implements AuthorDao {
                 author = authorMapper.extractFromResultSet(rs);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
         return Optional.ofNullable(author);
     }
@@ -46,7 +51,8 @@ public class JDBCAuthorDao implements AuthorDao {
             statement.setString(2, entity.getNameUa());
             statement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
@@ -60,7 +66,7 @@ public class JDBCAuthorDao implements AuthorDao {
                 author = authorMapper.extractFromResultSet(rs);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
         return Optional.ofNullable(author);
     }
@@ -75,8 +81,8 @@ public class JDBCAuthorDao implements AuthorDao {
             }
             return resultList;
         } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
+            log.error(e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
@@ -87,7 +93,8 @@ public class JDBCAuthorDao implements AuthorDao {
             statement.setLong(2, entity.getAuthorId());
             statement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
@@ -97,7 +104,8 @@ public class JDBCAuthorDao implements AuthorDao {
             statement.setLong(1, id);
             statement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 

@@ -31,7 +31,8 @@ public class JDBCShelfDao implements ShelfDao {
                     shelf = shelfMapper.fullExtractFromResultSet(rs);
                 }
             } catch (SQLException e) {
-                log.info("failed - " + e);
+                log.error(e.getMessage());
+                throw new RuntimeException(e);
             }
         } else {
             try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_BOOK_ID)) {
@@ -41,7 +42,8 @@ public class JDBCShelfDao implements ShelfDao {
                     shelf = shelfMapper.fullExtractFromResultSet(rs);
                 }
             } catch (SQLException e) {
-                log.info("failed - " + e);
+                log.error(e.getMessage());
+                throw new RuntimeException(e);
             }
         }
         return Optional.ofNullable(shelf);
@@ -57,7 +59,8 @@ public class JDBCShelfDao implements ShelfDao {
             }
             statement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
@@ -71,7 +74,8 @@ public class JDBCShelfDao implements ShelfDao {
                 shelf = shelfMapper.fullExtractFromResultSet(rs);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
+            throw new RuntimeException(e);
         }
         return Optional.ofNullable(shelf);
     }
@@ -86,8 +90,8 @@ public class JDBCShelfDao implements ShelfDao {
             }
             return shelves.stream().distinct().collect(Collectors.toList());
         } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
+            log.error(e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
@@ -98,7 +102,8 @@ public class JDBCShelfDao implements ShelfDao {
             statement.setLong(2, entity.getShelfId());
             statement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
@@ -108,7 +113,8 @@ public class JDBCShelfDao implements ShelfDao {
             statement.setLong(1, id);
             statement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 

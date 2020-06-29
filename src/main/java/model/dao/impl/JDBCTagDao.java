@@ -3,6 +3,8 @@ package model.dao.impl;
 import model.dao.TagDao;
 import model.dao.mapper.impl.TagMapper;
 import model.entity.Tag;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.*;
@@ -10,6 +12,7 @@ import java.util.*;
 public class JDBCTagDao implements TagDao {
     private final Connection connection;
     private final TagMapper tagMapper = new TagMapper();
+    private final static Logger log = LogManager.getLogger(JDBCTagDao.class);
 
     public JDBCTagDao(Connection connection) {
         this.connection = connection;
@@ -29,7 +32,8 @@ public class JDBCTagDao implements TagDao {
                 tag = tagMapper.extractFromResultSet(rs);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
+            throw new RuntimeException(e);
         }
         return Optional.ofNullable(tag);
     }
@@ -46,7 +50,8 @@ public class JDBCTagDao implements TagDao {
             statement.setString(2, entity.getNameUa());
             statement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
@@ -61,7 +66,8 @@ public class JDBCTagDao implements TagDao {
                         .extractFromResultSet(rs);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
+            throw new RuntimeException(e);
         }
         return Optional.ofNullable(tag);
     }
@@ -76,8 +82,8 @@ public class JDBCTagDao implements TagDao {
             }
             return resultList;
         } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
+            log.error(e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
@@ -88,7 +94,8 @@ public class JDBCTagDao implements TagDao {
             statement.setLong(2, entity.getTagId());
             statement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
@@ -98,7 +105,8 @@ public class JDBCTagDao implements TagDao {
             statement.setLong(1, id);
             statement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
