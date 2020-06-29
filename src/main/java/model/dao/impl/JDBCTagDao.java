@@ -62,8 +62,7 @@ public class JDBCTagDao implements TagDao {
             statement.setLong(1, id);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                tag = tagMapper
-                        .extractFromResultSet(rs);
+                tag = tagMapper.extractFromResultSet(rs);
             }
         } catch (SQLException e) {
             log.error(e.getMessage());

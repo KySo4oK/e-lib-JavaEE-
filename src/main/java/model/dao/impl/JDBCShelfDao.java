@@ -82,13 +82,14 @@ public class JDBCShelfDao implements ShelfDao {
 
     @Override
     public List<Shelf> findAll() {
+
         List<Shelf> shelves = new ArrayList<>();
         try (Statement st = connection.createStatement()) {
             ResultSet rs = st.executeQuery(SQL_FIND_ALL);
             while (rs.next()) {
                 shelves.add(shelfMapper.fullExtractFromResultSet(rs));
             }
-            return shelves.stream().distinct().collect(Collectors.toList());
+            return shelves;
         } catch (SQLException e) {
             log.error(e.getMessage());
             throw new RuntimeException(e);

@@ -22,7 +22,6 @@ public class JDBCOrderDao implements OrderDao {
 
     @Override
     public List<Order> findAllByActive(Boolean active) {
-        List<Order> resultList = new ArrayList<>();
         Map<Long, Order> orders = new HashMap<>();
         Map<Long, Book> books = new HashMap<>();
         Map<Long, User> users = new HashMap<>();
@@ -31,18 +30,17 @@ public class JDBCOrderDao implements OrderDao {
             statement.setBoolean(1, active);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                resultList.add(orderMapper.fullExtractFromResultSet(rs, orders, books, users));
+                orderMapper.fullExtractFromResultSet(rs, orders, books, users);
             }
         } catch (SQLException e) {
             log.error(e.getMessage());
             throw new RuntimeException(e);
         }
-        return resultList.stream().distinct().collect(Collectors.toList());
+        return new ArrayList<>(orders.values());
     }
 
     @Override
     public List<Order> findAllByActiveAndUser_Username(boolean active, String username) {
-        List<Order> resultList = new ArrayList<>();
         Map<Long, Order> orders = new HashMap<>();
         Map<Long, Book> books = new HashMap<>();
         Map<Long, User> users = new HashMap<>();
@@ -52,13 +50,13 @@ public class JDBCOrderDao implements OrderDao {
             statement.setString(2, username);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                resultList.add(orderMapper.fullExtractFromResultSet(rs, orders, books, users));
+                orderMapper.fullExtractFromResultSet(rs, orders, books, users);
             }
         } catch (SQLException e) {
             log.error(e.getMessage());
             throw new RuntimeException(e);
         }
-        return resultList.stream().distinct().collect(Collectors.toList());
+        return new ArrayList<>(orders.values());
     }
 
     @Override
@@ -97,20 +95,19 @@ public class JDBCOrderDao implements OrderDao {
 
     @Override
     public List<Order> findAll() {
-        List<Order> resultList = new ArrayList<>();
         Map<Long, Order> orders = new HashMap<>();
         Map<Long, Book> books = new HashMap<>();
         Map<Long, User> users = new HashMap<>();
         try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL)) {
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                resultList.add(orderMapper.fullExtractFromResultSet(rs, orders, books, users));
+                orderMapper.fullExtractFromResultSet(rs, orders, books, users);
             }
         } catch (SQLException e) {
             log.error(e.getMessage());
             throw new RuntimeException(e);
         }
-        return resultList.stream().distinct().collect(Collectors.toList());
+        return new ArrayList<>(orders.values());
     }
 
     @Override
