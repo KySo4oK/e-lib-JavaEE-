@@ -185,11 +185,11 @@
         methods: {
             async addBook() {
                 let res = await axios.post('/admin/add', this.addedBook)
-                    .catch(function (error) {
-                        if (error.response) {
-                            if (error.response.status == '404')
-                                return;//todo show field with this problem
-                        }
+                    .then((response) => {
+                        alert(response.data.message);
+                    })
+                    .catch((error) => {
+                        alert(error.response.data.error);
                     });
             },
             async changeList() {
