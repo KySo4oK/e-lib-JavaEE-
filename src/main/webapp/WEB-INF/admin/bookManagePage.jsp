@@ -133,12 +133,12 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="book in books" style="padding-right: 0px">
+                <tr v-for="book in books" style="padding-right: 0px" :key="book.id">
                     <td>
-                        <h1><input type="text" class="form-control" :value="book.name" v-model="book.name"></h1></td>
+                        <h1><input type="text" class="form-control" v-model="book.name"></h1></td>
                     <td>
                     <td>
-                        <h1><input type="text" class="form-control" :value="book.nameUa" v-model="book.nameUa"></h1>
+                        <h1><input type="text" class="form-control" v-model="book.nameUa"></h1>
                     </td>
                     <td>
                         <button class="btn btn-warning" v-on:click="editBook(book)"><fmt:message key="edit"/></button>

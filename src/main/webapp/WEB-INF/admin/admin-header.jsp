@@ -42,37 +42,13 @@
                 <a style="float: right; margin-right: 5px" href="/admin">
                     <fmt:message key="orders"/>
                 </a>
-            </span>
+        </span>
         <span>
                 <a style="float: right; margin-right: 5px" href="/">
                     <fmt:message key="main"/>
                 </a>
-            </span>
+        </span>
     </div>
 </header>
-<style lang="less">
-    input {
-        margin-top: 17px;
-    }
-
-    body {
-        font-family: Arial;
-        font-style: normal;
-    }
-
-    header {
-        position: fixed;
-        height: 10%;
-        left: 0;
-        top: 0;
-        width: 100%;
-        z-index: 10;
-    }
-
-    span {
-        font-size: 30px;
-        height: content-box;
-    }
-</style>
 </body>
 </html>
