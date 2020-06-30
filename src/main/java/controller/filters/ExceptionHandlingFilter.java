@@ -1,6 +1,6 @@
 package controller.filters;
 
-import model.exception.BookAlreadyExistException;
+import model.exception.CustomException;
 
 import javax.servlet.*;
 import java.io.IOException;
@@ -12,7 +12,7 @@ public class ExceptionHandlingFilter implements Filter {
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
         try {
             chain.doFilter(req, resp);
-        } catch (BookAlreadyExistException e) {
+        } catch (CustomException e) {
         } catch (RuntimeException e) {
         }
     }

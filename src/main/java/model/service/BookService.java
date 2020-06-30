@@ -7,8 +7,7 @@ import model.dao.ShelfDao;
 import model.dto.BookDTO;
 import model.dto.FilterDTO;
 import model.entity.*;
-import model.exception.BookNotFoundException;
-import model.exception.ShelfNotFoundException;
+import model.exception.CustomException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -77,11 +76,11 @@ public class BookService {
              ShelfDao shelfDao = daoFactory.createShelfDao()) {
             utx.begin();
             Shelf shelf = shelfDao.findByBookId(null)
-                    .orElseThrow(() -> new ShelfNotFoundException("not available shelf"));
+                    .orElseThrow(() -> new CustomException("shelf.not.found"));
             Book book = BuildBookFromClient(bookDTO, shelf, locale);
             bookDao.create(book);
             shelf.setBook(bookDao.findByName(book.getName())
-                    .orElseThrow(() -> new BookNotFoundException("failed saving")));
+                    .orElseThrow(() -> new CustomException("book.not.found")));
             shelfDao.update(shelf);
             try {
                 utx.commit();
@@ -89,13 +88,12 @@ public class BookService {
                 try {
                     utx.rollback();
                 } catch (SystemException systemException) {
-                    log.error("cannot perform transaction {}", systemException.getMessage());
+                    log.fatal("cannot perform transaction {}", systemException.getMessage());
                 }
             }
-
         } catch (Exception e) {
             log.error("cannot perform transaction {}", e.getMessage());
-            throw new RuntimeException(e.getMessage());
+            throw new CustomException("book.already.exist");
         }
     }
 
@@ -131,7 +129,7 @@ public class BookService {
         }
     }
 
-    public void editBookAndSave(BookDTO bookDTO) throws BookNotFoundException {
+    public void editBookAndSave(BookDTO bookDTO) {
         log.info("save book - " + bookDTO);
         try (BookDao bookDao = daoFactory.createBookDao()) {
             bookDao.update(getEditedBook(bookDTO));
@@ -142,14 +140,14 @@ public class BookService {
         try (BookDao bookDao = daoFactory.createBookDao()) {
             Book book = bookDao
                     .findById(bookDTO.getId())
-                    .orElseThrow(() -> new BookNotFoundException("book not exist"));
+                    .orElseThrow(() -> new CustomException("book.not.found"));
             book.setNameUa(bookDTO.getNameUa());
             book.setName(bookDTO.getName());
             return book;
         }
     }
 
-    public void deleteBook(long id) throws BookNotFoundException {
+    public void deleteBook(long id) {
         log.info("delete book with id - " + id);
         try (BookDao bookDao = daoFactory.createBookDao()) {
             bookDao.delete(id);

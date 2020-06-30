@@ -7,10 +7,7 @@ import model.dto.OrderDTO;
 import model.entity.Book;
 import model.entity.Order;
 import model.entity.Shelf;
-import model.exception.BookNotAvailableException;
-import model.exception.BookNotFoundException;
-import model.exception.OrderNotFoundException;
-import model.exception.UsernameNotFoundException;
+import model.exception.CustomException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -38,9 +35,9 @@ public class OrderService {
              UserDao userDao = daoFactory.createUserDao()) {
             return Order.Builder.anOrder()
                     .user(userDao.findByUsername(username)
-                            .orElseThrow(() -> new UsernameNotFoundException("User not exist")))
+                            .orElseThrow(() -> new CustomException("user.not.found")))
                     .book(bookDao.findById(bookDTO.getId())
-                            .orElseThrow(() -> new BookNotFoundException("book not exist")))
+                            .orElseThrow(() -> new CustomException("book.not.found")))
                     .active(false)
                     .endDate(LocalDate.now())
                     .startDate(LocalDate.now())
@@ -59,8 +56,8 @@ public class OrderService {
         try (OrderDao orderDao = daoFactory.createOrderDao()) {
             Order order = orderDao
                     .findById(orderDTO.getId())
-                    .orElseThrow(() -> new OrderNotFoundException("Active order not exist"));
-            if (!order.getBook().isAvailable()) throw new BookNotAvailableException("Book not available");
+                    .orElseThrow(() -> new CustomException("order.not.found"));
+            if (!order.getBook().isAvailable()) throw new CustomException("book.not.available");
             order.setActive(true);
             order.setStartDate(LocalDate.now());
             order.setEndDate(LocalDate.now().plusMonths(PERIOD_OF_USE));
@@ -148,13 +145,13 @@ public class OrderService {
                 try {
                     utx.rollback();
                 } catch (SystemException systemException) {
-                    log.error("cannot perform transaction {}", systemException.getMessage());
+                    log.fatal("cannot perform transaction {}", systemException.getMessage());
                 }
             }
 
         } catch (Exception e) {
             log.error("cannot perform transaction {}", e.getMessage());
-            throw new RuntimeException(e.getMessage());
+            throw new CustomException("order.not.found");
         }
     }
 
@@ -162,7 +159,7 @@ public class OrderService {
         try (OrderDao orderDao = daoFactory.createOrderDao()) {
             Order order = orderDao
                     .findById(orderDTO.getId())
-                    .orElseThrow(() -> new OrderNotFoundException("order not exist"));
+                    .orElseThrow(() -> new CustomException("order.not.found"));
             prepareBookForReturning(order.getBook());
             return order;
         }

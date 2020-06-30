@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import controller.command.Command;
 import controller.util.LocaleExtractor;
-import model.exception.AuthorNotFoundException;
+import model.exception.CustomException;
 import model.service.AuthorService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +22,7 @@ public class GetAuthorsCommand implements Command {
             return new ObjectMapper().writeValueAsString(authorService
                     .getAllAuthors(LocaleExtractor.extractFromRequest(request)));
         } catch (JsonProcessingException e) {
-            throw new AuthorNotFoundException("author not found"); // todo
+            throw new CustomException("error.server");
         }
     }
 }

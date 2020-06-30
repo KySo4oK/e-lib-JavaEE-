@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import controller.command.Command;
 import controller.util.LocaleExtractor;
-import model.exception.TagNotFoundException;
+import model.exception.CustomException;
 import model.service.TagService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +22,7 @@ public class GetTagsCommand implements Command {
             return new ObjectMapper().writeValueAsString(tagsService
                     .getAllTags(LocaleExtractor.extractFromRequest(request)));
         } catch (JsonProcessingException e) {
-            throw new TagNotFoundException("tag not found");//todo use more specific exc
+            throw new CustomException("error.server");
         }
     }
 }

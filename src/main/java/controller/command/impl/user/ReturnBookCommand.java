@@ -3,7 +3,7 @@ package controller.command.impl.user;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import controller.command.Command;
 import model.dto.OrderDTO;
-import model.exception.OrderNotFoundException;
+import model.exception.CustomException;
 import model.service.OrderService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,7 +26,7 @@ public class ReturnBookCommand implements Command {
             orderService.returnBook(getOrderDTOFromRequest(request));
         } catch (IOException e) {
             log.info("failed returning - " + e);
-            throw new OrderNotFoundException("order not found");//todo use more specific exc
+            throw new CustomException("error.bad.request");
         }
         return "{}";
     }

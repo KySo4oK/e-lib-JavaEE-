@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import controller.command.Command;
 import controller.util.LocaleExtractor;
 import model.dto.BookDTO;
-import model.exception.BookAlreadyExistException;
+import model.exception.CustomException;
 import model.service.BookService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,7 +30,7 @@ public class AddBookCommand implements Command {
                     LocaleExtractor.extractFromRequest(request));
         } catch (IOException e) {
             log.info("failed read json");
-            throw new BookAlreadyExistException("oops");
+            throw new CustomException("error.bad.request");
         }
         return "{}";
     }

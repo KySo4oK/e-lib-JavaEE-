@@ -6,7 +6,7 @@ import controller.util.LocaleExtractor;
 import controller.util.PageableExtractor;
 import model.dto.BookDTO;
 import model.dto.FilterDTO;
-import model.exception.FilterNotFoundException;
+import model.exception.CustomException;
 import model.service.BookService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +25,7 @@ public class GetAvailableFullBooksByFilterCommand implements Command {
         try {
             return getJsonOfBookList(getAvailableBooksByFilter(request));
         } catch (IOException e) {
-            throw new FilterNotFoundException("not found");
+            throw new CustomException("error.bad.request");
         }
     }
 

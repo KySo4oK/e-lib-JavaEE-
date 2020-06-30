@@ -4,8 +4,7 @@ import controller.util.PasswordEncoder;
 import model.dao.DaoFactory;
 import model.dao.UserDao;
 import model.entity.User;
-
-import java.util.List;
+import model.exception.CustomException;
 
 public class UserService {
     private final DaoFactory daoFactory = DaoFactory.getInstance();
@@ -13,12 +12,6 @@ public class UserService {
 
     public UserService(PasswordEncoder encoder) {
         this.encoder = encoder;
-    }
-
-    public List<User> getAllUsers() {
-        try (UserDao dao = daoFactory.createUserDao()) {
-            return dao.findAll();
-        }
     }
 
     public void saveUser(User user) {
@@ -30,7 +23,8 @@ public class UserService {
 
     public User.ROLE getRoleByUser(String username, String password) {
         try (UserDao dao = daoFactory.createUserDao()) {
-            User user = dao.findByUsername(username).orElseThrow(RuntimeException::new);
+            User user = dao.findByUsername(username)
+                    .orElseThrow(() -> new CustomException("user.already.exist"));
             if (user.getPassword().equals(encoder.encode(password))) {
                 return user.getRole();
             }

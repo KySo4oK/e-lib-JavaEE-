@@ -3,7 +3,7 @@ package model.service;
 import model.dao.AuthorDao;
 import model.dao.DaoFactory;
 import model.entity.Author;
-import model.exception.AuthorNotFoundException;
+import model.exception.CustomException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -34,7 +34,7 @@ public class AuthorService {
         log.info("get authors from array {}", Arrays.toString(authors));
         return Arrays.stream(authors)
                 .map(x -> getByNameWithLocale(x, locale)
-                        .orElseThrow(() -> new AuthorNotFoundException("can not found author")))
+                        .orElseThrow(() -> new CustomException("author.not.found")))
                 .collect(Collectors.toList());
     }
 

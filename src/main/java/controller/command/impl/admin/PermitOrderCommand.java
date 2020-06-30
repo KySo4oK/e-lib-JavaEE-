@@ -3,7 +3,7 @@ package controller.command.impl.admin;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import controller.command.Command;
 import model.dto.OrderDTO;
-import model.exception.OrderNotFoundException;
+import model.exception.CustomException;
 import model.service.OrderService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +21,7 @@ public class PermitOrderCommand implements Command {
         try {
             orderService.permitOrder(getOrderDTOFromRequest(request));
         } catch (IOException e) {
-            throw new OrderNotFoundException("order not found");//todo use more specific exc
+            throw new CustomException("error.bad.request");
         }
         return "{}";
     }

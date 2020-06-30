@@ -3,9 +3,7 @@ package model.service;
 import model.dao.DaoFactory;
 import model.dao.TagDao;
 import model.entity.Tag;
-import model.exception.TagNotFoundException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import model.exception.CustomException;
 
 import java.util.List;
 import java.util.Locale;
@@ -14,7 +12,6 @@ import java.util.stream.Collectors;
 
 public class TagService {
     private final DaoFactory daoFactory = DaoFactory.getInstance();
-    private final static Logger log = LogManager.getLogger(TagService.class);
 
     public List<String> getAllTags(Locale locale) {
         try (TagDao tagDao = daoFactory.createTagDao()) {
@@ -33,7 +30,7 @@ public class TagService {
 
     public Tag getTagByString(String tagName, Locale locale) {
         return getByNameAndLocale(tagName, locale)
-                .orElseThrow(() -> new TagNotFoundException("can not found tagName"));
+                .orElseThrow(() -> new CustomException("tag.not.found"));
     }
 
     private Optional<Tag> getByNameAndLocale(String tag, Locale locale) {

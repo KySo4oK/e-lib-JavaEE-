@@ -3,7 +3,7 @@ package controller.command.impl.admin;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import controller.command.Command;
 import model.dto.BookDTO;
-import model.exception.BookAlreadyExistException;
+import model.exception.CustomException;
 import model.service.BookService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +21,7 @@ public class EditBookCommand implements Command {
         try {
             bookService.editBookAndSave(getBookDTOFromRequest(request));
         } catch (Exception e) {
-            throw new BookAlreadyExistException("oops");
+            throw new CustomException("error.bad.request");
         }
         return "{}";
     }
