@@ -138,7 +138,8 @@
                         <h1><input type="text" class="form-control" :value="book.name" v-model="book.name"></h1></td>
                     <td>
                     <td>
-                        <h1><input type="text" class="form-control" :value="book.nameUa" v-model="book.nameUa"></h1></td>
+                        <h1><input type="text" class="form-control" :value="book.nameUa" v-model="book.nameUa"></h1>
+                    </td>
                     <td>
                         <button class="btn btn-warning" v-on:click="editBook(book)"><fmt:message key="edit"/></button>
                     </td>
@@ -153,9 +154,6 @@
         <button class="btn btn-warning" style="width: 30%;" @click="loadMore()"><fmt:message key="load.more"/>
         </button>
     </div>
-</div>
-</div>
-</div>
 </div>
 
 <script type="text/javascript">
@@ -259,38 +257,14 @@
             async loadMore() {
                 if (this.filter) {
                     this.page++;
-                    this.loadByFilter();
+                    await this.loadByFilter();
                 } else {
                     this.page++;
-                    this.getBooks();
+                    await this.getBooks();
                 }
             }
         }
     });
 </script>
-<style lang="less">
-    input {
-        margin-top: 17px;
-    }
-
-    body {
-        font-family: Arial;
-        font-style: normal;
-    }
-
-    header {
-        position: fixed;
-        height: 10%;
-        left: 0;
-        top: 0;
-        width: 100%;
-        z-index: 10;
-    }
-
-    span {
-        font-size: 30px;
-        height: content-box;
-    }
-</style>
 </body>
 </html>
