@@ -20,6 +20,10 @@
     </welcome-file-list>
 
     <filter>
+        <filter-name>ExceptionHandlingFilter</filter-name>
+        <filter-class>controller.filters.ExceptionHandlingFilter</filter-class>
+    </filter>
+    <filter>
         <filter-name>EncodingFilter</filter-name>
         <filter-class>controller.filters.EncodingFilter</filter-class>
     </filter>
@@ -33,6 +37,10 @@
     </filter>
     <filter-mapping>
         <filter-name>EncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>ExceptionHandlingFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
     <filter-mapping>
