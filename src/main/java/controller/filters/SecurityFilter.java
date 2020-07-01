@@ -28,7 +28,7 @@ public class SecurityFilter implements Filter {
         }
         log.info("request uri - " + req.getRequestURI());
         if (!checkAccess(req, User.ROLE.valueOf(session.getAttribute("role").toString()))) {
-            resp.sendRedirect("redirect:/error");//todo
+            resp.sendRedirect("redirect:/error");
             return;
         }
         chain.doFilter(request, response);
