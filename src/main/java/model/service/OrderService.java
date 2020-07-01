@@ -20,9 +20,13 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class OrderService {
-    private final DaoFactory daoFactory = DaoFactory.getInstance();
+    private final DaoFactory daoFactory;
     private static final int PERIOD_OF_USE = 1;
     private final static Logger log = LogManager.getLogger(OrderService.class);
+
+    public OrderService(DaoFactory daoFactory) {
+        this.daoFactory = daoFactory;
+    }
 
     public void createAndSaveNewOrder(BookDTO bookDTO, String username) {
         try (OrderDao orderDao = daoFactory.createOrderDao()) {

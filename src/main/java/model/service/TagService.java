@@ -11,7 +11,11 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class TagService {
-    private final DaoFactory daoFactory = DaoFactory.getInstance();
+    private final DaoFactory daoFactory;
+
+    public TagService(DaoFactory daoFactory) {
+        this.daoFactory = daoFactory;
+    }
 
     public List<String> getAllTags(Locale locale) {
         try (TagDao tagDao = daoFactory.createTagDao()) {

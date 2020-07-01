@@ -17,13 +17,14 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class BookService {
-    private final DaoFactory daoFactory = DaoFactory.getInstance();
+    private final DaoFactory daoFactory;
     private final TagService tagService;
     private final AuthorService authorService;
     private final static Logger log = LogManager.getLogger(BookService.class);
 
-    public BookService(TagService tagService,
+    public BookService(DaoFactory daoFactory, TagService tagService,
                        AuthorService authorService) {
+        this.daoFactory = daoFactory;
         this.tagService = tagService;
         this.authorService = authorService;
     }

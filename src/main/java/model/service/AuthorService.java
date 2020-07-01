@@ -14,8 +14,12 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class AuthorService {
-    private final DaoFactory daoFactory = DaoFactory.getInstance();
+    private final DaoFactory daoFactory;
     private final static Logger log = LogManager.getLogger(AuthorService.class);
+
+    public AuthorService(DaoFactory daoFactory) {
+        this.daoFactory = daoFactory;
+    }
 
     public List<String> getAllAuthors(Locale locale) {
         try (AuthorDao authorDao = daoFactory.createAuthorDao()) {

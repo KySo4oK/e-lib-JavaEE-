@@ -7,10 +7,11 @@ import model.entity.User;
 import model.exception.CustomException;
 
 public class UserService {
-    private final DaoFactory daoFactory = DaoFactory.getInstance();
+    private final DaoFactory daoFactory;
     private final PasswordEncoder encoder;
 
-    public UserService(PasswordEncoder encoder) {
+    public UserService(DaoFactory daoFactory, PasswordEncoder encoder) {
+        this.daoFactory = daoFactory;
         this.encoder = encoder;
     }
 
