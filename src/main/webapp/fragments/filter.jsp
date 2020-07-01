@@ -10,42 +10,32 @@
     <title>Title</title>
 </head>
 <body>
-<div class="w3-sidebar w3-light-grey w3-bar-block" style="width:17%; float: left; padding-top: 10%;">
+<div class="w3-sidebar w3-light-grey w3-bar-block">
     <!--            name-->
     <div>
-        <input id="partOfName" class="form-control" type="text" v-model="partOfName">
-        <label for="partOfName"><fmt:message key="part.of.name"/></label>
+        <fmt:message key="username" var="partOfName"/>
+        <input id="partOfName" class="form-control" placeholder="${partOfName}" type="text" v-model="partOfName">
     </div>
     <br>
     <!--            tags-->
     <div id="tagsCheckbox" class="col-md-6 boxes">
+        <label><fmt:message key="select.tags"/></label>
         <div v-for="tag in tags">
-            <div style="display: inline;">
-                <input style="display: inline; float: left; margin-left: 0px" type="checkbox"
-                       v-bind:value="tag"
-                       v-model="addedTags">
-                <h6 style="display: inline; margin-right: 0px;">{{tag}}</h6>
-            </div>
+            <input class="input-checkbox" type="checkbox"
+                   v-bind:value="tag"
+                   v-model="addedTags">
+            {{tag}}
         </div>
-    </div>
-    <br>
-    <label for="tagsCheckbox" style="margin: 20px ;"><fmt:message key="select.tags"/></label>
-    <br>
-    <!--            authors-->
-    <div style="padding-top: 10px" id="authorsCheckbox" class="col-md-6 boxes">
+        <!--            authors-->
+        <label><fmt:message key="select.authors"/></label>
         <div v-for="author in authors">
-            <div style="display: inline;">
-                <input style="display: inline; float: left; margin-left: 0px" type="checkbox"
-                       v-bind:value="author"
-                       v-model="addedAuthors">
-                <h6 style="display: inline;">{{author}}</h6>
-            </div>
+            <input class="input-checkbox" type="checkbox"
+                   v-bind:value="author"
+                   v-model="addedAuthors">
+            {{author}}
         </div>
+        <button class="btn btn-warning" @click="changeList"><fmt:message key="load"/></button>
     </div>
-    <br>
-    <label for="authorsCheckbox" style="margin: 20px"><fmt:message key="select.authors"/></label>
-    <br>
-    <button class="btn btn-warning" style="width: 30%;" @click="changeList"><fmt:message key="load"/></button>
 </div>
 </body>
 </html>
