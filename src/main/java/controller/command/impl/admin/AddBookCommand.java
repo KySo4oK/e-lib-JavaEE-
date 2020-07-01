@@ -1,8 +1,10 @@
 package controller.command.impl.admin;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import controller.command.Command;
 import controller.util.LocaleExtractor;
+import controller.util.SuccessJsonResponse;
 import model.dto.BookDTO;
 import model.exception.CustomException;
 import model.service.BookService;
@@ -11,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Locale;
 
 public class AddBookCommand implements Command {
     private final BookService bookService;
@@ -22,17 +25,18 @@ public class AddBookCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-
+        Locale locale = LocaleExtractor.extractFromRequest(request);
         try {
             BookDTO bookDTO = getBookDTOFromRequest(request);
             log.info("trying save - " + bookDTO);
-            bookService.saveNewBookFromClient(bookDTO,
-                    LocaleExtractor.extractFromRequest(request));
+            bookService.saveNewBookFromClient(bookDTO, locale);
+            return SuccessJsonResponse.create("book.added", locale);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         } catch (IOException e) {
             log.info("failed read json");
             throw new CustomException("error.bad.request");
         }
-        return "{}";
     }
 
     private BookDTO getBookDTOFromRequest(HttpServletRequest request) throws IOException {

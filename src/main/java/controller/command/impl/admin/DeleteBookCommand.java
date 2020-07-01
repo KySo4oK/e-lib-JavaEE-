@@ -1,6 +1,9 @@
 package controller.command.impl.admin;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import controller.command.Command;
+import controller.util.LocaleExtractor;
+import controller.util.SuccessJsonResponse;
 import model.service.BookService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +18,12 @@ public class DeleteBookCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         bookService.deleteBook(extractBookId(request));
-        return "{}";
+        try {
+            return SuccessJsonResponse.create("book.deleted",
+                    LocaleExtractor.extractFromRequest(request));
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private int extractBookId(HttpServletRequest request) {

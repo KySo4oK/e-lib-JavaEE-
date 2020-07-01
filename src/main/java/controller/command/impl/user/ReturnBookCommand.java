@@ -1,7 +1,10 @@
 package controller.command.impl.user;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import controller.command.Command;
+import controller.util.LocaleExtractor;
+import controller.util.SuccessJsonResponse;
 import model.dto.OrderDTO;
 import model.exception.CustomException;
 import model.service.OrderService;
@@ -24,11 +27,15 @@ public class ReturnBookCommand implements Command {
         log.info("returning book");
         try {
             orderService.returnBook(getOrderDTOFromRequest(request));
+            return SuccessJsonResponse.create("book.returned",
+                    LocaleExtractor.extractFromRequest(request));
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         } catch (IOException e) {
             log.info("failed returning - " + e);
             throw new CustomException("error.bad.request");
         }
-        return "{}";
+
     }
 
     private OrderDTO getOrderDTOFromRequest(HttpServletRequest request) throws IOException {
