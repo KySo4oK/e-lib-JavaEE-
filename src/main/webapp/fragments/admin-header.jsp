@@ -18,32 +18,19 @@
         <span class="header-title"><fmt:message key="site.name"/></span>
         <div class="navigation">
             <div class="header-link">
-                <a href="/admin?language=ua">
-                    <fmt:message key="label.lang.ua"/>
-                </a>
+                <a href="/admin"><fmt:message key="orders"/></a>
             </div>
             <div class="header-link">
-                <a href="/admin?language=en">
-                    <fmt:message key="label.lang.en"/>
-                </a>
-            </div>
-            <div class="header-link"><a href="/logout">
-                <fmt:message key="logout"/>
-            </a></div>
-            <div class="header-link">
-                <a href="/admin/bookManage">
-                    <fmt:message key="books"/>
-                </a>
+                <a href="/admin/bookManage"><fmt:message key="books"/></a>
             </div>
             <div class="header-link">
-                <a href="/admin">
-                    <fmt:message key="orders"/>
-                </a>
+                <a href="/logout"><fmt:message key="logout"/></a>
             </div>
             <div class="header-link">
-                <a href="/">
-                    <fmt:message key="main"/>
-                </a>
+                <a href="/admin?language=en"><fmt:message key="label.lang.en"/></a>
+            </div>
+            <div class="header-link">
+                <a href="/admin?language=ua"><fmt:message key="label.lang.ua"/></a>
             </div>
         </div>
     </div>

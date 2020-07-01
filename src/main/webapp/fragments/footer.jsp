@@ -7,23 +7,16 @@
 <fmt:setBundle basename="messages"/>
 <html lang="${language}">
 <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           crossorigin="anonymous">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title><fmt:message key="main"/></title>
-    <style>
-        <%@include file="/css/header.css"%>
-    </style>
-    <style>
-        <%@include file="/css/footer.css"%>
-    </style>
-    <style>
-        <%@include file="/css/guest.css"%>
-    </style>
 </head>
 <body>
-<jsp:include page="fragments/guest-header.jsp"/>
-<jsp:include page="fragments/footer.jsp"/>
+<footer>
+    <span><fmt:message key="site.name"/></span>
+    <span> - 2020</span>
+</footer>
 </body>
 </html>

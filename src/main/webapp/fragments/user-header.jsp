@@ -18,28 +18,25 @@
     <div class="navbar navbar-default">
         <span class="header-title"><fmt:message key="site.name"/></span>
         <div class="navigation">
-            <div class="header-link">
-                <a href="/user?language=ua">
-                    <fmt:message key="label.lang.ua"/>
-                </a>
-            </div>
+            <div class="header-link"><a href="/user/prospectus">
+                <fmt:message key="prospectus"/>
+            </a></div>
+            <div class="header-link"><a href="/user">
+                <fmt:message key="my.books"/>
+            </a></div>
+            <div class="header-link"><a href="/logout">
+                <fmt:message key="logout"/>
+            </a></div>
             <div class="header-link">
                 <a href="/user?language=en">
                     <fmt:message key="label.lang.en"/>
                 </a>
             </div>
-            <div class="header-link"><a href="/logout">
-                <fmt:message key="logout"/>
-            </a></div>
-            <div class="header-link"><a href="/user">
-                <fmt:message key="my.books"/>
-            </a></div>
-            <div class="header-link"><a href="/user/prospectus">
-                <fmt:message key="prospectus"/>
-            </a></div>
-            <div class="header-link"><a href="/">
-                <fmt:message key="main"/>
-            </a></div>
+            <div class="header-link">
+                <a href="/user?language=ua">
+                    <fmt:message key="label.lang.ua"/>
+                </a>
+            </div>
         </div>
     </div>
 </header>

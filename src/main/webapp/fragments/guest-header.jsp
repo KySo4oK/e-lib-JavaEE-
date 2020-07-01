@@ -19,19 +19,22 @@
         <span class="header-title"><fmt:message key="site.name"/></span>
         <div class="navigation">
             <div class="header-link">
-                <a href="?language=en"><fmt:message
-                        key="label.lang.en"/></a></div>
-            <div class="header-link">
-                <a href="?language=ua"><fmt:message
-                        key="label.lang.ua"/></a></div>
-            <div class="header-link">
-                <a href="/login"><fmt:message
-                        key="sign.in"/></a></div>
+                <a href="/"><fmt:message key="main"/></a>
+            </div>
             <div class="header-link">
                 <a href="/registration"><fmt:message key="sign.up"/></a>
             </div>
             <div class="header-link">
-                <a href="/"><fmt:message key="main"/></a>
+                <a href="/login"><fmt:message
+                        key="sign.in"/></a>
+            </div>
+            <div class="header-link">
+                <a href="?language=ua"><fmt:message
+                        key="label.lang.ua"/></a>
+            </div>
+            <div class="header-link">
+                <a href="?language=en"><fmt:message
+                        key="label.lang.en"/></a>
             </div>
         </div>
     </div>

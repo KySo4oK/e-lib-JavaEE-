@@ -11,7 +11,6 @@
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           crossorigin="anonymous">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <style>
         <%@include file="/css/header.css"%>
     </style>
@@ -41,15 +40,6 @@
         </div>
     </form>
 </div>
-<style lang="less">
-    input {
-        margin-top: 17px;
-    }
-
-    body {
-        font-family: Arial;
-        font-style: normal;
-    }
-</style>
+<jsp:include page="fragments/footer.jsp"/>
 </body>
 </html>
