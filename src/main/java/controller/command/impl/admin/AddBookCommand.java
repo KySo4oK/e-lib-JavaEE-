@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import controller.command.Command;
 import controller.util.LocaleExtractor;
 import controller.util.SuccessJsonResponse;
+import controller.util.Validator;
 import model.dto.BookDTO;
 import model.exception.CustomException;
 import model.service.BookService;
@@ -28,6 +29,7 @@ public class AddBookCommand implements Command {
         Locale locale = LocaleExtractor.extractFromRequest(request);
         try {
             BookDTO bookDTO = getBookDTOFromRequest(request);
+            Validator.checkNewBook(bookDTO);
             log.info("trying save - " + bookDTO);
             bookService.saveNewBookFromClient(bookDTO, locale);
             return SuccessJsonResponse.create("book.added", locale);

@@ -1,7 +1,10 @@
 package controller.command.impl;
 
 import controller.command.Command;
+import controller.util.Validator;
+import model.dto.UserDTO;
 import model.entity.User;
+import model.exception.CustomException;
 import model.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,7 +24,13 @@ public class LoginCommand implements Command {
         String name = request.getParameter("username");
         String pass = request.getParameter("password");
         log.info("trying login - " + name + " with - " + pass);
-        if (request.getParameter("username") == null) {//todo validation
+        if (request.getParameter("username") == null) return "/login.jsp";
+        try {
+            Validator.checkLogin(UserDTO.Builder.anUserDTO()
+                    .username(name)
+                    .password(pass)
+                    .build());
+        } catch (CustomException e) {
             return "/login.jsp";
         }
         User.ROLE role;

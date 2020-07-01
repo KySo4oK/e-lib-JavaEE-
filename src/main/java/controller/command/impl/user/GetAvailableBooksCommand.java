@@ -26,14 +26,14 @@ public class GetAvailableBooksCommand implements Command {
     public String execute(HttpServletRequest request) {
         log.info("executing command");
         try {
-            return getJsonOfBookList(getAvailableBooksByFilter(request));
+            return getJsonOfBookList(getDTOOfAvailableBooksByFilter(request));
         } catch (Exception e) {
             log.info(e);
             throw new CustomException("error.bad.request");
         }
     }
 
-    private List<BookDTO> getAvailableBooksByFilter(HttpServletRequest request) {
+    private List<BookDTO> getDTOOfAvailableBooksByFilter(HttpServletRequest request) {
         return bookService
                 .getAvailableBooks(PageableExtractor.extractPageableFromUri(request.getRequestURI()),
                         LocaleExtractor.extractFromRequest(request));

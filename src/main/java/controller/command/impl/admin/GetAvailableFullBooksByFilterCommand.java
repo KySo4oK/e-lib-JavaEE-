@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import controller.command.Command;
 import controller.util.LocaleExtractor;
 import controller.util.PageableExtractor;
+import controller.util.Validator;
 import model.dto.BookDTO;
 import model.dto.FilterDTO;
 import model.exception.CustomException;
@@ -23,15 +24,17 @@ public class GetAvailableFullBooksByFilterCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
         try {
-            return getJsonOfBookList(getAvailableBooksByFilter(request));
+            return getJsonOfBookList(getDTOOfAvailableBooksByFilter(request));
         } catch (IOException e) {
             throw new CustomException("error.bad.request");
         }
     }
 
-    private List<BookDTO> getAvailableBooksByFilter(HttpServletRequest request) throws IOException {
+    private List<BookDTO> getDTOOfAvailableBooksByFilter(HttpServletRequest request) throws IOException {
+        FilterDTO filterDTO = getFilterDTOFromRequest(request);
+        Validator.checkFilterDTO(filterDTO);
         return bookService
-                .getAvailableFullBooksByFilter(getFilterDTOFromRequest(request),
+                .getAvailableFullBooksByFilter(filterDTO,
                         PageableExtractor.extractPageableFromUri(request.getRequestURI()),
                         LocaleExtractor.extractFromRequest(request));
     }

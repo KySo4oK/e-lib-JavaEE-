@@ -1,8 +1,10 @@
 package controller.command.impl;
 
 import controller.command.Command;
+import controller.util.Validator;
 import model.dto.UserDTO;
 import model.entity.User;
+import model.exception.CustomException;
 import model.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,16 +23,20 @@ public class RegistrationCommand implements Command {
     public String execute(HttpServletRequest request) {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
+        if (username == null) return "/reg.jsp";
         log.info("trying process registration for " + username + " with " + password);
-        if (username == null && password == null) {//todo validation
-            return "/reg.jsp";
-        }
-        userService.saveUser(new User(UserDTO.Builder.anUserDTO()
+        UserDTO userDTO = UserDTO.Builder.anUserDTO()
                 .email(request.getParameter("email"))
                 .password(password)
                 .phone(request.getParameter("phone"))
                 .username(username)
-                .build()));
+                .build();
+        try {
+            Validator.checkRegistration(userDTO);
+        } catch (CustomException e) {
+            return "/reg.jsp";
+        }
+        userService.saveUser(new User(userDTO));
         return "redirect:/login";
     }
 }
