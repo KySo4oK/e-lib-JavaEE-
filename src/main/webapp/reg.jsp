@@ -23,9 +23,9 @@
 </head>
 <body>
 <jsp:include page="fragments/guest-header.jsp"/>
-<div style="margin:0 auto;width:75%;text-align:left">
+<div class="form-wrapper">
     <p class="h3 text-center mb-4"><fmt:message key="sign.up"/></p>
-    <form action="registration" method="post" style="max-width: 500px; margin: auto;">
+    <form action="registration" method="post">
         <fmt:message key="username" var="username"/>
         <input id="username" class="form-control" type="text" placeholder="${username}" name="username">
         <fmt:message key="phone" var="phone"/>
@@ -34,7 +34,7 @@
         <input type="email" class="form-control" id="email" placeholder="${email}" name="email">
         <fmt:message key="password" var="password"/>
         <input type="password" class="form-control" id="password" placeholder="${password}" name="password">
-        <div style="text-align: center; margin-top: 20px">
+        <div>
             <fmt:message key="submit" var="submit"/>
             <input class="btn btn-warning" type="submit" name="submit" value="${submit}">
         </div>
