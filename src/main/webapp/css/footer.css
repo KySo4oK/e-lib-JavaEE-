@@ -1,9 +1,10 @@
-.footer {
-    position: fixed;
+footer {
+    position: fixed !important;
     left: 0;
     bottom: 0;
     width: 100%;
     background-color: red;
+    /*todo*/
     color: white;
     text-align: center;
 }

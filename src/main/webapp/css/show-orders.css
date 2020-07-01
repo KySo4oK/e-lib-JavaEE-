@@ -9,7 +9,7 @@ th {
 }
 
 .check-fragment {
-    padding-top: 5%;
+    padding-top: 5% !important;
     text-align: center;
     width: 100%;
     float: right;
@@ -25,9 +25,5 @@ body {
 }
 
 td {
-    text-align: center;
-}
-
-footer {
     text-align: center;
 }

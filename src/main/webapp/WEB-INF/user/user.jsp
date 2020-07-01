@@ -22,16 +22,17 @@
         <%@include file="/css/header.css"%>
     </style>
     <style>
-        <%@include file="/css/show-orders.css"%>
+        <%@include file="/css/footer.css"%>
     </style>
     <style>
-        <%@include file="/css/filter.css"%>
+        <%@include file="/css/show-orders.css"%>
     </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-<body style="text-align: center">
+<body>
 <div id="app">
-    <jsp:include page="../../fragments/user-header.jsp" />
-    <div style="padding-top: 7%; text-align: center; width: 100%; float: right">
+    <jsp:include page="../../fragments/user-header.jsp"/>
+    <div class="check-fragment">
         <input type="radio" id="one" value="1" v-model="picked">
         <label for="one"><fmt:message key="orders"/></label>
         <input type="radio" id="two" value="2" v-model="picked">
@@ -40,26 +41,29 @@
     </div>
     <!--        passive orders -->
     <div v-if="picked==1">
-        <table style="width: 100%; padding-top: 10%; display: table" class="table table-borderless">
+        <table class="table table-borderless">
             <thead>
             <tr>
+                <th>#</th>
                 <th><fmt:message key="book.name"/></th>
                 <th><fmt:message key="order.date"/></th>
             </tr>
             </thead>
             <tbody>
-            <tr v-for="order in passiveOrders">
-                <td><h1 v-text="order.bookName"></h1></td>
-                <td><h1 v-text="order.startDate"></h1></td>
+            <tr v-for="(order, index) in passiveOrders">
+                <td>{{index+1}}</td>
+                <td>{{order.bookName}}</td>
+                <td>{{order.startDate}}</td>
             </tr>
             </tbody>
         </table>
     </div>
     <!--    active orders-->
     <div v-else>
-        <table style="width: 100%; padding-top: 10%; display: table" class="table table-borderless">
+        <table class="table table-borderless">
             <thead>
             <tr>
+                <th>#</th>
                 <th><fmt:message key="book.name"/></th>
                 <th><fmt:message key="start.date"/></th>
                 <th><fmt:message key="end.date"/></th>
@@ -67,12 +71,15 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="order in activeOrders">
-                <td><h1 v-text="order.bookName"></h1></td>
-                <td><h1 v-text="order.startDate"></h1></td>
-                <td><h1 v-text="order.endDate"></h1></td>
+            <tr v-for="(order, index) in activeOrders">
+                <td>{{index+1}}</td>
+                <td>{{order.bookName}}</td>
+                <td>{{order.startDate}}</td>
+                <td>{{order.endDate}}</td>
                 <td>
-                    <button class="btn btn-warning" v-on:click="returnBook(order)"><fmt:message key="return"/></button>
+                    <button class="btn btn-danger" v-on:click="returnBook(order)">
+                        <i class="fa fa-undo" aria-hidden="true"></i>
+                    </button>
                 </td>
             </tr>
             </tbody>

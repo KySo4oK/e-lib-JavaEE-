@@ -30,17 +30,19 @@
     <style>
         <%@include file="/css/prospectus.css"%>
     </style>
-<body style="text-align: center">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<body>
 <div id="app">
     <jsp:include page="../../fragments/user-header.jsp"/>
     <main>
         <!--        filter-->
         <jsp:include page="../../fragments/filter.jsp"/>
         <!--        books -->
-        <div style="padding-top: 10%;">
-            <table style="width: 75%;margin-left:25%; padding-top: 10%; display: table" class="table table-borderless">
+        <div class="table-wrapper">
+            <table class="table table-borderless">
                 <thead>
                 <tr>
+                    <th>#</th>
                     <th><fmt:message key="name"/></th>
                     <th><fmt:message key="authors"/></th>
                     <th><fmt:message key="tags"/></th>
@@ -48,31 +50,30 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr v-for="book in books">
-                    <td><h1 v-text="book.name"></h1></td>
+                <tr v-for="(book, index) in books">
+                    <td>{{index+1}}</td>
+                    <td>{{book.name}}</td>
                     <td>
                         <div v-for="author in book.authors">
-                            <h1 v-text="author">
-                            </h1>
+                            {{author}}
                         </div>
                     </td>
                     <td>
-                        <div>
-                            <h1 v-text="book.tag">
-                            </h1>
+                        <div v-for="tag in book.tags">
+                            {{tag}}
                         </div>
                     </td>
                     <td>
-                        <button class="btn btn-warning" style="height: 100%; width: 100%;" v-on:click="orderBook(book)">
-                            <fmt:message key="order"/>
+                        <button class="btn btn-success" v-on:click="orderBook(book)">
+                            <i class="fa fa-angle-right" aria-hidden="true"></i>
                         </button>
                     </td>
                 </tr>
                 </tbody>
             </table>
         </div>
-        <button class="btn btn-warning" style="width: 30%;" @click="loadMore()">
-            <fmt:message key="load.more"/>
+        <button class="btn btn-success" @click="loadMore()">
+            <i class="fa fa-chevron-down"></i>
         </button>
     </main>
 </div>
