@@ -33,7 +33,8 @@
     </style>
 <body>
 <div id="app">
-    <jsp:include page="../../fragments/admin-header.jsp"/>
+    <%@include file="../../fragments/admin-header.jspf" %>
+
     <div class="check-fragment">
         <input type="radio" id="one" value="1" v-model="picked">
         <label for="one">
@@ -79,7 +80,7 @@
     <!--    edit or delete-->
     <div v-else>
         <!--        filter-->
-        <jsp:include page="../../fragments/filter.jsp"/>
+        <%@include file="../../fragments/filter.jspf" %>
         <!--        books -->
         <div>
             <table class="table table-borderless">
@@ -117,6 +118,6 @@
         </button>
     </div>
 </div>
-<jsp:include page="../../fragments/footer.jsp"/>
+<%@include file="../../fragments/footer.jspf" %>
 </body>
 </html>

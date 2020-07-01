@@ -30,7 +30,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <body>
 <div id="app">
-    <jsp:include page="../../fragments/admin-header.jsp"/>
+    <%@include file="../../fragments/admin-header.jspf" %>
     <div class="check-fragment">
         <input type="radio" id="one" value="1" v-model="picked">
         <label for="one"><fmt:message key="orders"/></label>
@@ -89,6 +89,6 @@
         </table>
     </div>
 </div>
-<jsp:include page="../../fragments/footer.jsp"/>
+<%@include file="../../fragments/footer.jspf" %>
 </body>
 </html>

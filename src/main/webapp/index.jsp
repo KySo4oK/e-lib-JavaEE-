@@ -24,7 +24,7 @@
 </head>
 <body>
 <div id="app">
-    <jsp:include page="fragments/guest-header.jsp"/>
+    <%@include file="fragments/guest-header.jspf" %>
     <div class="task-wrapper">
         <strong>
             16. Система Библиотека. Создайте Каталог, по которому можно искать по:
@@ -43,6 +43,6 @@
         </strong>
     </div>
 </div>
-<jsp:include page="fragments/footer.jsp"/>
+<%@include file="fragments/footer.jspf" %>
 </body>
 </html>

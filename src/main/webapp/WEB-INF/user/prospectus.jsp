@@ -33,10 +33,10 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 <body>
 <div id="app">
-    <jsp:include page="../../fragments/user-header.jsp"/>
+    <%@include file="../../fragments/user-header.jspf" %>
     <main>
         <!--        filter-->
-        <jsp:include page="../../fragments/filter.jsp"/>
+        <%@include file="../../fragments/filter.jspf" %>
         <!--        books -->
         <div class="table-wrapper">
             <table class="table table-borderless">
@@ -77,6 +77,6 @@
         </button>
     </main>
 </div>
-<jsp:include page="../../fragments/footer.jsp"/>
+<%@include file="../../fragments/footer.jspf" %>
 </body>
 </html>

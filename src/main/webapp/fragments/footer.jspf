@@ -1,0 +1,4 @@
+<footer>
+    <span><fmt:message key="site.name"/></span>
+    <span> - 2020</span>
+</footer>

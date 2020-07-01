@@ -22,7 +22,7 @@
     </style>
 </head>
 <body>
-<jsp:include page="fragments/guest-header.jsp"/>
+<%@include file="fragments/guest-header.jspf" %>
 <div class="form-wrapper">
     <p class="h3 text-center mb-4"><fmt:message key="sign.up"/></p>
     <form action="registration" method="post">
@@ -40,6 +40,6 @@
         </div>
     </form>
 </div>
-<jsp:include page="fragments/footer.jsp"/>
+<%@include file="fragments/footer.jspf" %>
 </body>
 </html>

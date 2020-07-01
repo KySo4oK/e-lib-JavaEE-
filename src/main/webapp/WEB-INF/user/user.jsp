@@ -31,7 +31,7 @@
 </head>
 <body>
 <div id="app">
-    <jsp:include page="../../fragments/user-header.jsp"/>
+    <%@include file="../../fragments/user-header.jspf" %>
     <div class="check-fragment">
         <input type="radio" id="one" value="1" v-model="picked">
         <label for="one"><fmt:message key="orders"/></label>
@@ -86,6 +86,6 @@
         </table>
     </div>
 </div>
-<jsp:include page="../../fragments/footer.jsp"/>
+<%@include file="../../fragments/footer.jspf" %>
 </body>
 </html>
