@@ -29,7 +29,7 @@
     </style>
 <body>
 <div id="app">
-    <jsp:include page="admin-header.jsp"/>
+    <jsp:include page="../../fragments/admin-header.jsp"/>
     <div style="padding-top: 7%; text-align: center; width: 100%; float: right">
         <input type="radio" id="one" value="1" v-model="picked">
         <label for="one"><fmt:message key="orders"/></label>

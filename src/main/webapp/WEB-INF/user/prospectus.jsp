@@ -32,7 +32,7 @@
     </style>
 <body style="text-align: center">
 <div id="app">
-    <jsp:include page="user-header.jsp"/>
+    <jsp:include page="../../fragments/user-header.jsp"/>
     <main>
         <!--        filter-->
         <div class="w3-sidebar w3-light-grey w3-bar-block" style="width:17%; float: left; padding-top: 10%;">

@@ -21,6 +21,6 @@
     </style>
 </head>
 <body>
-<jsp:include page="guest-header.jsp"/>
+<jsp:include page="fragments/guest-header.jsp"/>
 </body>
 </html>
