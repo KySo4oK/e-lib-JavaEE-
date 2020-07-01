@@ -12,42 +12,40 @@
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           crossorigin="anonymous">
-    <head>
-        <meta charset="UTF-8">
-        <title>Title</title>
-    </head>
 <body>
 <header>
-    <div class="navbar navbar-default" style="background-color: aquamarine; margin: 0 !important">
-        <h1 style="float: left"><fmt:message key="site.name"/></h1>
-        <span>
-                <a style="float: right; margin-right: 5px" href="/admin?language=ua">
+    <div class="navbar navbar-default">
+        <span class="header-title"><fmt:message key="site.name"/></span>
+        <div class="navigation">
+            <div class="header-link">
+                <a href="/admin?language=ua">
                     <fmt:message key="label.lang.ua"/>
                 </a>
-            </span>
-        <span>
-                <a style="float: right; margin-right: 5px" href="/admin?language=en">
+            </div>
+            <div class="header-link">
+                <a href="/admin?language=en">
                     <fmt:message key="label.lang.en"/>
                 </a>
-            </span>
-        <span><a style="float: right; margin-right: 5px" href="/logout">
+            </div>
+            <div class="header-link"><a href="/logout">
                 <fmt:message key="logout"/>
-            </a></span>
-        <span>
-                <a style="float: right; margin-right: 5px" href="/admin/bookManage">
+            </a></div>
+            <div class="header-link">
+                <a href="/admin/bookManage">
                     <fmt:message key="books"/>
                 </a>
-            </span>
-        <span>
-                <a style="float: right; margin-right: 5px" href="/admin">
+            </div>
+            <div class="header-link">
+                <a href="/admin">
                     <fmt:message key="orders"/>
                 </a>
-        </span>
-        <span>
-                <a style="float: right; margin-right: 5px" href="/">
+            </div>
+            <div class="header-link">
+                <a href="/">
                     <fmt:message key="main"/>
                 </a>
-        </span>
+            </div>
+        </div>
     </div>
 </header>
 </body>

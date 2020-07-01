@@ -13,32 +13,34 @@
           href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           crossorigin="anonymous">
 </head>
-<body style="text-align: center">
+<body>
 <header>
-    <div class="navbar navbar-default" style="background-color: aquamarine; margin: 0 !important">
-        <h1 style="float: left"><fmt:message key="site.name"/></h1>
-        <span>
-                <a style="float: right; margin-right: 5px" href="/user?language=ua">
+    <div class="navbar navbar-default">
+        <span class="header-title"><fmt:message key="site.name"/></span>
+        <div class="navigation">
+            <div class="header-link">
+                <a href="/user?language=ua">
                     <fmt:message key="label.lang.ua"/>
                 </a>
-            </span>
-        <span>
-                <a style="float: right; margin-right: 5px" href="/user?language=en">
+            </div>
+            <div class="header-link">
+                <a href="/user?language=en">
                     <fmt:message key="label.lang.en"/>
                 </a>
-            </span>
-        <span><a style="float: right; margin-right: 5px" href="/logout">
+            </div>
+            <div class="header-link"><a href="/logout">
                 <fmt:message key="logout"/>
-            </a></span>
-        <span><a style="float: right; margin-right: 5px" href="/user">
+            </a></div>
+            <div class="header-link"><a href="/user">
                 <fmt:message key="my.books"/>
-            </a></span>
-        <span><a style="float: right; margin-right: 5px" href="/user/prospectus">
+            </a></div>
+            <div class="header-link"><a href="/user/prospectus">
                 <fmt:message key="prospectus"/>
-            </a></span>
-        <span><a style="float: right; margin-right: 5px" href="/">
+            </a></div>
+            <div class="header-link"><a href="/">
                 <fmt:message key="main"/>
-            </a></span>
+            </a></div>
+        </div>
     </div>
 </header>
 </body>
