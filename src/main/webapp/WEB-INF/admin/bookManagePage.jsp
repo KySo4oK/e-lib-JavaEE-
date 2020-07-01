@@ -18,6 +18,18 @@
     <script type="text/javascript">
         <%@include file="/WEB-INF/js/book-manage.js"%>
     </script>
+    <style>
+        <%@include file="/WEB-INF/css/header.css"%>
+    </style>
+    <style>
+        <%@include file="/WEB-INF/css/footer.css"%>
+    </style>
+    <style>
+        <%@include file="/WEB-INF/css/filter.css"%>
+    </style>
+    <style>
+        <%@include file="/WEB-INF/css/book-manage.css"%>
+    </style>
 <body style="text-align: center">
 <div id="app">
     <jsp:include page="admin-header.jsp"/>

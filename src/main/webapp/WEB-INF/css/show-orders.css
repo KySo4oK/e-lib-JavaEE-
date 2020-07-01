@@ -1,0 +1,33 @@
+table {
+    width: 60%;
+    padding-top: 10%;
+    display: table;
+}
+
+th {
+    text-align: center;
+}
+
+.check-fragment {
+    padding-top: 5%;
+    text-align: center;
+    width: 100%;
+    float: right;
+}
+
+input {
+    margin-top: 17px;
+}
+
+body {
+    font-family: Arial;
+    font-style: normal;
+}
+
+td {
+    text-align: center;
+}
+
+footer {
+    text-align: center;
+}

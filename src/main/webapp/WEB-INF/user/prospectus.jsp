@@ -18,6 +18,19 @@
     <script type="text/javascript">
         <%@include file="/WEB-INF/js/prospectus.js"%>
     </script>
+<%--    <style>--%>
+<%--        <%@include file="/WEB-INF/css/header.css"%>--%>
+<%--    </style>--%>
+<%--    <style>--%>
+<%--        <%@include file="/WEB-INF/css/footer.css"%>--%>
+<%--    </style>--%>
+<%--    <style>--%>
+<%--        <%@include file="/WEB-INF/css/filter.css"%>--%>
+<%--    </style>--%>
+<%--    <style>--%>
+<%--        <%@include file="${pageContext.request.contextPath}/WEB-INF/css/prospectus.css"%>--%>
+<%--    </style>--%>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/WEB-INF/css/prospectus.css">
 <body style="text-align: center">
 <div id="app">
     <jsp:include page="user-header.jsp"/>

@@ -1,0 +1,33 @@
+.w3-sidebar {
+    width: 17%;
+    float: left;
+    padding-top: 2.5%;
+    background-color: lightgrey;
+}
+
+.w3-sidebar div {
+    display: block;
+    width: 100%;
+}
+
+.w3-sidebar div div {
+    display: block;
+}
+
+.w3-sidebar div div label {
+    display: block;
+}
+
+.w3-sidebar div label {
+    display: block;
+}
+
+.btn {
+    max-width: min-content;
+}
+
+.input-checkbox {
+    display: inline;
+    float: left;
+    margin-left: 0;
+}
