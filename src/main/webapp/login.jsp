@@ -12,6 +12,15 @@
           href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
           crossorigin="anonymous">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <style>
+        <%@include file="/css/header.css"%>
+    </style>
+    <style>
+        <%@include file="/css/footer.css"%>
+    </style>
+    <style>
+        <%@include file="/css/guest.css"%>
+    </style>
 </head>
 <body style="text-align:center">
 <jsp:include page="guest-header.jsp"/>

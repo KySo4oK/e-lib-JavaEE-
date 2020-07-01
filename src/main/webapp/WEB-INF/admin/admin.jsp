@@ -18,6 +18,15 @@
     <script type="text/javascript">
         <%@include file="/WEB-INF/js/admin.js"%>
     </script>
+    <style>
+        <%@include file="/css/header.css"%>
+    </style>
+    <style>
+        <%@include file="/css/show-orders.css"%>
+    </style>
+    <style>
+        <%@include file="/css/filter.css"%>
+    </style>
 <body>
 <div id="app">
     <jsp:include page="admin-header.jsp"/>

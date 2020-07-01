@@ -18,6 +18,15 @@
     <script type="text/javascript">
         <%@include file="/WEB-INF/js/user.js"%>
     </script>
+    <style>
+        <%@include file="/css/header.css"%>
+    </style>
+    <style>
+        <%@include file="/css/show-orders.css"%>
+    </style>
+    <style>
+        <%@include file="/css/filter.css"%>
+    </style>
 </head>
 <body style="text-align: center">
 <div id="app">

@@ -19,16 +19,16 @@
         <%@include file="/WEB-INF/js/book-manage.js"%>
     </script>
     <style>
-        <%@include file="/WEB-INF/css/header.css"%>
+        <%@include file="/css/header.css"%>
     </style>
     <style>
-        <%@include file="/WEB-INF/css/footer.css"%>
+        <%@include file="/css/footer.css"%>
     </style>
     <style>
-        <%@include file="/WEB-INF/css/filter.css"%>
+        <%@include file="/css/filter.css"%>
     </style>
     <style>
-        <%@include file="/WEB-INF/css/book-manage.css"%>
+        <%@include file="/css/book-manage.css"%>
     </style>
 <body style="text-align: center">
 <div id="app">

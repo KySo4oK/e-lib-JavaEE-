@@ -10,15 +10,15 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title><fmt:message key="main"/></title>
 <%--    <link href="/WEB-INF/css/header.css" rel="stylesheet" type="text/css">--%>
-<%--    <style>--%>
-<%--        <%@include file="/WEB-INF/css/header.css"%>--%>
-<%--    </style>--%>
-<%--    <style>--%>
-<%--        <%@include file="/WEB-INF/css/footer.css"%>--%>
-<%--    </style>--%>
-<%--    <style>--%>
-<%--        <%@include file="/WEB-INF/css/guest.css"%>--%>
-<%--    </style>--%>
+    <style>
+        <%@include file="/css/header.css"%>
+    </style>
+    <style>
+        <%@include file="/css/footer.css"%>
+    </style>
+    <style>
+        <%@include file="/css/guest.css"%>
+    </style>
 </head>
 <body>
 <jsp:include page="guest-header.jsp"/>
