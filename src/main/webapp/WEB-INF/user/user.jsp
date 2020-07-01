@@ -15,6 +15,9 @@
           crossorigin="anonymous">
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script type="text/javascript">
+        <%@include file="/WEB-INF/js/user.js"%>
+    </script>
 </head>
 <body style="text-align: center">
 <div id="app">
@@ -67,71 +70,5 @@
         </table>
     </div>
 </div>
-<script type="text/javascript">
-    let app = new Vue({
-        el: '#app',
-        data: {
-            activeOrders: [],
-            passiveOrders: [],
-            picked: '',
-            siteName: 'e-lib'
-        },
-        async mounted() {
-            await this.getActiveOrders();
-            await this.getPassiveOrders();
-        },
-        methods: {
-            async getActiveOrders() {
-                let res = await axios.get('/user/active');
-                if (!res) return;
-                this.activeOrders = res.data;
-            },
-            async getPassiveOrders() {
-                let res = await axios.get('/user/passive');
-                if (!res) return;
-                this.passiveOrders = res.data;
-            },
-            async returnBook(order) {
-                let res = await axios.put('/user/return', order)
-                    .catch(function (error) {
-                        if (error.response) {
-                            if (error.response.status == '404')
-                                return;//todo show field with this problem
-                        }
-                    });
-                if (!res) return;
-                this.message = res.data + book.name;
-                await this.getActiveOrders();
-            },
-
-        }
-
-
-    });
-</script>
-<style lang="less">
-    input {
-        margin-top: 17px;
-    }
-
-    body {
-        font-family: Arial;
-        font-style: normal;
-    }
-
-    header {
-        position: fixed;
-        height: 10%;
-        left: 0;
-        top: 0;
-        width: 100%;
-        z-index: 10;
-    }
-
-    span {
-        font-size: 30px;
-        height: content-box;
-    }
-</style>
 </body>
 </html>

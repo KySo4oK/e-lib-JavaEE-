@@ -15,13 +15,12 @@
           crossorigin="anonymous">
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <head>
-        <meta charset="UTF-8">
-        <title>Title</title>
-    </head>
+    <script type="text/javascript">
+        <%@include file="/WEB-INF/js/admin.js"%>
+    </script>
 <body>
 <div id="app">
-    <jsp:include page="admin-header.jsp" />
+    <jsp:include page="admin-header.jsp"/>
     <div style="padding-top: 7%; text-align: center; width: 100%; float: right">
         <input type="radio" id="one" value="1" v-model="picked">
         <label for="one"><fmt:message key="orders"/></label>
@@ -76,71 +75,5 @@
         </table>
     </div>
 </div>
-<script type="text/javascript">
-    let app = new Vue({
-        el: '#app',
-        data: {
-            activeOrders: [],
-            passiveOrders: [],
-            siteName: 'e-lib',
-            picked: '',
-        },
-        async mounted() {
-            await this.getActiveOrders();
-            await this.getPassiveOrders();
-        },
-        methods: {
-            async getActiveOrders() {
-                let res = await axios.get('/admin/active');
-                if (!res) return;
-                this.activeOrders = res.data;
-            },
-            async getPassiveOrders() {
-                let res = await axios.get('/admin/passive');
-                if (!res) return;
-                this.passiveOrders = res.data;
-            },
-            async permitOrder(order) {
-                let res = await axios.put('/admin/permit', order)
-                    .catch(function (error) {
-                        if (error.response) {
-                            if (error.response.status == '404')
-                                return;//todo show field with this problem
-                        }
-                    });
-                if (!res) return;
-                await this.getActiveOrders();
-                await this.getPassiveOrders();
-            },
-
-        }
-
-
-    });
-</script>
-<style lang="less">
-    input {
-        margin-top: 17px;
-    }
-
-    body {
-        font-family: Arial;
-        font-style: normal;
-    }
-
-    header {
-        position: fixed;
-        height: 10%;
-        left: 0;
-        top: 0;
-        width: 100%;
-        z-index: 10;
-    }
-
-    span {
-        font-size: 30px;
-        height: content-box;
-    }
-</style>
 </body>
 </html>

@@ -15,10 +15,9 @@
           crossorigin="anonymous">
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <head>
-        <meta charset="UTF-8">
-        <title>Title</title>
-    </head>
+    <script type="text/javascript">
+        <%@include file="/WEB-INF/js/book-manage.js"%>
+    </script>
 <body style="text-align: center">
 <div id="app">
     <jsp:include page="admin-header.jsp"/>
@@ -155,116 +154,5 @@
         </button>
     </div>
 </div>
-
-<script type="text/javascript">
-    let app = new Vue({
-        el: '#app',
-        data: {
-            addedBook: {
-                name: "",
-                nameUa: "",
-                authors: [],
-                tag: "",
-            },
-            picked: '',
-            books: [],
-            tags: [],
-            addedTags: [],
-            addedAuthors: [],
-            partOfName: null,
-            authors: [],
-            message: null,
-            page: 0,
-            siteName: 'e-lib'
-        },
-        async mounted() {
-            await this.getBooks();
-            await this.getAuthors();
-            await this.getTags();
-        },
-        methods: {
-            async addBook() {
-                let res = await axios.post('/admin/add', this.addedBook)
-                    .then((response) => {
-                        alert(response.data.message);
-                    })
-                    .catch((error) => {
-                        alert(error.response.data.error);
-                    });
-            },
-            async changeList() {
-                this.page = 0;
-                this.filter = true;
-                this.loadByFilter();
-            },
-            async loadByFilter() {
-                let filter = {
-                    tags: this.addedTags,
-                    authors: this.addedAuthors,
-                    name: '%' + this.partOfName + '%',
-                };
-                let res = await axios.post('/admin/filter/' + this.page + "/5", filter);
-                if (!res) return;
-                if (this.page === 0) {
-                    this.books = res.data;
-                } else {
-                    this.books = this.books.concat(res.data);
-                }
-                this.page++;
-            },
-            async getTags() {
-                let res = await axios.get('/user-admin/tags');
-                if (!res) return;
-                this.tags = res.data;
-                console.log(this.books);
-            },
-            async getBooks() {
-                let res = await axios.get('/admin/books/' + this.page + "/5");//todo normal updating
-                if (!res) return;
-                this.books = this.books.concat(res.data);
-            },
-            async getAuthors() {
-                let res = await axios.get('/user-admin/authors');
-                if (!res) return;
-                this.authors = res.data;
-            },
-            async editBook(book) {
-                let res = await axios.put('/admin/edit', book)
-                    .catch(function (error) {
-                        if (error.response) {
-                            if (error.response.status == '404')
-                                return;//todo show field with this problem
-                        }
-                    });
-                if (!res) return;
-                this.message = res.data + book.name;
-                this.page = 0;
-                await this.getBooks();
-            },
-            async deleteBook(book) {
-                let res = await axios.delete('/admin/delete/' + book.id)
-                    .catch(function (error) {
-                        if (error.response) {
-                            if (error.response.status == '404')
-                                return;//todo show field with this problem
-                        }
-                    });
-                if (!res) return;
-                this.message = res.data + book.name;
-                this.page = 0;
-                await this.getBooks();
-            },
-            async loadMore() {
-                if (this.filter) {
-                    this.page++;
-                    await this.loadByFilter();
-                } else {
-                    this.page++;
-                    await this.getBooks();
-                }
-            }
-        }
-    });
-</script>
 </body>
 </html>

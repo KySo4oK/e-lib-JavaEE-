@@ -15,10 +15,9 @@
           crossorigin="anonymous">
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <head>
-        <meta charset="UTF-8">
-        <title>Title</title>
-    </head>
+    <script type="text/javascript">
+        <%@include file="/WEB-INF/js/prospectus.js"%>
+    </script>
 <body style="text-align: center">
 <div id="app">
     <jsp:include page="user-header.jsp"/>
@@ -100,121 +99,6 @@
             <fmt:message key="load.more"/>
         </button>
     </main>
-    <!--    <footer>-->
-    <!--        {{ new Date().getFullYear() }} — <strong>e-lib</strong>-->
-    <!--    </footer>-->
 </div>
-<script type="text/javascript">
-    let app = new Vue({
-        el: '#app',
-        data: {
-            books: [],
-            tags: [],
-            addedTags: [],
-            addedAuthors: [],
-            partOfName: null,
-            authors: [],
-            message: null,
-            siteName: 'e-lib',
-            page: 0,
-            filter: false,
-        },
-        async mounted() {
-            await this.getBooks();
-            await this.getAuthors();
-            await this.getTags()
-        },
-        methods: {
-            async changeList() {
-                this.page = 0;
-                this.filter = true;
-                this.loadByFilter();
-            },
-            async loadByFilter() {
-                let filter = {
-                    tags: this.addedTags,
-                    authors: this.addedAuthors,
-                    name: '%' + this.partOfName + '%',
-                };
-                let res = await axios.post('/user/filter/' + this.page + "/5", filter);
-                if (!res) return;
-                if (this.page === 0) {
-                    this.books = res.data;
-                } else {
-                    this.books = this.books.concat(res.data);
-                }
-                this.page++;
-            },
-            async getTags() {
-                let res = await axios.get('/user-admin/tags');
-                if (!res) return;
-                this.tags = res.data;
-                console.log(this.books);
-            },
-            async getBooks() {
-                let res = await axios.get('/user/books/' + this.page + "/5");
-                if (!res) return;
-                this.books = this.books.concat(res.data);
-            },
-            async getAuthors() {
-                let res = await axios.get('/user-admin/authors');
-                if (!res) return;
-                this.authors = res.data;
-            },
-            async orderBook(book) {
-                let res = await axios.post('/user/order', book)
-                    .catch(function (error) {
-                        if (error.response) {
-                            if (error.response.status == '404')
-                                return;//todo show field with this problem
-                        }
-                    });
-                if (!res) return;
-                this.message = res.data + book.name;
-            },
-            async loadMore() {
-                if (this.filter) {
-                    this.page++;
-                    await this.loadByFilter();
-                } else {
-                    this.page++;
-                    await this.getBooks();
-                }
-            }
-        }
-    });
-</script>
-<style lang="less">
-    input {
-        margin-top: 17px;
-    }
-
-    body {
-        font-family: Arial;
-        font-style: normal;
-    }
-
-    header {
-        position: fixed;
-        height: 10%;
-        left: 0;
-        top: 0;
-        width: 100%;
-        z-index: 10;
-    }
-
-    span {
-        font-size: 30px;
-        height: content-box;
-    }
-
-    /*footer {*/
-    /*    position: absolute;*/
-    /*    left: 0;*/
-    /*    bottom: 0;*/
-    /*    width: 100%;*/
-    /*    height: 80px;*/
-    /*}*/
-</style>
 </body>
 </html>
