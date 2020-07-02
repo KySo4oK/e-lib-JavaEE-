@@ -47,6 +47,4 @@ public class Validator {
         return Pattern.matches(ValidationRegex.usernameRegex, userDTO.getUsername())
                 && Pattern.matches(ValidationRegex.passwordRegex, userDTO.getPassword());
     }
-
-
 }

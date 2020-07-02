@@ -27,8 +27,12 @@ public class SecurityFilter implements Filter {
             setGuestRole(session);
         }
         log.info("request uri - " + req.getRequestURI());
-        if (!checkAccess(req, User.ROLE.valueOf(session.getAttribute("role").toString()))) {
-            resp.sendRedirect("redirect:/error");
+        User.ROLE role = User.ROLE.valueOf(session.getAttribute("role").toString());
+        if (!checkAccess(req, role)) {
+            if (role.equals(User.ROLE.UNKNOWN)) {
+                resp.sendRedirect("/login");
+            }
+            resp.sendError(403);
             return;
         }
         chain.doFilter(request, response);
