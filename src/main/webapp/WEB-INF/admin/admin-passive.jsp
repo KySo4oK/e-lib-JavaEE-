@@ -31,15 +31,7 @@
 <body>
 <div id="app">
     <%@include file="../../fragments/admin-header.jspf" %>
-    <div class="check-fragment">
-        <input type="radio" id="one" value="1" v-model="picked">
-        <label for="one"><fmt:message key="orders"/></label>
-        <input type="radio" id="two" value="2" v-model="picked">
-        <label for="two"><fmt:message key="users.books"/></label>
-        <hr>
-    </div>
-    <!--        passive orders -->
-    <div v-if="picked==1">
+    <div>
         <table class="table table-borderless">
             <thead>
             <tr>
@@ -61,29 +53,6 @@
                         <i class="fa fa-arrow-right" aria-hidden="true"></i>
                     </button>
                 </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <!--    active orders-->
-    <div v-else>
-        <table class="table table-borderless">
-            <thead>
-            <tr>
-                <th>#</th>
-                <th><fmt:message key="book.name"/></th>
-                <th><fmt:message key="username"/></th>
-                <th><fmt:message key="start.date"/></th>
-                <th><fmt:message key="end.date"/></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="(order, index) in activeOrders">
-                <td>{{index+1}}</td>
-                <td>{{order.bookName}}</td>
-                <td>{{order.userName}}</td>
-                <td>{{order.startDate}}</td>
-                <td>{{order.endDate}}</td>
             </tr>
             </tbody>
         </table>

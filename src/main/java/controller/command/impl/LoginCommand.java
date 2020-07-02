@@ -48,6 +48,6 @@ public class LoginCommand implements Command {
             return "redirect:/login";
         }
         CommandUtility.setUserRole(request, role, name);
-        return role.equals(User.ROLE.ADMIN) ? "redirect:/admin" : "redirect:/user";
+        return role.equals(User.ROLE.ADMIN) ? "redirect:/admin/active" : "redirect:/user/active";
     }
 }

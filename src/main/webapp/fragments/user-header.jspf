@@ -5,8 +5,11 @@
             <div class="header-link"><a href="/user/prospectus">
                 <fmt:message key="prospectus"/>
             </a></div>
-            <div class="header-link"><a href="/user">
+            <div class="header-link"><a href="/user/active">
                 <fmt:message key="my.books"/>
+            </a></div>
+            <div class="header-link"><a href="/user/passive">
+                <fmt:message key="orders"/>
             </a></div>
             <div class="header-link"><a href="/logout">
                 <fmt:message key="logout"/>

@@ -3,7 +3,10 @@
         <span class="header-title"><fmt:message key="site.name"/></span>
         <div class="navigation">
             <div class="header-link">
-                <a href="/admin"><fmt:message key="orders"/></a>
+                <a href="/admin/passive"><fmt:message key="orders"/></a>
+            </div>
+            <div class="header-link">
+                <a href="/admin/active"><fmt:message key="users.books"/></a>
             </div>
             <div class="header-link">
                 <a href="/admin/bookManage"><fmt:message key="books"/></a>

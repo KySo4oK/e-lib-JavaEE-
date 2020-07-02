@@ -12,12 +12,12 @@ window.onload = function () {
         },
         methods: {
             async getActiveOrders() {
-                let res = await axios.get('/admin/active');
+                let res = await axios.get('/admin/active-orders');
                 if (!res) return;
                 this.activeOrders = res.data;
             },
             async getPassiveOrders() {
-                let res = await axios.get('/admin/passive');
+                let res = await axios.get('/admin/passive-orders');
                 if (!res) return;
                 this.passiveOrders = res.data;
             },

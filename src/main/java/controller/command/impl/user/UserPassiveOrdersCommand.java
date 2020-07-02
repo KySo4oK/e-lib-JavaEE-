@@ -1,12 +1,12 @@
-package controller.command.impl.admin;
+package controller.command.impl.user;
 
 import controller.command.Command;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class AdminCommand implements Command {
+public class UserPassiveOrdersCommand implements Command {
     @Override
     public String execute(HttpServletRequest request) {
-        return "/WEB-INF/admin/admin.jsp";
+        return "/WEB-INF/user/user-passive.jsp";
     }
 }
