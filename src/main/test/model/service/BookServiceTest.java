@@ -5,11 +5,14 @@ import model.dao.DaoFactory;
 import model.dao.ShelfDao;
 import model.dto.BookDTO;
 import model.dto.FilterDTO;
-import model.entity.*;
+import model.entity.Book;
+import model.entity.Pageable;
+import model.entity.Shelf;
+import model.entity.Tag;
 import org.junit.Assert;
 import org.junit.Test;
-import org.mockito.Mockito;
 import org.mockito.ArgumentMatchers;
+import org.mockito.Mockito;
 
 import java.util.List;
 import java.util.Locale;
