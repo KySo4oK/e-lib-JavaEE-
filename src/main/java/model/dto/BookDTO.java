@@ -1,6 +1,7 @@
 package model.dto;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class BookDTO {
     private Long id;
@@ -70,6 +71,25 @@ public class BookDTO {
 
     public void setTag(String tag) {
         this.tag = tag;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BookDTO bookDTO = (BookDTO) o;
+        return Objects.equals(id, bookDTO.id) &&
+                name.equals(bookDTO.name) &&
+                Objects.equals(nameUa, bookDTO.nameUa) &&
+                tag.equals(bookDTO.tag) &&
+                Arrays.equals(authors, bookDTO.authors);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(id, name, nameUa, tag);
+        result = 31 * result + Arrays.hashCode(authors);
+        return result;
     }
 
     public static final class Builder {

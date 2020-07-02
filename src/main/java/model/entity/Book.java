@@ -32,14 +32,16 @@ public class Book {
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;
         return available == book.available &&
-                bookId.equals(book.bookId) &&
                 name.equals(book.name) &&
-                nameUa.equals(book.nameUa);
+                Objects.equals(nameUa, book.nameUa) &&
+                authors.equals(book.authors) &&
+                tag.equals(book.tag) &&
+                Objects.equals(shelf, book.shelf);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(bookId, name, nameUa, authors, tag, available);
+        return Objects.hash(name, nameUa, authors, tag, available, shelf);
     }
 
     public Long getBookId() {
