@@ -32,7 +32,7 @@
 <body>
 <div id="app">
     <%@include file="../../fragments/user-header.jspf" %>
-    <div>
+    <div class="table-wrapper">
         <table class="table table-borderless">
             <thead>
             <tr>

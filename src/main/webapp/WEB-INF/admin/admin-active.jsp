@@ -29,7 +29,7 @@
 <div id="app">
     <%@include file="../../fragments/admin-header.jspf" %>
     <!--    active orders-->
-    <div>
+    <div class="table-wrapper">
         <table class="table table-borderless">
             <thead>
             <tr>
