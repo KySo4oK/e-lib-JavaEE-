@@ -1,5 +1,10 @@
 /e-lib(JavaEE).iml
 /.idea/
 /lib/
-/target/
 /logs/
+target/generated-test-sources
+target/generated-sources
+target/test-classes
+target/classes
+target/logs
+target/e-lib(JavaEE)
