@@ -10,7 +10,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class JDBCShelfDao implements ShelfDao {
     private final Connection connection;
@@ -28,7 +27,7 @@ public class JDBCShelfDao implements ShelfDao {
             try (Statement statement = connection.createStatement()) {
                 ResultSet rs = statement.executeQuery(SQL_FIND_EMPTY);
                 while (rs.next()) {
-                    shelf = shelfMapper.fullExtractFromResultSet(rs);
+                    shelf = shelfMapper.extractWithRelationsFromResultSet(rs);
                 }
             } catch (SQLException e) {
                 log.error(e.getMessage());
@@ -39,7 +38,7 @@ public class JDBCShelfDao implements ShelfDao {
                 statement.setObject(1, bookId, Types.BIGINT);
                 ResultSet rs = statement.executeQuery();
                 while (rs.next()) {
-                    shelf = shelfMapper.fullExtractFromResultSet(rs);
+                    shelf = shelfMapper.extractWithRelationsFromResultSet(rs);
                 }
             } catch (SQLException e) {
                 log.error(e.getMessage());
@@ -71,7 +70,7 @@ public class JDBCShelfDao implements ShelfDao {
             statement.setLong(1, id);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                shelf = shelfMapper.fullExtractFromResultSet(rs);
+                shelf = shelfMapper.extractWithRelationsFromResultSet(rs);
             }
         } catch (SQLException e) {
             log.error(e.getMessage());
@@ -87,7 +86,7 @@ public class JDBCShelfDao implements ShelfDao {
         try (Statement st = connection.createStatement()) {
             ResultSet rs = st.executeQuery(SQL_FIND_ALL);
             while (rs.next()) {
-                shelves.add(shelfMapper.fullExtractFromResultSet(rs));
+                shelves.add(shelfMapper.extractWithRelationsFromResultSet(rs));
             }
             return shelves;
         } catch (SQLException e) {

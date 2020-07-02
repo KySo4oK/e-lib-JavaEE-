@@ -31,7 +31,7 @@ public class JDBCAuthorDao implements AuthorDao {
             statement.setString(1, name);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                author = authorMapper.extractFromResultSet(rs);
+                author = authorMapper.extractWithoutRelationsFromResultSet(rs);
             }
         } catch (SQLException e) {
             log.error(e.getMessage());
@@ -63,7 +63,7 @@ public class JDBCAuthorDao implements AuthorDao {
             statement.setLong(1, id);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                author = authorMapper.extractFromResultSet(rs);
+                author = authorMapper.extractWithoutRelationsFromResultSet(rs);
             }
         } catch (SQLException e) {
             log.error(e.getMessage());
@@ -77,7 +77,7 @@ public class JDBCAuthorDao implements AuthorDao {
         try (Statement st = connection.createStatement()) {
             ResultSet rs = st.executeQuery(SQL_FIND_ALL);
             while (rs.next()) {
-                resultList.add(authorMapper.extractFromResultSet(rs));
+                resultList.add(authorMapper.extractWithoutRelationsFromResultSet(rs));
             }
             return resultList;
         } catch (SQLException e) {

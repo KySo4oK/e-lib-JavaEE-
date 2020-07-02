@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class UserMapper implements ObjectMapper<User> {
 
-    public User extractFromResultSet(ResultSet rs) throws SQLException {
+    public User extractWithoutRelationsFromResultSet(ResultSet rs) throws SQLException {
         return User.Builder.anUser()
                 .id(rs.getLong("userId"))
                 .username(rs.getString("username"))

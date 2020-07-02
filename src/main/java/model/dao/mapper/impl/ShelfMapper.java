@@ -20,19 +20,19 @@ public class ShelfMapper implements ObjectMapper<Shelf> {
     }
 
     @Override
-    public Shelf extractFromResultSet(ResultSet rs) throws SQLException {
+    public Shelf extractWithoutRelationsFromResultSet(ResultSet rs) throws SQLException {
         return new Shelf(rs.getLong("shelf_id"));
     }
 
-    public Shelf fullExtractFromResultSet(ResultSet rs) throws SQLException {
-        Shelf shelf = extractFromResultSet(rs);
+    public Shelf extractWithRelationsFromResultSet(ResultSet rs) throws SQLException {
+        Shelf shelf = extractWithoutRelationsFromResultSet(rs);
         setBookIfNeeded(rs, shelf);
         return shelf;
     }
 
     private void setBookIfNeeded(ResultSet rs, Shelf shelf) throws SQLException {
         if (rs.getLong("booKId") != 0) {
-            Book book = bookMapper.extractFromResultSet(rs);
+            Book book = bookMapper.extractWithoutRelationsFromResultSet(rs);
             shelf.setBook(book);
             book.setShelf(shelf);
         }

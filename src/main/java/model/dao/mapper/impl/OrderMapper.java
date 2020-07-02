@@ -14,7 +14,7 @@ public class OrderMapper implements ObjectMapper<Order> {
     private final UserMapper userMapper = new UserMapper();
 
     @Override
-    public Order extractFromResultSet(ResultSet rs) throws SQLException {
+    public Order extractWithoutRelationsFromResultSet(ResultSet rs) throws SQLException {
         return Order.Builder.anOrder()
                 .orderId(rs.getLong("order_id"))
                 .active(rs.getBoolean("active"))
@@ -23,13 +23,13 @@ public class OrderMapper implements ObjectMapper<Order> {
                 .build();
     }
 
-    public Order fullExtractFromResultSet(ResultSet rs,
-                                          Map<Long, Order> orders,
-                                          Map<Long, Book> books,
-                                          Map<Long, User> users) throws SQLException {
-        Order order = makeUnique(orders, extractFromResultSet(rs));
-        order.setUser(userMapper.makeUnique(users, userMapper.extractFromResultSet(rs)));
-        order.setBook(bookMapper.makeUnique(books, bookMapper.extractFromResultSet(rs)));
+    public Order extractWithRelationsFromResultSet(ResultSet rs,
+                                                   Map<Long, Order> orders,
+                                                   Map<Long, Book> books,
+                                                   Map<Long, User> users) throws SQLException {
+        Order order = makeUnique(orders, extractWithoutRelationsFromResultSet(rs));
+        order.setUser(userMapper.makeUnique(users, userMapper.extractWithoutRelationsFromResultSet(rs)));
+        order.setBook(bookMapper.makeUnique(books, bookMapper.extractWithoutRelationsFromResultSet(rs)));
         return order;
     }
 

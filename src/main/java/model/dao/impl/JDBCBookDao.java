@@ -11,7 +11,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class JDBCBookDao implements BookDao {
     private final Connection connection;
@@ -36,7 +35,7 @@ public class JDBCBookDao implements BookDao {
             statement.setString(1, name);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                book = bookMapper.fullExtractFromResultSet(rs, books, tags, authors);
+                book = bookMapper.extractWithRelationsFromResultSet(rs, books, tags, authors);
             }
         } catch (SQLException e) {
             log.error(e.getMessage());
@@ -69,7 +68,7 @@ public class JDBCBookDao implements BookDao {
             statement.setInt(2, pageable.getNumber() * pageable.getPage());
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                bookMapper.fullExtractFromResultSet(rs, books, tags, authors);
+                bookMapper.extractWithRelationsFromResultSet(rs, books, tags, authors);
             }
         } catch (SQLException e) {
             log.error(e.getMessage() + " when trying findAll books");
@@ -95,7 +94,7 @@ public class JDBCBookDao implements BookDao {
             statement.setInt(5, pageable.getNumber() * pageable.getPage());
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                bookMapper.fullExtractFromResultSet(rs, books, tags, authors);
+                bookMapper.extractWithRelationsFromResultSet(rs, books, tags, authors);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -142,7 +141,7 @@ public class JDBCBookDao implements BookDao {
             statement.setLong(1, id);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                book = bookMapper.fullExtractFromResultSet(rs, books, tags, authors);
+                book = bookMapper.extractWithRelationsFromResultSet(rs, books, tags, authors);
             }
         } catch (SQLException e) {
             log.error(e.getMessage());
@@ -158,7 +157,7 @@ public class JDBCBookDao implements BookDao {
         try (Statement st = connection.createStatement()) {
             ResultSet rs = st.executeQuery(SQL_FIND_ALL);
             while (rs.next()) {
-                bookMapper.fullExtractFromResultSet(rs, books, tags, authors);
+                bookMapper.extractWithRelationsFromResultSet(rs, books, tags, authors);
             }
         } catch (SQLException e) {
             log.error(e.getMessage() + " when trying findAll books");

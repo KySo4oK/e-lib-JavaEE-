@@ -8,7 +8,6 @@ import model.entity.Tag;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class BookMapper implements ObjectMapper<Book> {
     private final ShelfMapper shelfMapper;
@@ -24,7 +23,7 @@ public class BookMapper implements ObjectMapper<Book> {
     }
 
     @Override
-    public Book extractFromResultSet(ResultSet rs) throws SQLException {
+    public Book extractWithoutRelationsFromResultSet(ResultSet rs) throws SQLException {
         return Book.Builder.aBook()
                 .bookId(rs.getLong("bookId"))
                 .available(rs.getBoolean("available"))
@@ -33,13 +32,13 @@ public class BookMapper implements ObjectMapper<Book> {
                 .build();
     }
 
-    public Book fullExtractFromResultSet(ResultSet rs,
-                                         Map<Long, Book> books,
-                                         Map<Long, Tag> tags,
-                                         Map<Long, Author> authors) throws SQLException {
-        Book book = makeUnique(books, extractFromResultSet(rs));
-        book.getAuthors().add(authorMapper.makeUnique(authors, authorMapper.extractFromResultSet(rs)));
-        book.setTag(tagMapper.makeUnique(tags, tagMapper.extractFromResultSet(rs)));
+    public Book extractWithRelationsFromResultSet(ResultSet rs,
+                                                  Map<Long, Book> books,
+                                                  Map<Long, Tag> tags,
+                                                  Map<Long, Author> authors) throws SQLException {
+        Book book = makeUnique(books, extractWithoutRelationsFromResultSet(rs));
+        book.getAuthors().add(authorMapper.makeUnique(authors, authorMapper.extractWithoutRelationsFromResultSet(rs)));
+        book.setTag(tagMapper.makeUnique(tags, tagMapper.extractWithoutRelationsFromResultSet(rs)));
         return book;
     }
 

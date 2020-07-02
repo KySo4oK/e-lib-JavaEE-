@@ -9,7 +9,6 @@ import org.apache.logging.log4j.Logger;
 import java.sql.Date;
 import java.sql.*;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class JDBCOrderDao implements OrderDao {
     private final Connection connection;
@@ -30,7 +29,7 @@ public class JDBCOrderDao implements OrderDao {
             statement.setBoolean(1, active);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                orderMapper.fullExtractFromResultSet(rs, orders, books, users);
+                orderMapper.extractWithRelationsFromResultSet(rs, orders, books, users);
             }
         } catch (SQLException e) {
             log.error(e.getMessage());
@@ -50,7 +49,7 @@ public class JDBCOrderDao implements OrderDao {
             statement.setString(2, username);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                orderMapper.fullExtractFromResultSet(rs, orders, books, users);
+                orderMapper.extractWithRelationsFromResultSet(rs, orders, books, users);
             }
         } catch (SQLException e) {
             log.error(e.getMessage());
@@ -84,7 +83,7 @@ public class JDBCOrderDao implements OrderDao {
             statement.setLong(1, id);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                order = orderMapper.fullExtractFromResultSet(rs, orders, books, users);
+                order = orderMapper.extractWithRelationsFromResultSet(rs, orders, books, users);
             }
         } catch (SQLException e) {
             log.error(e.getMessage());
@@ -101,7 +100,7 @@ public class JDBCOrderDao implements OrderDao {
         try (PreparedStatement statement = connection.prepareStatement(SQL_FIND_ALL)) {
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                orderMapper.fullExtractFromResultSet(rs, orders, books, users);
+                orderMapper.extractWithRelationsFromResultSet(rs, orders, books, users);
             }
         } catch (SQLException e) {
             log.error(e.getMessage());

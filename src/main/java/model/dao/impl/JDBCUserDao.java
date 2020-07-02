@@ -40,7 +40,7 @@ public class JDBCUserDao implements UserDao {
             statement.setLong(1, id);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                user = userMapper.extractFromResultSet(rs);
+                user = userMapper.extractWithoutRelationsFromResultSet(rs);
             }
         } catch (SQLException e) {
             log.error(e.getMessage());
@@ -54,7 +54,7 @@ public class JDBCUserDao implements UserDao {
         try (Statement st = connection.createStatement()) {
             ResultSet rs = st.executeQuery(SQL_FIND_ALL);
             while (rs.next()) {
-                resultList.add(userMapper.extractFromResultSet(rs));
+                resultList.add(userMapper.extractWithoutRelationsFromResultSet(rs));
             }
             return resultList;
         } catch (SQLException e) {
@@ -101,7 +101,7 @@ public class JDBCUserDao implements UserDao {
             statement.setString(1, username);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                user = userMapper.extractFromResultSet(rs);
+                user = userMapper.extractWithoutRelationsFromResultSet(rs);
             }
         } catch (SQLException e) {
             log.error(e.getMessage());

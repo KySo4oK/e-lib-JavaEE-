@@ -29,7 +29,7 @@ public class JDBCTagDao implements TagDao {
             statement.setString(1, name);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                tag = tagMapper.extractFromResultSet(rs);
+                tag = tagMapper.extractWithoutRelationsFromResultSet(rs);
             }
         } catch (SQLException e) {
             log.error(e.getMessage());
@@ -62,7 +62,7 @@ public class JDBCTagDao implements TagDao {
             statement.setLong(1, id);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                tag = tagMapper.extractFromResultSet(rs);
+                tag = tagMapper.extractWithoutRelationsFromResultSet(rs);
             }
         } catch (SQLException e) {
             log.error(e.getMessage());
@@ -77,7 +77,7 @@ public class JDBCTagDao implements TagDao {
         try (Statement st = connection.createStatement()) {
             ResultSet rs = st.executeQuery(SQL_FIND_ALL);
             while (rs.next()) {
-                resultList.add(tagMapper.extractFromResultSet(rs));
+                resultList.add(tagMapper.extractWithoutRelationsFromResultSet(rs));
             }
             return resultList;
         } catch (SQLException e) {

@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class TagMapper implements ObjectMapper<Tag> {
     @Override
-    public Tag extractFromResultSet(ResultSet rs) throws SQLException {
+    public Tag extractWithoutRelationsFromResultSet(ResultSet rs) throws SQLException {
         return Tag.Builder.aTag()
                 .tagId(rs.getLong("tagId"))
                 .name(rs.getString("tagName"))
