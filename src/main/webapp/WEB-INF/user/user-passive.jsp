@@ -15,9 +15,6 @@
           crossorigin="anonymous">
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script type="text/javascript">
-        <%@include file="/WEB-INF/js/user.js"%>
-    </script>
     <style>
         <%@include file="/css/header.css"%>
     </style>
@@ -42,11 +39,13 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="(order, index) in passiveOrders">
-                <td>{{index+1}}</td>
-                <td>{{order.bookName}}</td>
-                <td>{{order.startDate}}</td>
-            </tr>
+            <c:forEach var="order" items="${orders}" varStatus="status">
+                <tr>
+                    <td><c:out value="${ status.count }"/></td>
+                    <td><c:out value="${ order.bookName }"/></td>
+                    <td><c:out value="${ order.startDate }"/></td>
+                </tr>
+            </c:forEach>
             </tbody>
         </table>
     </div>

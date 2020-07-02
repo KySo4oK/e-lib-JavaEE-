@@ -37,9 +37,7 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         commands.put("exception", new ExceptionCommand());
         commands.put("registration", new RegistrationCommand(serviceFactory.createUserService()));
         commands.put("user/active", new UserActiveOrdersCommand());
-        commands.put("user/passive", new UserPassiveOrdersCommand());
         commands.put("error", new ErrorCommand());
-        commands.put("admin/active", new AdminActiveOrdersCommand());
         commands.put("admin/passive", new AdminPassiveOrdersCommand());
         commands.put("index", new IndexCommand());
         commands.put("user/prospectus", new ProspectusCommand());
@@ -47,11 +45,11 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         commands.put("admin/add", new AddBookCommand(serviceFactory.createBookService()));
         commands.put("admin/edit", new EditBookCommand(serviceFactory.createBookService()));
         commands.put("admin/delete", new DeleteBookCommand(serviceFactory.createBookService()));
-        commands.put("admin/active-orders", new GetActiveOrdersCommand(serviceFactory.createOrderService()));
+        commands.put("admin/active", new AdminActiveOrdersCommand(serviceFactory.createOrderService()));
         commands.put("admin/passive-orders", new GetPassiveOrdersCommand(serviceFactory.createOrderService()));
         commands.put("admin/permit", new PermitOrderCommand(serviceFactory.createOrderService()));
         commands.put("user/active-orders", new GetActiveOrdersByUsernameCommand(serviceFactory.createOrderService()));
-        commands.put("user/passive-orders", new GetPassiveOrdersByUsernameCommand(serviceFactory.createOrderService()));
+        commands.put("user/passive", new UserPassiveOrdersCommand(serviceFactory.createOrderService()));
         commands.put("user/return", new ReturnBookCommand(serviceFactory.createOrderService()));
         commands.put("user/order", new OrderBookCommand(serviceFactory.createOrderService()));
         commands.put("user/filter", new GetAvailableBooksByFilterCommand(serviceFactory.createBookService()));

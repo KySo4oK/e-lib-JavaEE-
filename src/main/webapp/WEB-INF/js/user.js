@@ -8,18 +8,12 @@ window.onload = function () {
         },
         async mounted() {
             await this.getActiveOrders();
-            await this.getPassiveOrders();
         },
         methods: {
             async getActiveOrders() {
                 let res = await axios.get('/user/active-orders');
                 if (!res) return;
                 this.activeOrders = res.data;
-            },
-            async getPassiveOrders() {
-                let res = await axios.get('/user/passive-orders');
-                if (!res) return;
-                this.passiveOrders = res.data;
             },
             async returnBook(order) {
                 let res = await axios.put('/user/return', order)
