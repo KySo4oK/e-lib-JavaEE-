@@ -18,6 +18,10 @@ th {
     text-align: center;
 }
 
+tr {
+    text-align: center;
+}
+
 header {
     position: fixed;
     height: 10%;
@@ -34,6 +38,10 @@ span {
 
 .table-wrapper {
     padding-top: 3%;
+}
+
+.table-wrapper thead tr th {
+    text-align: center;
 }
 
 .table {

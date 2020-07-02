@@ -59,9 +59,7 @@
                         </div>
                     </td>
                     <td>
-                        <div v-for="tag in book.tags">
-                            {{tag}}
-                        </div>
+                        {{book.tag}}
                     </td>
                     <td>
                         <button class="btn btn-success" v-on:click="orderBook(book)">

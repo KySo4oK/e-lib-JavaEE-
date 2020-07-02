@@ -47,3 +47,10 @@ th {
     float: right;
     width: 75%;
 }
+.button-wrapper {
+    text-align: center;
+}
+.btn {
+    float: right;
+    margin-right: 47%;
+}

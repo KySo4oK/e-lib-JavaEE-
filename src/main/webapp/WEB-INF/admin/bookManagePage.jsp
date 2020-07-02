@@ -72,8 +72,9 @@
                    v-model="addedBook.name">
             <input id="book_name_ua" type="text" class="form-control" placeholder="<fmt:message key="book.name.ua"/>"
                    v-model="addedBook.nameUa">
-            <div>
-                <button v-on:click="addBook" class="btn btn-warning" style="width: 30%;"><fmt:message key="load"/></button>
+            <div class="button-wrapper">
+                <button v-on:click="addBook" class="btn btn-warning" style="width: 30%;"><fmt:message
+                        key="load"/></button>
             </div>
         </div>
     </div>
@@ -96,8 +97,8 @@
                 <tr v-for="(book, index) in books" :key="book.id">
                     <td>{{index+1}}</td>
                     <td>
-                        <h1><input type="text" class="form-control" v-model="book.name"></h1></td>
-                    <td>
+                        <h1><input type="text" class="form-control" v-model="book.name"></h1>
+                    </td>
                     <td>
                         <h1><input type="text" class="form-control" v-model="book.nameUa"></h1>
                     </td>

@@ -1,7 +1,7 @@
 <div class="w3-sidebar w3-light-grey w3-bar-block">
     <!--            name-->
     <div>
-        <fmt:message key="username" var="partOfName"/>
+        <fmt:message key="part.of.name" var="partOfName"/>
         <input id="partOfName" class="form-control" placeholder="${partOfName}" type="text" v-model="partOfName">
     </div>
     <br>

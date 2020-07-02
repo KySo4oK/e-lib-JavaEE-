@@ -22,6 +22,9 @@
         <%@include file="/css/header.css"%>
     </style>
     <style>
+        <%@include file="/css/footer.css"%>
+    </style>
+    <style>
         <%@include file="/css/show-orders.css"%>
     </style>
     <style>
