@@ -20,8 +20,8 @@ Your downloaded archive -> apache-tomcat-[version] -> webapps.
 * Restart the server. Whenever Tomcat is started,
  it will unpack the WAR file it found in the webapps directory and launch the application in that manner.
  Open terminal in deirectory /bin(part of path showed before) and run this command:
- ### - startup
+ ##### - startup
  For a stop running program - run following command:
- ### - shutdown
+ ##### - shutdown
 ## Same task using Spring Boot by this link:
 ### https://github.com/KySo4oK/e-lib-Spring-
