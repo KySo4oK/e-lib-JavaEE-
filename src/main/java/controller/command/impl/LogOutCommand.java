@@ -22,7 +22,6 @@ public class LogOutCommand implements Command {
         CommandUtility.setUserRole(request, User.ROLE.UNKNOWN, "Guest");
         @SuppressWarnings("unchecked")
         HashSet<String> loggedUsers = (HashSet<String>) context.getAttribute("loggedUsers");
-        log.info("logged users - " + loggedUsers);
         loggedUsers.remove(userName);
         session.setAttribute("loggedUsers", loggedUsers);
         context.setAttribute("loggedUsers", loggedUsers);

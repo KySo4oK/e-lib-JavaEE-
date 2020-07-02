@@ -25,7 +25,6 @@ public class GetAvailableFullBooksCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-        log.info("executing command");
         try {
             return getJsonOfBookList(getDTOOfAvailableBooksByFilter(request));
         } catch (Exception e) {

@@ -19,8 +19,6 @@ public class LocaleFilter implements javax.servlet.Filter {
             throws ServletException, IOException {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
-        log.info("request lang - " + req.getParameter("language"));
-        log.info("session lang - " + req.getSession().getAttribute("language"));
         if (req.getParameter("language") != null) {
             req.getSession().setAttribute("language", req.getParameter("language"));
         } else if (req.getSession().getAttribute("language") == null) {

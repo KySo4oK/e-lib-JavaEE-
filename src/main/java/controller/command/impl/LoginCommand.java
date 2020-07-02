@@ -23,7 +23,6 @@ public class LoginCommand implements Command {
     public String execute(HttpServletRequest request) {
         String name = request.getParameter("username");
         String pass = request.getParameter("password");
-        log.info("trying login - " + name + " with - " + pass);
         if (request.getParameter("username") == null) return "/login.jsp";
         try {
             Validator.checkLogin(UserDTO.Builder.anUserDTO()
@@ -38,10 +37,8 @@ public class LoginCommand implements Command {
             role = userService.getRoleByUser(request.getParameter("username"),
                     request.getParameter("password"));
         } catch (RuntimeException e) {
-            log.warn("cannot perform logging");
             return "/login.jsp";
         }
-        log.info("role from db - " + role);
 
         if (CommandUtility.checkUserIsLogged(request, name)) {
             log.info("user with this username logged");

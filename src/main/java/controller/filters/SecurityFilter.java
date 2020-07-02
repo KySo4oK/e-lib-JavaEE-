@@ -1,8 +1,6 @@
 package controller.filters;
 
 import model.entity.User;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -11,22 +9,18 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class SecurityFilter implements Filter {
-    private final static Logger log = LogManager.getLogger(SecurityFilter.class);
 
     public void destroy() {
     }
 
     public void doFilter(ServletRequest request, ServletResponse response,
                          FilterChain chain) throws IOException, ServletException {
-        log.info("in security filter");
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
         HttpSession session = req.getSession();
-        log.info("role in session " + session.getAttribute("role"));
         if (session.getAttribute("role") == null) {
             setGuestRole(session);
         }
-        log.info("request uri - " + req.getRequestURI());
         User.ROLE role = User.ROLE.valueOf(session.getAttribute("role").toString());
         if (!checkAccess(req, role)) {
             if (role.equals(User.ROLE.UNKNOWN)) {
