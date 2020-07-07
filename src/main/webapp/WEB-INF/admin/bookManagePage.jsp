@@ -52,9 +52,9 @@
                 <!--            tags-->
                 <label><fmt:message key="select.tags"/></label>
                 <div v-for="tag in tags">
-                    <input class="input-checkbox" type="checkbox"
+                    <input class="input-checkbox" type="radio"
                            v-bind:value="tag"
-                           v-model="addedBook.tags">
+                           v-model="addedBook.tag">
                     {{tag}}
                 </div>
                 <!--            authors-->

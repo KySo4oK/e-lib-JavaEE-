@@ -15,10 +15,10 @@
                 <a href="/logout"><fmt:message key="logout"/></a>
             </div>
             <div class="header-link">
-                <a href="/admin?language=en"><fmt:message key="label.lang.en"/></a>
+                <a href="/admin/active?language=en"><fmt:message key="label.lang.en"/></a>
             </div>
             <div class="header-link">
-                <a href="/admin?language=ua"><fmt:message key="label.lang.ua"/></a>
+                <a href="/admin/active?language=ua"><fmt:message key="label.lang.ua"/></a>
             </div>
         </div>
     </div>
